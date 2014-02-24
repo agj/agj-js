@@ -1,10 +1,11 @@
 
 define( function () {
+	"use strict";
 
 	var module = {};
 
 	// This method of creating classes is a modification of John Resig's: http://ejohn.org/blog/simple-javascript-inheritance/
-	// My changes make inheritance behave more like actionscript 3, and allow for easy statics declaration.
+	// My changes make the _super() method appropriately go up the inheritance chain, and allow for easy statics declaration.
 	var classInitializing = false;
 	var classUsesSuperTest = /xyz/.test(function () { "xyz"; }) ? /\b_super\b/ : null;
 
@@ -47,8 +48,15 @@ define( function () {
 
 		function Class() {
 			// All construction is actually done in the init method
-			if (!classInitializing && this.init)
-				this.init.apply(this, arguments);
+			if (this instanceof Class) {
+				if (!classInitializing && this.init)
+					this.init.apply(this, arguments);
+			} else {
+				// Not instantiating.
+				if (arguments.length === 1 && arguments[0] instanceof Class)
+					return arguments[0];
+				throw new Error("Invalid type casting.");
+			}
 		}
 
 		if (properties.statics) {
