@@ -1,6 +1,6 @@
 
 
-define(["./destroyable"], function (Destroyable) {
+define(["../classes/destroyable"], function (Destroyable) {
 
 	return Destroyable.extend({
 		init: function () {

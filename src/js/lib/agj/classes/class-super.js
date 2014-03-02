@@ -2,7 +2,7 @@
 define( function () {
 	"use strict";
 
-	var module = {};
+	var module = function () {};
 
 	// This method of creating classes is a modification of John Resig's: http://ejohn.org/blog/simple-javascript-inheritance/
 	// My changes make the _super() method appropriately go up the inheritance chain, and allow for easy statics declaration.
