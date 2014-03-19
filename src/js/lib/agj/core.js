@@ -6,7 +6,6 @@
 define(function (require) {
 	'use strict';
 
-	var autoCurry = require('./function/auto-curry');
 	var isArray = require('./is/array');
 	var toArray = require('./utils/to-array');
 
