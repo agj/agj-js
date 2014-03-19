@@ -24,15 +24,15 @@ define( function (require) {
 		pipe: fn.pipe,
 		flip: promoteArg(1, fn.flip),
 		compose: fn.compose,
-		sequence: sequence,
-		maybe: promoteArg(2, maybe),
-		fixArity: promoteArg(1, fixArity),
-		variadic: promoteArg(1, variadic)
+		sequence: fn.sequence,
+		maybe: promoteArg(2, fn.maybe),
+		fixArity: promoteArg(1, fn.fixArity),
+		variadic: promoteArg(1, fn.variadic)
 	};
 
 	register({
-		applies: isFunction,
-		does: merge(string, nativeGrabber.fromPrototype(String.prototype))
+		approve: isFunction,
+		does: merge(fixedFn, nativeGrabber.fromPrototype(Function.prototype))
 	});
 
 });

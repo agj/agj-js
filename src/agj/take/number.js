@@ -10,7 +10,7 @@ define( function (require) {
 	var number = require('../number');
 
 	register({
-		applies: isNumber,
+		approve: isNumber,
 		does: merge(number, nativeGrabber.fromPrototype(Number.prototype))
 	});
 

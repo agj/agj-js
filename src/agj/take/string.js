@@ -10,7 +10,7 @@ define( function (require) {
 	var string = require('../string');
 
 	register({
-		applies: isString,
+		approve: isString,
 		does: merge(string, nativeGrabber.fromPrototype(String.prototype))
 	});
 

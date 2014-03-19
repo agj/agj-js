@@ -15,7 +15,7 @@ define( function (require) {
 	);
 
 	register({
-		applies: isObjectLiteral,
+		approve: isObjectLiteral,
 		does: merge(object, natives)
 	});
 

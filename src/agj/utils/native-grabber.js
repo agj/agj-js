@@ -12,7 +12,7 @@ define(function (require) {
 		return fromAny(obj, false);
 	}
 
-	var forbiddenMethods = ['constructor'];
+	var forbiddenMethods = ['constructor', 'prototype'];
 	function fromAny(obj, convertThis) {
 		var r = {};
 		if (Object.hasOwnProperty('getOwnPropertyNames')) {

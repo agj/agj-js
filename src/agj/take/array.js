@@ -10,7 +10,7 @@ define( function (require) {
 	var array = require('../array');
 
 	register({
-		applies: isArray,
+		approve: isArray,
 		does: merge(array, nativeGrabber.fromPrototype(Array.prototype))
 	});
 

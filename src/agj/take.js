@@ -1,5 +1,4 @@
 
-
 define(function (require) {
 	'use strict';
 
@@ -12,7 +11,7 @@ define(function (require) {
 	var modules = [];
 
 	function take(value) {
-		var mods = modules.filter(to.call('applies', [value])).map(to.prop('does'));
+		var mods = modules.filter(to.call('approve', [value])).map(to.prop('does'));
 		var r = function () {
 			return value;
 		};
@@ -31,7 +30,7 @@ define(function (require) {
 			does[prop] = fluentify(mod.does[prop]);
 		}
 		var fluentifiedMod = {
-			applies: mod.applies,
+			approve: mod.approve,
 			does: does
 		};
 		modules.push(fluentifiedMod);
