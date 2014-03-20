@@ -3,6 +3,8 @@ define( function (require) {
 
 	var take = require('agj/take');
 
+	var is = require('agj/is');
+
 
 	describe("Take", function () {
 
@@ -53,8 +55,62 @@ define( function (require) {
 				arr = ['10', '1', '100'];
 			});
 
-			it("allows using library defined functions", function () {
-				expect( take(arr).first().value ).toBe('10');
+			describe("allows using library defined function", function () {
+				var methods = {
+					clone: [null, ['10', '1', '100'], true],
+					first: [null, '10'],
+					last: [null, '100'],
+					// getRandom - Test below
+					// overlaps - Test below
+					getDifference: [ [['10', '100']], ['1'], true ],
+					subtract: [ [['100']], ['10', '1'], true ],
+					getIntersection: [ [['10', '100']], ['10', '100'], true ],
+					remove: [ ['1'], ['10', '100'], true ],
+					// shuffle - Test below
+
+					get2D: [ [2, 0, 1], '100' ],
+					// set2D - Test below
+
+					nextTo: [ ['1'], '100' ],
+					prevTo: [ ['1'], '10' ],
+					nextIndex: [ [2], 0 ],
+					prevIndex: [ [0], 2 ],
+					nextIndexTo: [ ['1'], 2 ],
+					prevIndexTo: [ ['1'], 0 ]
+				};
+
+				function check(obj, method, args, value, loose) {
+					var that = take(obj);
+					expect( that[method].apply(that, args).value )[loose ? 'toEqual' : 'toBe'](value);
+				}
+				Object.keys(methods).forEach( function (methodName) {
+					var args = methods[methodName];
+					it(methodName, function () {
+						check(arr, methodName, args[0], args[1], args[2]);
+					});
+				});
+
+				it("getRandom", function () {
+					expect( arr ).toContain( take(arr).getRandom().value );
+				});
+
+				it("overlaps", function () {
+					expect( take(arr).overlaps(['nope', 'no', '100', 'not this one']).value ).toBe(true);
+					expect( take(arr).overlaps(['nope', 'no', 'not this one']).value ).toBe(false);
+				});
+
+				it("shuffle", function () {
+					var shuffled = take(arr).shuffle().value;
+					expect( shuffled ).toBe(arr);
+					expect( shuffled.length ).toBe(3);
+					expect( shuffled ).toContain('1');
+					expect( shuffled ).toContain('10');
+					expect( shuffled ).toContain('100');
+				});
+
+				it("set2D", function () {
+					expect( take(arr).set2D(2, 0, 1, 'new').value[2] ).toBe('new');
+				});
 			});
 
 			it("allows using native prototype functions", function () {
@@ -69,10 +125,16 @@ define( function (require) {
 				).toEqual(['10', 'inserted']);
 			});
 
-			it("adds chained getting and setting, and length property reading", function () {
-				expect( take(arr).get(2).value ).toBe('100');
-				expect( take(arr).set(1, 'inserted').value ).toEqual(['10', 'inserted', '100']);
-				expect( take(arr).len().value ).toBe(3);
+			describe("adds chained property reading/writing", function () {
+				it("get", function () {
+					expect( take(arr).get(2).value ).toBe('100');
+				});
+				it("set", function () {
+					expect( take(arr).set(1, 'inserted').value ).toEqual(['10', 'inserted', '100']);
+				});
+				it("len", function () {
+					expect( take(arr).len().value ).toBe(3);
+				});
 			});
 		});
 

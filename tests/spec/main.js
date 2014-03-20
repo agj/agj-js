@@ -12,6 +12,7 @@ require(['rsvp'], function (rsvp) {
 	'use strict';
 
 	requireSequentially(
+		'array',
 		'take'
 
 	).then(window.onload);

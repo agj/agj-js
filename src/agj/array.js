@@ -38,7 +38,7 @@ define( function (require) {
 
 	function getDifference(arr, array) {
 		return arr.filter(function (item) {
-			return array.indexOf(item) < 0;
+			return array.indexOf(item) === -1;
 		});
 	}
 
@@ -69,8 +69,8 @@ define( function (require) {
 
 	function shuffle(arr) {
 		for (var i = arr.length - 1; i >= 0; i--) {
+			var r = Math.floor(Math.random() * (i + 1));
 			var temp = arr[i];
-			var r = Math.randomInt(i + 1);
 			arr[i] = arr[r];
 			arr[r] = temp;
 		}
@@ -123,6 +123,7 @@ define( function (require) {
 	}
 	function set2D(arr, width, x, y, value) {
 		arr[x + y * width] = value;
+		return arr;
 	}
 
 	return {
