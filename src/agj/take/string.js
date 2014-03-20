@@ -9,9 +9,15 @@ define( function (require) {
 
 	var string = require('../string');
 
+	var extensions = {
+		len: function (str) {
+			return str.length;
+		}
+	};
+
 	register({
 		approve: isString,
-		does: merge(string, nativeGrabber.fromPrototype(String.prototype))
+		does: merge( merge(string, extensions), nativeGrabber.fromPrototype(String.prototype))
 	});
 
 });

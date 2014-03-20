@@ -15,7 +15,7 @@ define( function (require) {
 			var args = toArray(arguments);
 			var fnArg = args.shift();
 			args.splice(argIndex, 0, fnArg);
-			fn.apply(null, args);
+			return fn.apply(null, args);
 		};
 	}
 
