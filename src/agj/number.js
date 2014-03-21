@@ -2,14 +2,14 @@
 define( function (require) {
 	'use strict';
 
-	var agj = require('./core');
 
+	var tau = Math.PI * 2;
 
 	function degToRad(num) {
-		return num * Math.TAU / 360;
+		return num * tau / 360;
 	}
 	function radToDeg(num) {
-		return num * 360 / Math.TAU;
+		return num * 360 / tau;
 	}
 	function toBase(num, base, pad) {
 		var result = num.toString(base);

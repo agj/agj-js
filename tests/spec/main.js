@@ -13,6 +13,11 @@ require(['rsvp'], function (rsvp) {
 
 	requireSequentially(
 		'array',
+		'function',
+		'number',
+		'object',
+		'string',
+		
 		'take'
 
 	).then(window.onload);

@@ -1,12 +1,16 @@
-
+﻿
 define( function (require) {
+	'use strict';
 
 	var take = require('agj/take');
 
 	var is = require('agj/is');
+	var util = require('util/util');
+	var merge = require('agj/object/merge');
+	var λ = require('lib/lambda-functional.js');
 
 
-	describe("Take", function () {
+	describe("Take function:", function () {
 
 		describe("Basic operation", function () {
 			var obj;
@@ -56,47 +60,17 @@ define( function (require) {
 			});
 
 			describe("allows using library defined function", function () {
-				var methods = {
-					clone: [null, ['10', '1', '100'], true],
-					first: [null, '10'],
-					last: [null, '100'],
-					// getRandom - Test below
-					// overlaps - Test below
-					getDifference: [ [['10', '100']], ['1'], true ],
-					subtract: [ [['100']], ['10', '1'], true ],
-					getIntersection: [ [['10', '100']], ['10', '100'], true ],
-					remove: [ ['1'], ['10', '100'], true ],
-					// shuffle - Test below
-
-					get2D: [ [2, 0, 1], '100' ],
-					// set2D - Test below
-
-					nextTo: [ ['1'], '100' ],
-					prevTo: [ ['1'], '10' ],
-					nextIndex: [ [2], 0 ],
-					prevIndex: [ [0], 2 ],
-					nextIndexTo: [ ['1'], 2 ],
-					prevIndexTo: [ ['1'], 0 ]
-				};
-
-				function check(obj, method, args, value, loose) {
-					var that = take(obj);
-					expect( that[method].apply(that, args).value )[loose ? 'toEqual' : 'toBe'](value);
-				}
-				Object.keys(methods).forEach( function (methodName) {
-					var args = methods[methodName];
-					it(methodName, function () {
-						check(arr, methodName, args[0], args[1], args[2]);
-					});
-				});
+				util.checkMethods(require('reusable/array-functions'),
+					function (method, o) {
+						var that = take(o.args.shift());
+						var exp = expect( that[method].apply(that, o.args).value );
+						if (o.loose) exp.toEqual( o.result );
+						else         exp.toBe( o.result );
+					}
+				);
 
 				it("getRandom", function () {
 					expect( arr ).toContain( take(arr).getRandom().value );
-				});
-
-				it("overlaps", function () {
-					expect( take(arr).overlaps(['nope', 'no', '100', 'not this one']).value ).toBe(true);
-					expect( take(arr).overlaps(['nope', 'no', 'not this one']).value ).toBe(false);
 				});
 
 				it("shuffle", function () {
@@ -106,10 +80,6 @@ define( function (require) {
 					expect( shuffled ).toContain('1');
 					expect( shuffled ).toContain('10');
 					expect( shuffled ).toContain('100');
-				});
-
-				it("set2D", function () {
-					expect( take(arr).set2D(2, 0, 1, 'new').value[2] ).toBe('new');
 				});
 			});
 
@@ -125,42 +95,74 @@ define( function (require) {
 				).toEqual(['10', 'inserted']);
 			});
 
-			describe("adds chained property reading/writing", function () {
-				it("get", function () {
-					expect( take(arr).get(2).value ).toBe('100');
+			describe("adds chained property accessor", function () {
+				var pass = util.pass( function () {
+					return { args: [['one', 'two', 'three']] };
 				});
-				it("set", function () {
-					expect( take(arr).set(1, 'inserted').value ).toEqual(['10', 'inserted', '100']);
-				});
-				it("len", function () {
-					expect( take(arr).len().value ).toBe(3);
-				});
+				util.checkMethods(
+					{
+						get: pass(2).get('three'),
+						set: pass(2, 'changed').get(['one', 'two', 'changed']),
+						len: pass().get(3)
+					}, function (method, o) {
+						var that = take(o.args.shift());
+						var exp = expect( that[method].apply(that, o.args).value );
+						if (o.loose) exp.toEqual( o.result );
+						else         exp.toBe( o.result );
+					}
+				);
 			});
 		});
 
 		describe("Function module", function () {
 			require('agj/take/function');
-			var func;
 
-			beforeEach( function () {
-				func = function (a, b) { return a / b; };
-			});
+			var testFn = λ('a / b');
 
-			it("allows using library defined functions", function () {
-				expect( func(10, 2) ).toBe(5);
-				expect( take(func).flip().value(2, 10) ).toBe(5);
+			var pass = util.pass();
+			var passDefault = util.pass(
+				function () { return { args: [testFn] }; }
+			);
+			var checkWith = function (checker) {
+				return passDefault().checkWith(checker);
+			};
+
+			describe("allows using library defined function", function () {
+				var functions = merge(require('reusable/function-functions'), {
+					maybe: [
+					           pass( testFn, λ('_ -> !isNaN(_)'), 'default' ).checkWith( λ('_(0, 0)') ).get( 'default' ),
+					           pass( testFn, λ('_ -> !isNaN(_)'), 'default' ).checkWith( λ('_(10, 2)') ).get( 5 )
+					],
+					fixArity:  pass( λ('a + b'), 1 ).checkWith( λ('_("ari", "ty")') ).get( 'ariundefined' )
+				});
+				util.checkMethods(functions,
+					function (method, o) {
+						var that = take(o.args.shift());
+						var result = that[method].apply(that, o.args).value;
+						var exp = expect( o.checker(result) );
+						if (o.loose) exp.toEqual( o.result );
+						else         exp.toBe( o.result );
+					}
+				);
 			});
 
 			it("allows using native prototype functions", function () {
-				expect( take(func).apply(null, [10, 2]).value ).toEqual(5);
+				expect( take(testFn).apply(null, [10, 2]).value ).toEqual(5);
 			});
 		});
 
 		describe("Number module", function () {
 			require('agj/take/number');
 
-			it("allows using library defined functions", function () {
-				expect( take(10).toHex(2).value ).toBe('0a');
+			describe("allows using library defined function", function () {
+				util.checkMethods(require('reusable/number-functions'),
+					function (method, o) {
+						var that = take(o.args.shift());
+						var exp = expect( that[method].apply(that, o.args).value );
+						if (o.loose) exp.toEqual( o.result );
+						else         exp.toBe( o.result );
+					}
+				);
 			});
 
 			it("allows using native prototype functions", function () {
@@ -176,8 +178,15 @@ define( function (require) {
 				obj = { first: 'Ale', last: 'Grilli' };
 			});
 
-			it("allows using library defined functions", function () {
-				expect( take(obj).values().value ).toEqual(['Ale', 'Grilli']);
+			describe("allows using library defined function", function () {
+				util.checkMethods(require('reusable/object-functions'),
+					function (method, o) {
+						var that = take(o.args.shift());
+						var exp = expect( that[method].apply(that, o.args).value );
+						if (o.loose) exp.toEqual( o.result );
+						else         exp.toBe( o.result );
+					}
+				);
 			});
 
 			it("allows using native prototype functions", function () {
@@ -193,17 +202,39 @@ define( function (require) {
 		describe("String module", function () {
 			require('agj/take/string');
 
-			it("allows using library defined functions", function () {
-				expect( take('hello').first(4).value ).toBe('hell');
+			describe("allows using library defined function", function () {
+				util.checkMethods(require('reusable/string-functions'),
+					function (method, o) {
+						var that = take(o.args.shift());
+						var exp = expect( that[method].apply(that, o.args).value );
+						if (o.loose) exp.toEqual( o.result );
+						else         exp.toBe( o.result );
+					}
+				);
 			});
 
 			it("allows using native prototype functions", function () {
 				expect( take('hello').slice(1, 3).value ).toEqual('el');
 			});
 
-			it("adds chained length property reading", function () {
-				expect( take('cinco').len().value ).toBe(5);
+			describe("adds chained property accessor", function () {
+				var pass = util.pass( function () {
+					return { args: ['testing'] };
+				});
+				util.checkMethods(
+					{
+						len: pass().get(7)
+					}, function (method, o) {
+						var that = take(o.args.shift());
+						var exp = expect( that[method].apply(that, o.args).value );
+						if (o.loose) exp.toEqual( o.result );
+						else         exp.toBe( o.result );
+					}
+				);
 			});
+			// it("adds chained property accessor len", function () {
+			// 	expect( take('cinco').len().value ).toBe(5);
+			// });
 		});
 
 		describe("Module inter-operation", function () {

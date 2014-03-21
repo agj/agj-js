@@ -2,6 +2,8 @@
 define( function (require) {
 	'use strict';
 
+	var toArray = require('../utils/to-array');
+
 	var pipeContainer = {
 		pipe: require('./pipe')
 	};

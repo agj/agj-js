@@ -13,7 +13,7 @@ define( function (require) {
 	var sequence = require('./function/sequence');
 
 
-	var maybe = autoCurry(function (predicate, elseValue, fn) {
+	var maybe = autoCurry( function (predicate, elseValue, fn) {
 		predicate = predicate || is.set;
 		return function maybed() {
 			var r = fn.apply(this, arguments);
@@ -21,7 +21,7 @@ define( function (require) {
 		};
 	});
 
-	var fixArity = autoCurry(function (arity, fn) {
+	var fixArity = autoCurry( function (arity, fn) {
 		if (arity === 0) return function arity0() { return fn.call(this); };
 		if (arity === 1) return function arity1(a) { return fn.call(this, a); };
 		if (arity === 2) return function arity2(a, b) { return fn.call(this, a, b); };
@@ -30,9 +30,9 @@ define( function (require) {
 		else return function arityX() { return fn.apply(this, toArray(arguments).slice(0, arity)); };
 	});
 
-	var variadic = autoCurryArityFn(function (arity, fn) {
+	var variadic = autoCurryArityFn( function (arity, fn) {
 		return function variadicized() {
-			args = toArray(arguments);
+			var args = toArray(arguments);
 			var rest = args.slice(arity - 1) || [];
 			args = args.slice(0, arity - 1);
 			args[arity - 1] = rest;
