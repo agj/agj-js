@@ -17,7 +17,9 @@ require(['rsvp'], function (rsvp) {
 		'number',
 		'object',
 		'string',
-		
+
+		'is',
+
 		'take'
 
 	).then(window.onload);

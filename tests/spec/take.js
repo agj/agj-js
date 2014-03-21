@@ -232,9 +232,6 @@ define( function (require) {
 					}
 				);
 			});
-			// it("adds chained property accessor len", function () {
-			// 	expect( take('cinco').len().value ).toBe(5);
-			// });
 		});
 
 		describe("Module inter-operation", function () {

@@ -11,7 +11,7 @@ define( function (require) {
 	var toString = Object.prototype.toString.call.bind(Object.prototype.toString);
 
 	function set(object) {
-		return object !== undef && object !== null && (typeof object !== 'number' || !isNaN(object));
+		return object !== void 0 && object !== null && (typeof object !== 'number' || !isNaN(object));
 	}
 
 	function undef(object) {
