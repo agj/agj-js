@@ -1,3 +1,6 @@
+/**
+ * DEPRECATED. There are good libraries for this stuff.
+ */
 
 define( function (require) {
 	'use strict';

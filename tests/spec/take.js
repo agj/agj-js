@@ -128,14 +128,14 @@ define( function (require) {
 			};
 
 			describe("allows using library defined function", function () {
-				var functions = merge(require('reusable/function-functions'), {
+				var testing = merge(require('reusable/function-functions'), {
 					maybe: [
 					           pass( testFn, λ('_ -> !isNaN(_)'), 'default' ).checkWith( λ('_(0, 0)') ).get( 'default' ),
 					           pass( testFn, λ('_ -> !isNaN(_)'), 'default' ).checkWith( λ('_(10, 2)') ).get( 5 )
 					],
 					fixArity:  pass( λ('a + b'), 1 ).checkWith( λ('_("ari", "ty")') ).get( 'ariundefined' )
 				});
-				util.checkMethods(functions,
+				util.checkMethods(testing,
 					function (method, o) {
 						var that = take(o.args.shift());
 						var result = that[method].apply(that, o.args).value;
@@ -144,6 +144,16 @@ define( function (require) {
 						else         exp.toBe( o.result );
 					}
 				);
+
+				it("returnThis", function () {
+					var obj = { test: take(testFn).returnThis().value };
+					expect( obj.test(2, 2) ).toBe(obj);
+				});
+
+				it("all functions tested", function () {
+					var size = require('agj/object/size');
+					expect( size(require('agj/function')) ).toBe( size(testing) + 1 );
+				});
 			});
 
 			it("allows using native prototype functions", function () {

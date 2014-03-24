@@ -9,11 +9,11 @@ define( function (require) {
 		if (arity > 0) {
 			return function autoCurried() {
 				if (arguments.length >= arity) {
-					return fn.apply(null, arguments);
+					return fn.apply(this, arguments);
 				} else {
 					var args = toArray(arguments);
 					return autoCurryTo(arity - args.length, function autoCurriedRest() {
-						return fn.apply(null, args.concat( toArray(arguments) ));
+						return fn.apply(this, args.concat( toArray(arguments) ));
 					} );
 				}
 			};

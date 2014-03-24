@@ -2,6 +2,7 @@
 define( function (require) {
 
 	var util = require('util/util');
+	var λ = require('lib/lambda-functional.js');
 
 	var pass = util.pass( function () {
 		return { args: [['10', '1', '100']] };
@@ -11,27 +12,26 @@ define( function (require) {
 	return {
 		clone:           get(['10', '1', '100']),
 		first:           get('10'),
-		last:            get('100'),
+		get2D:           pass(2, 0, 1).get('100'),
+		getDifference:   pass(['10', '100']).get(['1']),
 		// getRandom
+		intersect:       pass(['10', '100']).get(['10', '100']),
+		last:            get('100'),
+		mapToObject:     pass(λ('*10')).get({ '10': 100, '1': 10, '100': 1000 }),
+		nextIndex:       pass(2).get(0),
+		nextIndexTo:     pass('1').get(2),
+		nextTo:          pass('1').get('100'),
 		overlaps: [
 		                 pass(['nope', 'no', '100', 'not this one']).get(true),
-		                 pass(['nope', 'no', 'not this one']).get(false)
+		                 pass(['nope', 'no', 'not this one']).get(false),
 		],
-		getDifference:   pass(['10', '100']).get(['1']),
-		subtract:        pass(['100']).get(['10', '1']),
-		getIntersection: pass(['10', '100']).get(['10', '100']),
-		remove:          pass('1').get(['10', '100']),
-		// shuffle
-
-		get2D:           pass(2, 0, 1).get('100'),
-		set2D:           pass(2, 0, 1, 'new').get(['10', '1', 'new']),
-
-		nextTo:          pass('1').get('100'),
-		prevTo:          pass('1').get('10'),
-		nextIndex:       pass(2).get(0),
 		prevIndex:       pass(0).get(2),
-		nextIndexTo:     pass('1').get(2),
-		prevIndexTo:     pass('1').get(0)
+		prevIndexTo:     pass('1').get(0),
+		prevTo:          pass('1').get('10'),
+		remove:          pass('1').get(['10', '100']),
+		set2D:           pass(2, 0, 1, 'new').get(['10', '1', 'new']),
+		// shuffle
+		subtract:        pass(['100']).get(['10', '1']),
 	};
 
 });

@@ -2,6 +2,7 @@
 define( function (require) {
 
 	var is = require('agj/is');
+	var toArray = require('agj/utils/to-array');
 
 	function checkMethods(methods, checkFn) {
 		Object.keys(methods).forEach( function (methodName) {
@@ -19,7 +20,7 @@ define( function (require) {
 		chainObjectModifier = chainObjectModifier || function (o) { return o; };
 		return function () {
 			var params = paramsFactory ? paramsFactory() : {};
-			params.args = (params.args || []).concat( [].slice.call(arguments) );
+			params.args = (params.args || []).concat( toArray(arguments) );
 			return chainObjectModifier({
 				params: params,
 				get: function (result) {

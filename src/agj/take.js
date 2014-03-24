@@ -4,8 +4,6 @@ define(function (require) {
 
 	var agj = require('./core');
 	var toArray = agj.toArray;
-
-	var trace = agj.trace;
 	var to = agj.to;
 
 	var modules = [];

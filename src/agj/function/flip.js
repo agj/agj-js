@@ -7,7 +7,7 @@ define( function (require) {
 
 	var flip = autoCurryArityFn(function flip(arity, fn) {
 		return function flipped() {
-			var args = toArray(arguments).slice(0, arity);
+			var args = toArray(arguments, 0, arity);
 			args.reverse();
 			args = ( new Array(Math.max(0, arity - arguments.length)) ).concat(args);
 			return fn.apply(this, args);

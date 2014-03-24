@@ -12,21 +12,23 @@ define( function (require) {
 
 	function promoteArg(argIndex, fn) {
 		return function () {
-			var args = toArray(arguments);
-			var fnArg = args.shift();
-			args.splice(argIndex, 0, fnArg);
-			return fn.apply(null, args);
+			var args = toArray(arguments, 1);
+			var promotedArg = arguments[0];
+			args.splice(argIndex, 0, promotedArg);
+			return fn.apply(this, args);
 		};
 	}
 
 	var fixedFn = {
 		autoCurry: promoteArg(1, fn.autoCurry),
-		pipe: fn.pipe,
-		flip: promoteArg(1, fn.flip),
 		compose: fn.compose,
-		sequence: fn.sequence,
-		maybe: promoteArg(2, fn.maybe),
 		fixArity: promoteArg(1, fn.fixArity),
+		flip: promoteArg(1, fn.flip),
+		maybe: promoteArg(2, fn.maybe),
+		pipe: fn.pipe,
+		returnArg: promoteArg(1, fn.returnArg),
+		returnThis: fn.returnThis,
+		sequence: fn.sequence,
 		variadic: promoteArg(1, fn.variadic)
 	};
 

@@ -3,6 +3,7 @@ define(function (require) {
 	'use strict';
 
 	var isFn = require('../is').fn;
+	var toArray = require('./to-array');
 
 	function fromPrototype(obj) {
 		return fromAny(obj, true);
@@ -27,7 +28,7 @@ define(function (require) {
 
 	function thisToArg(fn) {
 		return function (thisArg) {
-			return fn.apply(thisArg, [].splice.call(arguments, 1));
+			return fn.apply(thisArg, toArray(arguments, 1));
 		};
 	}
 

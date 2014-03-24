@@ -17,7 +17,7 @@ define( function (require) {
 
 	register({
 		approve: isString,
-		does: merge( merge(string, extensions), nativeGrabber.fromPrototype(String.prototype))
+		does: merge( merge(string, extensions), nativeGrabber.fromPrototype(String.prototype) )
 	});
 
 });

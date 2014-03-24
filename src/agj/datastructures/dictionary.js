@@ -23,7 +23,7 @@ define(["../classes/destroyable"], function (Destroyable) {
 		get: function (key) { // Object
 			var index = this._keys.indexOf(key);
 			if (index === -1)
-				return null;
+				return void 0;
 			return this._values[index];
 		},
 

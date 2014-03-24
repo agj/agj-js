@@ -10,9 +10,6 @@ define(function (require) {
 	var toArray = require('./utils/to-array');
 
 	var undef;
-	var defineProp = 'defineProperties' in Object ? Object.defineProperty : function (obj, name, opts) {
-		obj[name] = opts.value;
-	};
 
 	function defineModule(target, stringName, value) {
 		if (!target) throw new TypeError('Invalid object passed.');
@@ -22,7 +19,7 @@ define(function (require) {
 		modules.forEach( function (modName, i) {
 			if (!(modName in target)) {
 				var curValue = (value !== undef && i === len - 1) ? value : {};
-				defineProp(target, modName, {
+				Object.defineProperty(target, modName, {
 					writable: false, enumerable: true, configurable: false,
 					value: curValue
 				});
@@ -71,21 +68,15 @@ define(function (require) {
 				objectProperties = dontWarn;
 				dontWarn = false;
 			}
-			var canDefineProperties = 'defineProperty' in Object && 'defineProperties' in Object;
-
 			for (var prop in objectProperties) {
 				if (!(prop in objectTarget) || objectTarget[prop] === undef) {
-					if (canDefineProperties) {
-						Object.defineProperty(objectTarget, prop, {
-							writable: true, enumerable: false, configurable: true,
-							value: objectProperties[prop]
-						});
-					} else {
-						objectTarget[prop] = objectProperties[prop];
-					}
+					Object.defineProperty(objectTarget, prop, {
+						writable: true, enumerable: false, configurable: true,
+						value: objectProperties[prop]
+					});
 				} else if (!dontWarn) {
-					var target = objectTarget.constructor ? objectTarget.constructor : objectTarget;
-					target = target.name ? target.name : typeof target;
+					var target = objectTarget.constructor || objectTarget;
+					target = target.name || typeof target;
 					agj.warn('agj: Could not mixin ' + prop + ' to ' + target + ' because it is already defined.');
 				}
 			}

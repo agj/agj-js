@@ -8,10 +8,10 @@ requirejs.config({
 	}
 });
 
-require(['rsvp'], function (rsvp) {
+require(['agj/core', 'agj/extensions/rsvp'], function (agj, promiseUtil) {
 	'use strict';
 
-	requireSequentially(
+	promiseUtil.requireSequentially(
 		'array',
 		'function',
 		'number',
@@ -20,27 +20,9 @@ require(['rsvp'], function (rsvp) {
 
 		'is',
 
-		'take'
+		'extend'
+		// 'take'
 
 	).then(window.onload);
 
-
-	/////
-	
-	function requireSequentially() {
-		var seq = [].slice.call(arguments);
-		return seq.reduce( function (promise, spec) {
-			return promise.then( function () {
-				return req([spec]);
-			});
-		}, rsvp.resolve());
-	}
-	
-	function req(deps) {
-		var deferred = rsvp.defer();
-		require(deps, function () { deferred.resolve(true); });
-		return deferred.promise;
-	}
-
 });
-

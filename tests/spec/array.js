@@ -28,6 +28,11 @@ define( function (require) {
 			expect( shuffled ).toContain('10');
 			expect( shuffled ).toContain('100');
 		});
+
+		it("all functions tested", function () {
+			var size = require('agj/object/size');
+			expect( size(array) ).toBe( size(arrayFunctions) + 2 );
+		});
 	});
 
 });

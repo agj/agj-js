@@ -4,23 +4,12 @@ define( function (require) {
 
 	var is = require('../is');
 	var isArray = is.array;
-	var isFunction = is.fn;
 	var register = require('../take').register;
 	var nativeGrabber = require('../utils/native-grabber');
 	var merge = require('../object/merge');
+	var returnArg = require('../function/return-arg');
 
 	var array = require('../array');
-
-	function returnArg(argIndex, fn) {
-		if (isFunction(argIndex)) {
-			fn = argIndex;
-			argIndex = 0;
-		}
-		return function () {
-			fn.apply(this, arguments);
-			return arguments[argIndex];
-		};
-	}
 
 	var fixableMethods = ['pop', 'push', 'reverse', 'shift', 'splice', 'unshift'];
 

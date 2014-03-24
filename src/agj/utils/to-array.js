@@ -2,10 +2,6 @@
 define( function () {
 	'use strict';
 
-	function toArray(object) {
-		return Array.prototype.slice.call(object, 0);
-	}
-
-	return toArray;
+	return Function.prototype.call.bind(Array.prototype.slice); // Can still pass in parameters if we need only a subset of the indices!
 
 });
