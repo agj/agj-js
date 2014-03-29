@@ -14,15 +14,16 @@ define( function (require) {
 		var pass = util.pass();
 		
 		var testing = merge(fnFunctions, {
-			maybe: [
-				pass( λ('_ -> !isNaN(_)'), 'default', testFun ).checkWith( λ('_(0, 0)') ).get( 'default' ),
-				pass( λ('_ -> !isNaN(_)'), 'default', testFun ).checkWith( λ('_(10, 2)') ).get( 5 )
-			],
 			fixArity:  [
-				pass( 1, λ('a + b') ).checkWith( λ('_("ari", "ty")') ).get( 'ariundefined' ),
-				pass( 2, testFun ).checkWith( λ('_.length') ).get( 2 ),
-				pass( 7, testFun ).checkWith( λ('_.length') ).get( 7 )
-			]
+			            pass( 1, λ('a + b') ).checkWith( λ('_("ari", "ty")') ).get( 'ariundefined' ),
+			            pass( 2, testFun ).checkWith( λ('_.length') ).get( 2 ),
+			            pass( 7, testFun ).checkWith( λ('_.length') ).get( 7 ),
+			],
+			maybe: [
+			            pass( λ('_ -> !isNaN(_)'), λ('/2') ).checkWith( λ('_(undefined)') ).get( undefined ),
+			            pass( λ('_ -> !isNaN(_)'), λ('/2') ).checkWith( λ('_(10)') ).get( 5 ),
+			],
+			promoteArg: pass(1, testFun).checkWith( λ('_(10, 2)') ).get( 0.2 ),
 		});
 
 		util.checkMethods(testing,

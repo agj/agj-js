@@ -6,14 +6,7 @@ define( function (require) {
 	var object = require('agj/object');
 
 	describe("Object utility", function () {
-		var pass = util.pass( function () {
-			return { args: [{ one: 1, two: '2', three: 'three' }] };
-		});
-		var passOnly = util.pass();
-		var get = function (result) { return pass().get(result); };
-
 		var testing = require('reusable/object-functions');
-
 		util.checkMethods(testing,
 			function (method, o) {
 				var exp = expect( object[method].apply(null, o.args) );

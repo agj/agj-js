@@ -10,26 +10,18 @@ define( function (require) {
 
 	var fn = require('../function');
 
-	function promoteArg(argIndex, fn) {
-		return function () {
-			var args = toArray(arguments, 1);
-			var promotedArg = arguments[0];
-			args.splice(argIndex, 0, promotedArg);
-			return fn.apply(this, args);
-		};
-	}
-
 	var fixedFn = {
-		autoCurry: promoteArg(1, fn.autoCurry),
-		compose: fn.compose,
-		fixArity: promoteArg(1, fn.fixArity),
-		flip: promoteArg(1, fn.flip),
-		maybe: promoteArg(2, fn.maybe),
-		pipe: fn.pipe,
-		returnArg: promoteArg(1, fn.returnArg),
+		autoCurry:  fn.promoteArg(1, fn.autoCurry),
+		compose:    fn.compose,
+		fixArity:   fn.promoteArg(1, fn.fixArity),
+		flip:       fn.promoteArg(1, fn.flip),
+		maybe:      fn.promoteArg(2, fn.maybe),
+		pipe:       fn.pipe,
+		promoteArg: fn.promoteArg(1, fn.fn.promoteArg),
+		returnArg:  fn.promoteArg(1, fn.returnArg),
 		returnThis: fn.returnThis,
-		sequence: fn.sequence,
-		variadic: promoteArg(1, fn.variadic)
+		sequence:   fn.sequence,
+		variadic:   fn.promoteArg(1, fn.variadic)
 	};
 
 	register({

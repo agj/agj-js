@@ -23,12 +23,12 @@ define( function (require) {
 		null,
 		require('../object'),
 		{
-			get: function (obj, key) {
-				return obj[key];
+			get: function (key) {
+				return this[key];
 			},
-			set: function (obj, key, value) {
-				obj[key] = value;
-				return obj;
+			set: function (key, value) {
+				this[key] = value;
+				return this;
 			}
 		}
 	));

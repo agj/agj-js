@@ -14,7 +14,7 @@ define( function (require) {
 		var result = Object.create(source);
 
 		Object.getOwnPropertyNames(source).forEach( function (name) {
-			if (isFn(source[name]) && name.charAt(0) !== '_' && forbiddenMethods.indexOf(name) === -1) {
+			if (name.charAt(0) !== '_' && forbiddenMethods.indexOf(name) === -1 && isFn(source[name])) {
 				result[name] = source[name];
 			}
 		});
@@ -26,8 +26,8 @@ define( function (require) {
 		}
 
 		if (utilFunctions) {
-			mergeInto(result, objectMap(utilFunctions, function (name) {
-				return argToThis(utilFunctions[name]);
+			mergeInto(result, objectMap(utilFunctions, function (fn) {
+				return argToThis(fn);
 			}));
 		}
 
@@ -37,7 +37,7 @@ define( function (require) {
 	}
 
 	function argToThis(fn) {
-		return function () {
+		return function argToThis() {
 			return fn.apply(null, [this].concat(toArray(arguments)));
 		};
 	}

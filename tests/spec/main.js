@@ -1,4 +1,4 @@
-
+﻿
 requirejs.config({
 	baseUrl: './spec/',
 	paths: {

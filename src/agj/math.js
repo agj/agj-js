@@ -2,7 +2,7 @@
 define( function (require) {
 	'use strict';
 
-	var agj = require('../core');
+	var agj = require('./core');
 
 	return agj.defineModules({}, {
 		TAU: Math.PI * 2,
