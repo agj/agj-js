@@ -49,23 +49,23 @@ define( function (require) {
 			});
 		});
 
-		describe("allows wrapping a native which", function () {
-			it("remains an instance of its type", function () {
+		describe("allows wrapping a native", function () {
+			it("which remains an instance of its type", function () {
 				expect( xt([]) instanceof Array ).toBe(true);
 				expect( xt({}) instanceof Object ).toBe(true);
 				expect( xt(function () {}) instanceof Function ).toBe(true);
 			});
-			it("coerces adequately to string", function () {
+			it("which coerces adequately to string", function () {
 				expect( xt([1,2,3]) + '' ).toBe('1,2,3');
 			});
-			it("keeps its native value accessible via the 'value' property", function () {
+			it("which keeps its native value accessible via the 'value' property", function () {
 				var arr = [1,2,3];
 				var obj = { yeah: 'hey' };
 				expect( xt(arr).value ).toBe(arr);
 				expect( xt(obj).value ).toBe(obj);
 			});
 
-			describe("however", function () {
+			describe("which however", function () {
 				it("doesn't coerce to value", function () {
 					expect( xt([1,2,3]) ).not.toEqual([1,2,3]);
 					expect( [1,2,3].concat(xt([4,5,6]))[3].value ).toEqual([4,5,6]);
