@@ -6,6 +6,7 @@ define(function (require) {
 	var toArray = agj.toArray;
 	var Dictionary = require('./datastructures/dictionary');
 	var Class = require('./classes/class-super');
+	var isFn = require('./is').fn;
 
 	var trace = agj.trace;
 	var to = agj.to;
@@ -61,7 +62,11 @@ define(function (require) {
 			var p = Object.getPrototypeOf(module.proto);
 			var proto = Object.create(p);
 			Object.keys(module.proto).forEach( function (name) {
-				proto[name] = this.processMethod(module.proto[name]);
+				var desc = Object.getOwnPropertyDescriptor(module.proto, name);
+				if (desc.value) desc.value = this.processMethod(desc.value);
+				if (desc.get)   desc.get   = this.processMethod(desc.get);
+				if (desc.set)   desc.set   = this.processMethod(desc.set);
+				Object.defineProperty(proto, name, desc);
 			}.bind(this));
 			proto.toString = function () {
 				return p.toString.apply(this.value, toArray(arguments));
@@ -75,6 +80,7 @@ define(function (require) {
 			return result;
 		},
 		processMethod: function (fn) {
+			if (!isFn(fn)) return fn;
 			var scope = this;
 			return function () {
 				return scope.extend(fn.apply(this.value, toArray(arguments)), true);

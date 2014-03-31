@@ -10,30 +10,38 @@ define( function (require) {
 
 	var forbiddenMethods = ['constructor', 'prototype'];
 
-	function constructProto(source, returnThisList, utilFunctions, extra) {
+	function constructProto(source, returnThisList) {
 		var result = Object.create(source);
 
 		Object.getOwnPropertyNames(source).forEach( function (name) {
-			if (name.charAt(0) !== '_' && forbiddenMethods.indexOf(name) === -1 && isFn(source[name])) {
-				result[name] = source[name];
-			}
+			if (name.charAt(0) === '_' || forbiddenMethods.indexOf(name) !== -1 || !isFn(source[name])) return;
+			result[name] = (!returnThisList || returnThisList.indexOf(name) === -1) ? source[name] : returnThis(source[name]);
+			// var desc = Object.getOwnPropertyDescriptor(source, name);
+			// if (returnThisList && desc.value && returnThisList.indexOf(name) !== -1) desc.value = returnThis(desc.value);
+			// desc.enumerable = true;
+			// Object.defineProperty(result, name, desc);
 		});
 
-		if (returnThisList) {
-			returnThisList.forEach( function (key) {
-				if (key in result) result[key] = returnThis(result[key]);
-			});
-		}
-
-		if (utilFunctions) {
-			mergeInto(result, objectMap(utilFunctions, function (fn) {
-				return argToThis(fn);
-			}));
-		}
-
-		if (extra) mergeInto(result, extra);
-
 		return result;
+	}
+
+	function addUtils(target, utils) {
+		mergeInto(target, objectMap(utils, function (fn) {
+			return argToThis(fn);
+		}));
+	}
+
+	function addMethods(target, methods) {
+		mergeInto(target, methods);
+	}
+
+	function addGetters(target, getters) {
+		getters.forEach( function (name) {
+			Object.defineProperty(target, name, {
+				enumerable: true,
+				get: toGetter(name)
+			});
+		});
 	}
 
 	function argToThis(fn) {
@@ -42,9 +50,18 @@ define( function (require) {
 		};
 	}
 
+	function toGetter(prop) {
+		return function () {
+			return this[prop];
+		};
+	}
+
 	return {
 		constructProto: constructProto,
-		argToThis: argToThis
+		argToThis:      argToThis,
+		addUtils:       addUtils,
+		addMethods:     addMethods,
+		addGetters:     addGetters,
 	};
 	
 });

@@ -4,18 +4,13 @@ define( function (require) {
 
 	var is = require('../is');
 	var extend = require('../extend');
-	var constructProto = require('./utils/utils').constructProto;
+	var extendUtils = require('./utils/utils');
 
-	var proto = constructProto(
-		String.prototype,
-		null,
-		require('../string'),
-		{
-			len: function () {
-				return this.length;
-			}
-		}
-	);
+	var proto = extendUtils.constructProto(String.prototype);
+
+	extendUtils.addUtils(proto, require('../string'));
+
+	extendUtils.addGetters(proto, ['length']);
 
 	return extend.register({
 		approve: is.string,

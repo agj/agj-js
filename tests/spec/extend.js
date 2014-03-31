@@ -136,7 +136,6 @@ define( function (require) {
 					{
 						get: pass(2).get('three'),
 						set: pass(2, 'changed').get(['one', 'two', 'changed']),
-						len: pass().get(3),
 					}, function (method, o) {
 						var that = xt(o.args.shift());
 						that = that[method].apply(that, o.args);
@@ -145,6 +144,12 @@ define( function (require) {
 						else         exp.toBe( o.result );
 					}
 				);
+			});
+
+			describe("allows direct access to property", function () {
+				it("length", function () {
+					expect( xt(['a', 'b', 'c']).length == 3 ).toBe(true);
+				});
 			});
 		});
 
@@ -195,6 +200,12 @@ define( function (require) {
 
 			it("allows using native prototype functions", function () {
 				expect( xt(testFn).apply(null, [10, 2]).value ).toBe(5);
+			});
+
+			describe("allows direct access to property", function () {
+				it("length", function () {
+					expect( testFn.length == 2 ).toBe(true);
+				});
 			});
 		});
 
@@ -273,23 +284,17 @@ define( function (require) {
 				expect( xt('hello').slice(1, 3).value ).toBe('el');
 			});
 
-			describe("adds chained property accessor", function () {
-				var pass = util.pass( function () {
-					return { args: ['testing'] };
+			describe("allows direct access to property", function () {
+				it("length", function () {
+					expect( 'cinco'.length == 5 ).toBe(true);
 				});
-				util.checkMethods(
-					{
-						len: pass().get(7),
-					},
-					standardChecker
-				);
 			});
 		});
 
 		it("allows naturally stringing return values", function () {
 			expect( xt([1,2,3]).concat([4,5,6]).slice(1, 4).value ).toEqual([2,3,4]);
 			expect( xt(['1', '2', '3']).reduce(λ('*')) == 6 ).toBe(true);
-			expect( xt({ 'a': 2, 'b': 4, 'c': 8 }).keys().push('c').join('').charAt(2).len() + 1 ).toBe(2);
+			expect( xt({ 'a': 2, 'b': 4, 'c': 8 }).keys().push('c').join('').charAt(2).length + 1 ).toBe(2);
 		});
 
 	});

@@ -5,8 +5,6 @@ define( function (require) {
 	var is = require('../is');
 	var extend = require('../extend');
 	var extendUtils = require('./utils/utils');
-	var constructProto = extendUtils.constructProto;
-	var argToThis = extendUtils.argToThis;
 	var mergeInto = require('../object/merge-into');
 
 	var proto = {};
@@ -14,24 +12,23 @@ define( function (require) {
 	var forbiddenMethods = ['constructor', 'prototype'];
 	Object.getOwnPropertyNames(Object).forEach( function (name) {
 		if (is.fn(Object[name]) && name.charAt(0) !== '_' && forbiddenMethods.indexOf(name) === -1) {
-			proto[name] = argToThis(Object[name]);
+			proto[name] = extendUtils.argToThis(Object[name]);
 		}
 	});
 
-	mergeInto(proto, constructProto(
-		Object.prototype,
-		null,
-		require('../object'),
-		{
-			get: function (key) {
-				return this[key];
-			},
-			set: function (key, value) {
-				this[key] = value;
-				return this;
-			}
+	mergeInto(proto, extendUtils.constructProto(Object.prototype));
+
+	extendUtils.addUtils(proto, require('../object'));
+
+	extendUtils.addMethods(proto, {
+		get: function (key) {
+			return this[key];
+		},
+		set: function (key, value) {
+			this[key] = value;
+			return this;
 		}
-	));
+	});
 
 	return extend.register({
 		approve: is.objectLiteral,

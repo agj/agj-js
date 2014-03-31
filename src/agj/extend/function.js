@@ -4,7 +4,7 @@ define( function (require) {
 
 	var is = require('../is');
 	var extend = require('../extend');
-	var constructProto = require('./utils/utils').constructProto;
+	var extendUtils = require('./utils/utils');
 	var fn = require('../function');
 
 	var fixedFn = {
@@ -22,16 +22,11 @@ define( function (require) {
 		variadic:   fn.promoteArg(1, fn.variadic)
 	};
 
-	var proto = constructProto(
-		Function.prototype,
-		null,
-		fixedFn,
-		{
-			len: function () {
-				return this.length;
-			}
-		}
-	);
+	var proto = extendUtils.constructProto(Function.prototype);
+
+	extendUtils.addUtils(proto, fixedFn);
+
+	extendUtils.addGetters(proto, ['length']);
 
 	return extend.register({
 		approve: is.fn,

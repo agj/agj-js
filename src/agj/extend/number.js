@@ -4,13 +4,11 @@ define( function (require) {
 
 	var is = require('../is');
 	var extend = require('../extend');
-	var constructProto = require('./utils/utils').constructProto;
+	var extendUtils = require('./utils/utils');
 
-	var proto = constructProto(
-		Number.prototype,
-		null,
-		require('../number')
-	);
+	var proto = extendUtils.constructProto(Number.prototype);
+
+	extendUtils.addUtils(proto, require('../number'));
 
 	return extend.register({
 		approve: is.number,
