@@ -21,6 +21,10 @@ define( function (require) {
 		// fixArity
 		flip:       checkWith( λ('_(10, 2)') ).get( 0.2 ),
 		// maybe
+		not: [
+		            pass( λ('_ == "hi"') ).checkWith( λ('_("hi")') ).get( false ),
+		            pass( λ('_ == "hi"') ).checkWith( λ('_("ay")') ).get( true ),
+		],
 		pipe:       checkWith( λ('_.pipe( this.λ("*2") ).to( this.λ("_-1") )(100, 50)').bind({λ:λ}) ).get( 3 ),
 		// promoteArg
 		returnArg:  checkWith( λ('_(50, 100)') ).get( 50 ),

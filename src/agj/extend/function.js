@@ -13,6 +13,7 @@ define( function (require) {
 		fixArity:   fn.promoteArg(1, fn.fixArity),
 		flip:       fn.promoteArg(1, fn.flip),
 		maybe:      fn.promoteArg(1, fn.maybe),
+		not:        fn.not,
 		pipe:       fn.pipe,
 		promoteArg: fn.promoteArg(1, fn.promoteArg),
 		returnArg:  fn.promoteArg(1, fn.returnArg),

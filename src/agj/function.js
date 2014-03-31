@@ -9,6 +9,7 @@ define( function (require) {
 		fixArity:    require('./function/fix-arity'),
 		flip:        require('./function/flip'),
 		maybe:       require('./function/maybe'),
+		not:         require('./function/not'),
 		pipe:        require('./function/pipe'),
 		promoteArg:  require('./function/promote-arg'),
 		returnArg:   require('./function/return-arg'),
