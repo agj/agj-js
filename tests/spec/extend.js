@@ -167,8 +167,6 @@ define( function (require) {
 					            pass( testFn, 7 ).checkWith( λ('_.length') ).get( 7 ),
 					],
 					maybe: [
-					            // pass( testFn, λ('_ -> !isNaN(_)'), 'default' ).checkWith( λ('_(0, 0)') ).get( 'default' ),
-					            // pass( testFn, λ('_ -> !isNaN(_)'), 'default' ).checkWith( λ('_(10, 2)') ).get( 5 ),
 					            pass( λ('/2'), λ('_ -> !isNaN(_)') ).checkWith( λ('_(undefined)') ).get( undefined ),
 					            pass( λ('/2'), λ('_ -> !isNaN(_)') ).checkWith( λ('_(10)') ).get( 5 ),
 					],
