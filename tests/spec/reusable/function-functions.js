@@ -5,11 +5,11 @@ define( function (require) {
 	var util = require('util/util');
 	var λ = require('lib/lambda-functional.js');
 
-	var testFun = λ('a / b');
+	var testFn = λ('a / b');
 
 	var pass = util.pass();
 	var passDefault = util.pass(
-		function () { return { args: [testFun] }; }
+		function () { return { args: [testFn] }; }
 	);
 	var checkWith = function (checker) {
 		return passDefault().checkWith(checker);
@@ -17,9 +17,10 @@ define( function (require) {
 
 	return {
 		autoCurry:  checkWith( λ('_(10)(2)') ).get( 5 ),
-		compose:    pass( λ('_-1'), λ('*2'), testFun ).checkWith( λ('_(100, 50)') ).get( 3 ),
+		compose:    pass( λ('_-1'), λ('*2'), testFn ).checkWith( λ('_(100, 50)') ).get( 3 ),
 		// fixArity
 		flip:       checkWith( λ('_(10, 2)') ).get( 0.2 ),
+		// loop
 		// maybe
 		// memoize
 		not: [
@@ -28,9 +29,10 @@ define( function (require) {
 		],
 		pipe:       checkWith( λ('_.pipe( this.λ("*2") ).to( this.λ("_-1") )(100, 50)').bind({λ:λ}) ).get( 3 ),
 		// promoteArg
+		// promoteArgSolid
 		returnArg:  checkWith( λ('_(50, 100)') ).get( 50 ),
 		// returnThis
-		sequence:   pass( testFun, λ('*2'), λ('_-1') ).checkWith( λ('_(100, 50)') ).get( 3 ),
+		sequence:   pass( testFn, λ('*2'), λ('_-1') ).checkWith( λ('_(100, 50)') ).get( 3 ),
 		variadic:   pass( λ('a + b.join("")') ).checkWith( λ('_("hi", "fu", "mi")') ).get( 'hifumi' )
 	};
 

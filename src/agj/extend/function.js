@@ -8,19 +8,21 @@ define( function (require) {
 	var fn = require('../function');
 
 	var fixedFn = {
-		autoCurry:  fn.promoteArg(1, fn.autoCurry),
-		compose:    fn.compose,
-		fixArity:   fn.promoteArg(1, fn.fixArity),
-		flip:       fn.promoteArg(1, fn.flip),
-		maybe:      fn.promoteArg(1, fn.maybe),
-		memoize:    fn.memoize,
-		not:        fn.not,
-		pipe:       fn.pipe,
-		promoteArg: fn.promoteArg(1, fn.promoteArg),
-		returnArg:  fn.promoteArg(1, fn.returnArg),
-		returnThis: fn.returnThis,
-		sequence:   fn.sequence,
-		variadic:   fn.promoteArg(1, fn.variadic)
+		autoCurry:       fn.promoteArgSolid(1, fn.autoCurry),
+		compose:         fn.compose,
+		fixArity:        fn.promoteArgSolid(1, fn.fixArity),
+		flip:            fn.promoteArgSolid(1, fn.flip),
+		loop:            fn.promoteArgSolid(2, fn.loop),
+		maybe:           fn.promoteArgSolid(1, fn.maybe),
+		memoize:         fn.memoize,
+		not:             fn.not,
+		pipe:            fn.pipe,
+		promoteArg:      fn.promoteArgSolid(1, fn.promoteArg),
+		promoteArgSolid: fn.promoteArgSolid(1, fn.promoteArgSolid),
+		returnArg:       fn.promoteArgSolid(1, fn.returnArg),
+		returnThis:      fn.returnThis,
+		sequence:        fn.sequence,
+		variadic:        fn.promoteArgSolid(1, fn.variadic)
 	};
 
 	var proto = extendUtils.constructProto(Function.prototype);

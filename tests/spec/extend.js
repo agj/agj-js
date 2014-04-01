@@ -175,7 +175,14 @@ define( function (require) {
 					            pass( λ('/2'), λ('_ -> !isNaN(_)') ).checkWith( λ('_(undefined)') ).get( undefined ),
 					            pass( λ('/2'), λ('_ -> !isNaN(_)') ).checkWith( λ('_(10)') ).get( 5 ),
 					],
-					promoteArg: pass(testFn, 1).checkWith( λ('_(10, 2)') ).get( 0.2 ),
+					promoteArg: [
+					            pass( testFn, 1 ).checkWith( λ('_(10, 2)') ).get( 0.2 ),
+					            pass( λ('"" + a + b + c'), 2 ).checkWith( λ('_("OK")') ).get( 'undefinedundefinedOK' ),
+					],
+					promoteArgSolid: [
+					            pass( testFn, 1 ).checkWith( λ('_(10, 2)') ).get( 0.2 ),
+					            pass( λ('"" + a + b + c'), 2 ).checkWith( λ('_("OK")') ).get( 'OKundefinedundefined' ),
+					],
 				});
 				util.checkMethods(testing,
 					function (method, o) {
@@ -186,6 +193,47 @@ define( function (require) {
 						else         exp.toBe( o.result );
 					}
 				);
+
+				it("loop", function () {
+					var result = xt(function (i, e, s) {
+						expect(i).toBe(0);
+						expect(e).toBe(Infinity);
+						expect(s).toBe(0);
+						// console.log(i, e, s);
+						return 'hi';
+					}).loop();
+					expect(result.value).toBe('hi');
+
+					var sum = 0;
+					result = xt(function (i, e, s) {
+						console.log(i, e, s);
+						sum += i;
+						expect(e).toBe(5);
+						expect(s).toBe(0);
+					}).loop(5);
+					expect(sum).toBe(10);
+					expect(result).toBe(undefined);
+
+					sum = 0;
+					result = xt(function (i, e, s) {
+						// console.log(i, e, s);
+						sum += i;
+						expect(e).toBe(100);
+						expect(s).toBe(5);
+						if (i === 7) return 0;
+					}).loop(5, 100);
+					expect(sum).toBe(18);
+					expect(result.value).toBe(0);
+
+					sum = 0;
+					xt(function (i, e, s) {
+						// console.log(i, e, s);
+						sum += i;
+						expect(e).toBe(1);
+						expect(s).toBe(5);
+					}).loop(5, 1);
+					expect(sum).toBe(14);
+				});
 
 				it("memoize", function () {
 					var testFn = λ('*2');
@@ -202,7 +250,7 @@ define( function (require) {
 
 				it("all functions tested", function () {
 					var size = require('agj/object/size');
-					expect( size(require('agj/function')) ).toBe( size(testing) + 2 );
+					expect( size(require('agj/function')) ).toBe( size(testing) + 3 );
 				});
 			});
 
