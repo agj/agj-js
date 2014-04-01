@@ -21,6 +21,7 @@ define( function (require) {
 		// fixArity
 		flip:       checkWith( λ('_(10, 2)') ).get( 0.2 ),
 		// maybe
+		// memoize
 		not: [
 		            pass( λ('_ == "hi"') ).checkWith( λ('_("hi")') ).get( false ),
 		            pass( λ('_ == "hi"') ).checkWith( λ('_("ay")') ).get( true ),

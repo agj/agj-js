@@ -33,6 +33,14 @@ define( function (require) {
 			}
 		);
 
+		it("memoize", function () {
+			var testFn = λ('*2');
+			var memoized = fn.memoize(testFn);
+			expect( testFn(6) ).toBe( memoized(6) );
+			expect( memoized(6) ).toBe( memoized(6) );
+			expect( memoized(6) ).not.toBe( memoized(5) );
+		});
+
 		it("returnThis", function () {
 			var obj = { test: fn.returnThis(testFun) };
 			expect( obj.test(2, 2) ).toBe(obj);
@@ -40,7 +48,7 @@ define( function (require) {
 
 		it("all functions tested", function () {
 			var size = require('agj/object/size');
-			expect( size(fn) ).toBe( size(testing) + 1 );
+			expect( size(fn) ).toBe( size(testing) + 2 );
 		});
 	});
 

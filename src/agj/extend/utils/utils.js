@@ -16,10 +16,6 @@ define( function (require) {
 		Object.getOwnPropertyNames(source).forEach( function (name) {
 			if (name.charAt(0) === '_' || forbiddenMethods.indexOf(name) !== -1 || !isFn(source[name])) return;
 			result[name] = (!returnThisList || returnThisList.indexOf(name) === -1) ? source[name] : returnThis(source[name]);
-			// var desc = Object.getOwnPropertyDescriptor(source, name);
-			// if (returnThisList && desc.value && returnThisList.indexOf(name) !== -1) desc.value = returnThis(desc.value);
-			// desc.enumerable = true;
-			// Object.defineProperty(result, name, desc);
 		});
 
 		return result;
