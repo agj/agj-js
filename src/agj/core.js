@@ -111,7 +111,7 @@ define(function (require) {
 		prop: function (name) { return function (v) { return v[name]; }; },
 		call: function (methodName, args) {
 			args = args || [];
-			return function (v) { return v[methodName].apply(null, args); };
+			return function (v) { return v[methodName].apply(v, args); };
 		}
 	}));
 

@@ -36,7 +36,10 @@ define( function (require) {
 		util.checkMethods(testing,
 			function (method, o) {
 				var result = fn[method].apply(fn, o.args);
-				expect( o.checker(result) ).toBe( o.result );
+				if (o.checker) result = o.checker(result);
+				var exp = expect( result );
+				if (o.loose) exp.toEqual( o.result );
+				else         exp.toBe( o.result );
 			}
 		);
 

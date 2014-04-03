@@ -187,8 +187,9 @@ define( function (require) {
 				util.checkMethods(testing,
 					function (method, o) {
 						var that = xt(o.args.shift());
-						that = that[method].apply(that, o.args);
-						var exp = expect( o.checker(that && is.set(that.value) ? that.value : that) );
+						var result = that[method].apply(that, o.args);
+						if (o.checker) result = o.checker(result && is.set(result.value) ? result.value : result)
+						var exp = expect( result && is.set(result.value) ? result.value : result );
 						if (o.loose) exp.toEqual( o.result );
 						else         exp.toBe( o.result );
 					}
@@ -199,14 +200,12 @@ define( function (require) {
 						expect(i).toBe(0);
 						expect(e).toBe(Infinity);
 						expect(s).toBe(0);
-						// console.log(i, e, s);
 						return 'hi';
 					}).loop();
 					expect(result.value).toBe('hi');
 
 					var sum = 0;
 					result = xt(function (i, e, s) {
-						console.log(i, e, s);
 						sum += i;
 						expect(e).toBe(5);
 						expect(s).toBe(0);
@@ -216,7 +215,6 @@ define( function (require) {
 
 					sum = 0;
 					result = xt(function (i, e, s) {
-						// console.log(i, e, s);
 						sum += i;
 						expect(e).toBe(100);
 						expect(s).toBe(5);
@@ -227,7 +225,6 @@ define( function (require) {
 
 					sum = 0;
 					xt(function (i, e, s) {
-						// console.log(i, e, s);
 						sum += i;
 						expect(e).toBe(1);
 						expect(s).toBe(5);

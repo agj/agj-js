@@ -4,6 +4,7 @@ define( function (require) {
 
 	var agj = require('./core');
 	var autoCurry = require('./function/auto-curry');
+	var values = require('./object/values');
 
 	var isArray = require('./is/array');
 
@@ -46,38 +47,43 @@ define( function (require) {
 
 	var equal          = autoCurry(function equal(a, b) { return b === a; });
 
-	var greater        = autoCurry(function greater(a, b) { return b >   a; });
+	var greater        = autoCurry(function greater(a, b) { return b > a; });
 
-	var greaterOrEqual = autoCurry(function greaterOrEqual(a, b) { return b >=  a; });
+	var greaterOrEqual = autoCurry(function greaterOrEqual(a, b) { return b >= a; });
 
-	var less           = autoCurry(function less(a, b) { return b <   a; });
+	var less           = autoCurry(function less(a, b) { return b < a; });
 
-	var lessOrEqual    = autoCurry(function lessOrEqual(a, b) { return b <=  a; });
+	var lessOrEqual    = autoCurry(function lessOrEqual(a, b) { return b <= a; });
+
+	var isIn = autoCurry(function isIn(container, item) {
+		if (isArray(container)) return container.indexOf(item) !== -1;
+		if (objectLiteral(container)) return values(container).indexOf(item) !== -1;
+		throw new TypeError("Container is neither an array nor an object literal.");
+	});
 
 
 	return {
-		array: isArray,
-		
-		set: set,
-		undefined: undef,
 		boolean: boolean,
-		number: number,
-		string: string,
-		fn: fn,
+		array: isArray,
 		date: date,
-		objectLiteral: objectLiteral,
-		instanceOf: instanceOf,
-
+		eq: equal,
 		equal: equal,
+		fn: fn,
 		greater: greater,
 		greaterOrEqual: greaterOrEqual,
-		less: less,
-		lessOrEqual: lessOrEqual,
-		eq: equal,
 		gt: greater,
 		gte: greaterOrEqual,
+		in: isIn,
+		instanceOf: instanceOf,
+		less: less,
+		lessOrEqual: lessOrEqual,
 		lt: less,
-		lte: lessOrEqual
+		lte: lessOrEqual,
+		number: number,
+		objectLiteral: objectLiteral,
+		set: set,
+		string: string,
+		undefined: undef,
 	};
 
 });

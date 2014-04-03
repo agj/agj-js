@@ -14,8 +14,10 @@ define( function (require) {
 	var checkWith = function (checker) {
 		return passDefault().checkWith(checker);
 	};
+	var get = function (result) { return passDefault().get(result); };
 
 	return {
+		parameters: get(['a', 'b']),
 		autoCurry:  checkWith( λ('_(10)(2)') ).get( 5 ),
 		compose:    pass( λ('_-1'), λ('*2'), testFn ).checkWith( λ('_(100, 50)') ).get( 3 ),
 		// fixArity

@@ -156,11 +156,20 @@ define( function (require) {
 					else         exp.toBe( o.result );
 				}
 			);
+
+			it("in", function () {
+				expect( is.in({ a: 'one', b: 'two' }, 'two') ).toBe( true );
+				expect( is.in(['one', 'two'], 'two') ).toBe( true );
+				var test = function () {
+					is.in(new Date(), 'whatever');
+				};
+				expect( test ).toThrow();
+			});
 		});
 
 		it("all functions tested", function () {
 			var size = require('agj/object/size');
-			expect( size(is) ).toBe( size(functions) + size(comparisons) );
+			expect( size(is) ).toBe( size(functions) + size(comparisons) + 1 );
 		});
 	});
 

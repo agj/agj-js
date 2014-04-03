@@ -20,8 +20,9 @@ require(['agj/core', 'agj/extensions/rsvp'], function (agj, promiseUtil) {
 
 		'is',
 
-		'extend'
-		// 'take'
+		'extend',
+
+		'html-generator'
 
 	).then(window.onload);
 

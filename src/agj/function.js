@@ -3,6 +3,7 @@ define( function (require) {
 	'use strict';
 
 	return {
+		parameters:      require('./function/parameters'),
 		autoCurry:       require('./function/auto-curry'),
 		// autoCurryArityFn
 		compose:         require('./function/compose'),
