@@ -3,7 +3,7 @@ define(function (require) {
 	'use strict';
 
 	var is = require('../is');
-	var toID = require('../core').to.id;
+	var toID = require('../to').id;
 	var toArray = require('./to-array');
 
 	var forbiddenMethods = ['constructor', 'prototype'];

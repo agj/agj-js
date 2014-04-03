@@ -1,9 +1,14 @@
 
 
-define(["agj/core", "rsvp", "signals"], function (AGJ, RSVP, signals) {
+define( function (require) {
 	"use strict";
 
-	var module = AGJ.defineModules({}, {
+	var RSVP = require('rsvp');
+	var signals = require('signals');
+	var defineModules = require('./utils/define-modules');
+	var math = require('./math');
+
+	var module = defineModules({}, {
 		array: function (start, end, time, mspf, easing) {
 			return module.liveArray(start.clone(), end.clone(), time, mspf, easing);
 		},
@@ -64,7 +69,7 @@ define(["agj/core", "rsvp", "signals"], function (AGJ, RSVP, signals) {
 				return p * p;
 			},
 			easeOutSine: function (p) {
-				return Math.sin(p * (AGJ.math.TAU / 4));
+				return Math.sin(p * (math.TAU / 4));
 			}
 		}
 	});

@@ -6,7 +6,7 @@ define( function (require) {
 	'use strict';
 
 	var is = require('../is');
-	var to = require('../core').to;
+	var to = require('../to');
 	var not = require('../function/not');
 
 	var module = function () {};

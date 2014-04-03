@@ -4,13 +4,12 @@ define(function(require) {
 
 	var $ = require('jquery');
 	var bacon = require('bacon');
-	var agj = require('../core');
+	var defineModules = require('../utils/define-modules');
 	var is = require('../is');
-	var to = agj.to;
-	var trace = agj.trace;
+	var to = require('../to');
 	var events = require('../utils/event-constants');
 
-	var module = agj.defineModules({}, {
+	var module = defineModules({}, {
 		keyIsPressed: function (key) {
 			return bacon.fromEventTarget($(window), events.key.down).map('.which').filter(is.equal(key)).map(to.value(true))
 				.merge(bacon.fromEventTarget($(window), events.key.up).map('.which').filter(is.equal(key)).map(to.value(false)))

@@ -2,7 +2,6 @@
 define( function (require) {
 	'use strict';
 
-	var agj = require('./core');
 	var autoCurry = require('./function/auto-curry');
 	var values = require('./object/values');
 

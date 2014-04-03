@@ -1,5 +1,5 @@
 
-define(['../core'], function (agj) {
+define( function (require) {
 	'use strict';
 
 	return function mergeInto(objTarget, objSource) {

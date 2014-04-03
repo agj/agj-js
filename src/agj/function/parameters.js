@@ -2,7 +2,7 @@
 define( function (require) {
 	'use strict';
 
-	var to = require('../core').to;
+	var to = require('../to');
 	var is = require('../is');
 
 	function iff(v, els, fn) {

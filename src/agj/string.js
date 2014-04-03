@@ -2,9 +2,6 @@
 define( function (require) {
 	'use strict';
 
-	var agj = require('./core');
-
-
 	function first(str, amount) {
 		if (isNaN(amount)) amount = 1;
 		return str.slice(0, amount);

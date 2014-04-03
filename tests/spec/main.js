@@ -8,7 +8,7 @@ requirejs.config({
 	}
 });
 
-require(['agj/core', 'agj/extensions/rsvp'], function (agj, promiseUtil) {
+require(['agj/extensions/rsvp'], function (promiseUtil) {
 	'use strict';
 
 	promiseUtil.requireSequentially(

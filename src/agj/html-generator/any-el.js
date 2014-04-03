@@ -2,7 +2,7 @@
 define( function (require) {
 	'use strict';
 
-	var to = require('../core').to;
+	var to = require('../to');
 	var is = require('../is');
 	var toArray = require('../utils/to-array');
 

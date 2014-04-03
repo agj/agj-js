@@ -1,9 +1,9 @@
 
-define(["agj/core"], function (AGJ) {
+define( function (require) {
 	"use strict";
 
-	var defineModule = AGJ.defineModule;
-	var defineModules = AGJ.defineModules;
+	var defineModule  = require('./defineModule');
+	var defineModules = require('./defineModules');
 
 	var module = {};
 

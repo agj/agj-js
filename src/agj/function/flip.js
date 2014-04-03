@@ -2,7 +2,7 @@
 define( function (require) {
 	'use strict';
 
-	var toArray = require('../core').toArray;
+	var toArray = require('../utils/to-array');
 	var autoCurryArityFn = require('./auto-curry-arity-fn');
 
 	var flip = autoCurryArityFn(function flip(arity, fn) {

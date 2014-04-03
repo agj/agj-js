@@ -2,9 +2,9 @@
 define( function (require) {
 	'use strict';
 
-	var agj = require('./core');
+	var defineModules = require('./utils/define-modules');
 
-	return agj.defineModules({}, {
+	return defineModules({}, {
 		TAU: Math.PI * 2,
 
 		randomInt: function (numberMaxValue) {

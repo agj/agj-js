@@ -2,14 +2,11 @@
 define(function (require) {
 	'use strict';
 
-	var agj = require('./core');
-	var toArray = agj.toArray;
+	var toArray = require('./utils/to-array');
 	var Dictionary = require('./datastructures/dictionary');
 	var Class = require('./classes/class-super');
 	var isFn = require('./is').fn;
-
-	var trace = agj.trace;
-	var to = agj.to;
+	var to = require('./to');
 
 	var moduleCache = new Dictionary();
 
