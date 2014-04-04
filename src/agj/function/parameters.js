@@ -11,7 +11,7 @@ define( function (require) {
 	}
 
 	function parameters(fn) {
-		return iff(fn.toString().match(/^function \w*\s?\(([^\)]*)\) /), [], function (m) {
+		return iff(fn.toString().match(/^function \w*\s?\(([^\)\/]*)/), [], function (m) {
 			return m[1].split(',').map(to.call('trim'));
 		});
 	}
