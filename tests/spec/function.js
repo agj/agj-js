@@ -11,25 +11,96 @@ define( function (require) {
 
 	describe("Function utility", function () {
 		var testFn = λ('a / b');
-		var pass = util.pass();
+		var declarator = util.declarator();
+		var pass = declarator.pass;
 		
 		var testing = merge(fnFunctions, {
-			fixArity:  [
-			            pass( 1, λ('a + b') ).checkWith( λ('_("ari", "ty")') ).get( 'ariundefined' ),
-			            pass( 2, testFn ).checkWith( λ('_.length') ).get( 2 ),
-			            pass( 7, testFn ).checkWith( λ('_.length') ).get( 7 ),
+			fixArity: [
+				pass( 1, λ('a + b') )
+					.checkWith( λ('_("ari", "ty")') )
+					.get( 'ariundefined' )
+					.becauseIt("can limit passed arguments to just 1, leaving the rest undefined"),
+				pass( 2, testFn )
+					.checkWith( λ('_.length') )
+					.get( 2 )
+					.becauseIt("can convert functions to an arity of 2 as observable via its length property"),
+				pass( 7, testFn )
+					.checkWith( λ('_.length') )
+					.get( 7 )
+					.becauseIt("can convert functions to an arity of 7 as observable via its length property"),
 			],
 			maybe: [
-			            pass( λ('_ -> !isNaN(_)'), λ('/2') ).checkWith( λ('_(undefined)') ).get( undefined ),
-			            pass( λ('_ -> !isNaN(_)'), λ('/2') ).checkWith( λ('_(10)') ).get( 5 ),
+				pass( λ('!isNaN(_)'), 'default', λ('/2') )
+					.checkWith( λ('_(10)') )
+					.get( 5 )
+					.becauseIt("takes three arguments (predicate, elseValue, fn) and produce a function which checks its passed argument against the predicate, which if returns truthy, passes it to fn and returns its result"),
+				pass( λ('!isNaN(_)'), 'default', λ('/2') )
+					.checkWith( λ('_("not a number")') )
+					.get( 'default' )
+					.becauseIt("produces a function which returns the elseValue if the predicate returns falsy for the passed value"),
+				pass( λ('!isNaN(_)') )
+					.checkWith( function (_) {
+						var maybed = _('default')(λ('/2'));
+						return maybed('not a number');
+					})
+					.get( 'default' )
+					.becauseIt("can receive one argument at a time thanks to auto-currying"),
+				pass( λ('!isNaN(_)'), 'default' )
+					.checkWith( function (_) {
+						var maybed = _(λ('/2'));
+						return maybed('not a number');
+					})
+					.get( 'default' )
+					.becauseIt("can receive two first and one later"),
+				pass( λ('!isNaN(_)') )
+					.checkWith( function (_) {
+						var maybed = _('default', λ('/2'));
+						return maybed('not a number');
+					})
+					.get( 'default' )
+					.becauseIt("can receive one first and two later"),
+				pass( λ('!isNaN(_)'), λ('/2') )
+					.checkWith( λ('_("not a number")') )
+					.get( undefined )
+					.becauseIt("will take two function arguments passed together and not curry itself, because the elseValue is optional"),
+				pass( λ('!isNaN(_)') )
+					.checkWith( function (_) {
+						var maybed = _(λ('/2'));
+						return maybed('not a number');
+					})
+					.get( undefined )
+					.becauseIt("will take one function argument, and then another, and not curry itself further, because the elseValue is optional"),
+				pass( λ('!isNaN(_)'), testFn, λ('/2') )
+					.checkWith( λ('_("not a number")') )
+					.get( testFn )
+					.becauseIt("can take the three arguments together, if a function type elseValue is needed"),
+				pass( λ('!isNaN(_)') )
+					.checkWith( function (_) {
+						var maybed = _(testFn, λ('/2'));
+						return maybed('not a number');
+					})
+					.get( testFn )
+					.becauseIt("can take the first argument, and then two function arguments together, if a function type elseValue is needed"),
 			],
 			promoteArg: [
-			            pass( 1, testFn ).checkWith( λ('_(10, 2)') ).get( 0.2 ),
-			            pass( 2, λ('"" + a + b + c') ).checkWith( λ('_("OK")') ).get( 'undefinedundefinedOK' ),
+				pass( 1, testFn )
+					.checkWith( λ('_(10, 2)') )
+					.get( 0.2 )
+					.becauseIt(""),
+				pass( 2, λ('"" + a + b + c') )
+					.checkWith( λ('_("OK")') )
+					.get( 'undefinedundefinedOK' )
+					.becauseIt(""),
 			],
 			promoteArgSolid: [
-			            pass( 1, testFn ).checkWith( λ('_(10, 2)') ).get( 0.2 ),
-			            pass( 2, λ('"" + a + b + c') ).checkWith( λ('_("OK")') ).get( 'OKundefinedundefined' ),
+				pass( 1, testFn )
+					.checkWith( λ('_(10, 2)') )
+					.get( 0.2 )
+					.becauseIt(""),
+				pass( 2, λ('"" + a + b + c') )
+					.checkWith( λ('_("OK")') )
+					.get( 'OKundefinedundefined' )
+					.becauseIt(""),
 			],
 		});
 

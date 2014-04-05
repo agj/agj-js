@@ -3,23 +3,74 @@ define( function (require) {
 
 	var is = require('agj/is');
 	var toArray = require('agj/utils/to-array');
+	var mergeInto = require('agj/object/merge-into');
+	var objMap = require('agj/object/map');
 
 	function checkMethods(methods, checkFn) {
 		Object.keys(methods).forEach( function (methodName) {
 			var args = methods[methodName];
-			it(methodName, function() {
+			describe(methodName, function() {
 				if (!is.array(args)) args = [args];
 				args.forEach( function (theseArgs) {
-					checkFn(methodName, theseArgs);
+					it(theseArgs.description || '(no description)', function () {
+						checkFn(methodName, theseArgs);
+					});
 				});
 			});
 		});
 	}
 
-	function pass(paramsFactory, chainObjectModifier) {
+	function declarator(argsFactory) {
+		argsFactory = argsFactory || function () { return {}; };
+		return objMap(generateArgs(), function (fn) {
+			if (!is.fn(fn)) return fn;
+			return wrapFirst(fn);
+		});
+
+		function taking(object) {
+			this.object = object;
+			return this;
+		}
+		function pass() {
+			this.args = toArray(arguments);
+			return this;
+		}
+		function checkWith(checker) {
+			this.checker = checker;
+			return this;
+		}
+		function get(result) {
+			this.result = result;
+			if (is.array(result) || is.objectLiteral(result)) this.loose = true;
+			return this;
+		}
+		function becauseIt(description) {
+			this.description = description;
+			return this;
+		}
+
+		function generateArgs() {
+			var params = argsFactory();
+			mergeInto(params, {
+				taking: taking,
+				pass: pass,
+				checkWith: checkWith,
+				get: get,
+				becauseIt: becauseIt,
+			});
+			return params;
+		}
+		function wrapFirst(fn) {
+			return function () {
+				return fn.apply(generateArgs(), arguments);
+			};
+		}
+	}
+
+	function pass(argsFactory, chainObjectModifier) {
 		chainObjectModifier = chainObjectModifier || function (o) { return o; };
 		return function () {
-			var params = paramsFactory ? paramsFactory() : {};
+			var params = argsFactory ? argsFactory() : {};
 			params.args = (params.args || []).concat( toArray(arguments) );
 			return chainObjectModifier({
 				params: params,
@@ -38,7 +89,8 @@ define( function (require) {
 
 	return {
 		checkMethods: checkMethods,
-		pass: pass
+		pass: pass,
+		declarator: declarator
 	};
 
 });

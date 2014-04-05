@@ -13,7 +13,7 @@ define( function (require) {
 	function parameters(fn) {
 		return iff(fn.toString().match(/^function \w*\s?\(([^\)\/]*)/), [], function (m) {
 			return m[1].split(',').map(to.call('trim'));
-		});
+		}).filter( function(p) { return is.set(p) && p.length; });
 	}
 
 	return parameters;
