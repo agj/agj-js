@@ -4,13 +4,18 @@ define( function (require) {
 
 	var is = require('agj/is');
 	var anyEl = require('agj/html-generator/any-el');
-	var h = require('agj/html-generator/el');
+	var toEl = require('agj/html-generator/to-el');
 	var inject = require('agj/html-generator/inject');
 
 	describe("HTML generator", function () {
 		it("generates HTML elements via anyEl() function call", function () {
 			expect( anyEl('span').tagName ).toBe( 'SPAN' );
 			expect( anyEl('div').tagName ).toBe( 'DIV' );
+		});
+
+		it("creates element generators via toEl() function call", function () {
+			expect( toEl('span')().tagName ).toBe( 'SPAN' );
+			expect( toEl('div')().tagName ).toBe( 'DIV' );
 		});
 
 		describe("allows specifying", function () {
@@ -89,22 +94,18 @@ define( function (require) {
 			});
 		});
 
-		describe("maps tags to convenience functions in 'el' package", function () {
-			describe("which are", function () {
-				var tags = Object.keys(h);
-				tags.forEach( function (tag) {
-					it(tag, function () {
-						expect( h[tag]().tagName ).toBe( tag.toUpperCase() );
-					});
-				});
-			});
-		});
-
 		it("allows arbitrary nesting", function () {
-			var test = h.section('#main',
-				h.h1('.title', "I'm gonna be talking to you now"),
-				h.p("I'm honestly kind of ashamed. ", h.strong('.special', "Hey you ", h.em("guys"), "!"), " I think I'm okay now."),
-				h.p("Now here we have a link:", h.a({ href: 'http://www.agj.cl/' }, "to my website!"))
+			var section = toEl('section');
+			var h1 = toEl('h1');
+			var p = toEl('p');
+			var strong = toEl('strong');
+			var em = toEl('em');
+			var a = toEl('a');
+			
+			var test = section('#main',
+				h1('.title', "I'm gonna be talking to you now"),
+				p("I'm honestly kind of ashamed. ", strong('.special', "Hey you ", em("guys"), "!"), " I think I'm okay now."),
+				p("Now here we have a link:", a({ href: 'http://www.agj.cl/' }, "to my website!"))
 			);
 
 			expect( test.tagName ).toBe( 'SECTION' );

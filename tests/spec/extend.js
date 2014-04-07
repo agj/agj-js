@@ -156,32 +156,82 @@ define( function (require) {
 		describe("Function module", function () {
 			var testFn = λ('a / b');
 
-			var pass = util.pass();
-			var passDefault = util.pass(
+			var pass = util.declarator().pass;
+			var taking = util.declarator( function () {
+				var r = {};
+				r.taking = function (v) {
+					this.args = this.args || [];
+					this.args.unshift(v);
+					return this;
+				};
+				return r;
+			}).taking;
+			var declaratorDefault = util.declarator(
 				function () { return { args: [testFn] }; }
 			);
-			var checkWith = function (checker) {
-				return passDefault().checkWith(checker);
-			};
+			var passDefault = declaratorDefault.pass;
+			var checkWith = declaratorDefault.checkWith;
 
 			describe("allows using library defined function", function () {
 				var testing = merge(require('reusable/function-functions'), {
 					fixArity:  [
-					            pass( λ('a + b'), 1 ).checkWith( λ('_("ari", "ty")') ).get( 'ariundefined' ),
-					            pass( testFn, 2 ).checkWith( λ('_.length') ).get( 2 ),
-					            pass( testFn, 7 ).checkWith( λ('_.length') ).get( 7 ),
+						taking( λ('a + b') )
+							.pass( 1 )
+							.checkWith( λ('_("ari", "ty")') )
+							.get( 'ariundefined' )
+							.becauseIt("can limit passed arguments to just 1, leaving the rest undefined"),
+						taking( testFn )
+							.pass( 2 )
+							.checkWith( λ('_.length') )
+							.get( 2 )
+							.becauseIt("can convert functions to an arity of 2 as observable via its length property"),
+						taking( testFn)
+							.pass( 7 )
+							.checkWith( λ('_.length') )
+							.get( 7 )
+							.becauseIt("can convert functions to an arity of 7 as observable via its length property"),
 					],
 					maybe: [
-					            pass( λ('/2'), λ('_ -> !isNaN(_)') ).checkWith( λ('_(undefined)') ).get( undefined ),
-					            pass( λ('/2'), λ('_ -> !isNaN(_)') ).checkWith( λ('_(10)') ).get( 5 ),
+						taking( λ('/2') )
+							.pass( λ('!isNaN(_)'), 'default' )
+							.checkWith( λ('_(10)') )
+							.get( 5 )
+							.becauseIt("takes two arguments (predicate, elseValue) and produces a function which checks its passed argument against the predicate, which if returns truthy, passes it to fn and returns its result"),
+						taking( λ('/2') )
+							.pass( λ('!isNaN(_)'), 'default' )
+							.checkWith( λ('_("not a number")') )
+							.get( 'default' )
+							.becauseIt("produces a function which returns the elseValue if the predicate returns falsy for the passed value"),
+						taking( λ('/2') )
+							.pass( λ('!isNaN(_)') )
+							.checkWith( λ('_(10)') )
+							.get( 5 )
+							.becauseIt("allows omitting the elseValue"),
+						taking( λ('/2') )
+							.pass( λ('!isNaN(_)') )
+							.checkWith( λ('_("not a number")') )
+							.get( undefined )
+							.becauseIt("allows omitting the elseValue, so the produced function returns undefined if the value fails the predicate"),
 					],
 					promoteArg: [
-					            pass( testFn, 1 ).checkWith( λ('_(10, 2)') ).get( 0.2 ),
-					            pass( λ('"" + a + b + c'), 2 ).checkWith( λ('_("OK")') ).get( 'undefinedundefinedOK' ),
+						taking( testFn )
+							.pass( 1 )
+							.checkWith( λ('_(10, 2)') )
+							.get( 0.2 ),
+						taking( λ('"" + a + b + c') )
+							.pass( 2 )
+							.checkWith( λ('_("OK")') )
+							.get( 'undefinedundefinedOK' ),
 					],
 					promoteArgSolid: [
-					            pass( testFn, 1 ).checkWith( λ('_(10, 2)') ).get( 0.2 ),
-					            pass( λ('"" + a + b + c'), 2 ).checkWith( λ('_("OK")') ).get( 'OKundefinedundefined' ),
+						taking( testFn )
+							.pass( 1 )
+							.checkWith( λ('_(10, 2)') )
+							.get( 0.2 ),
+						taking( λ('"" + a + b + c') )
+							.pass( 2 )
+							.checkWith( λ('_("OK")') )
+							.get( 'OKundefinedundefined' ),
 					],
 				});
 				util.checkMethods(testing,
@@ -195,59 +245,114 @@ define( function (require) {
 					}
 				);
 
-				it("loop", function () {
-					var result = xt(function (i, e, s) {
-						expect(i).toBe(0);
-						expect(e).toBe(Infinity);
-						expect(s).toBe(0);
-						return 'hi';
-					}).loop();
-					expect(result.value).toBe('hi');
+				describe("loop", function () {
+					it("passes index, endIndex, and startIndex values to the supplied function", function () {
+						xt( function (i, e, s) {
+							expect(i).toBe(0);
+							expect(e).toBe(Infinity);
+							expect(s).toBe(0);
+							return true;
+						}).loop();
+					});
 
-					var sum = 0;
-					result = xt(function (i, e, s) {
-						sum += i;
-						expect(e).toBe(5);
-						expect(s).toBe(0);
-					}).loop(5);
-					expect(sum).toBe(10);
-					expect(result).toBe(undefined);
+					it("calls the passed function until it returns a non-undefined value, and returns that", function () {
+						var iter;
+						var result = xt( function (i, e, s) {
+							iter = i;
+							return 'hi';
+						}).loop();
+						expect(iter).toBe(0);
+						expect(result == 'hi').toBe(true);
+					});
 
-					sum = 0;
-					result = xt(function (i, e, s) {
-						sum += i;
-						expect(e).toBe(100);
-						expect(s).toBe(5);
-						if (i === 7) return 0;
-					}).loop(5, 100);
-					expect(sum).toBe(18);
-					expect(result.value).toBe(0);
+					it("optionally accepts an endIndex argument, up to which (but not including) it will iterate", function () {
+						var sum = 0;
+						var result = xt( function (i, e, s) {
+							sum += i;
+							expect(e).toBe(5);
+							expect(s).toBe(0);
+						}).loop(5);
+						expect(sum).toBe(10);
+						expect(result).toBe(undefined);
+					});
 
-					sum = 0;
-					xt(function (i, e, s) {
-						sum += i;
-						expect(e).toBe(1);
-						expect(s).toBe(5);
-					}).loop(5, 1);
-					expect(sum).toBe(14);
+					it("optionally accepts a set of startIndex and endIndex values, between which it will iterate", function () {
+						var sum = 0;
+						var result = xt( function (i, e, s) {
+							sum += i;
+							expect(e).toBe(100);
+							expect(s).toBe(5);
+							if (i === 7) return 0;
+						}).loop(5, 100);
+						expect(sum).toBe(18);
+						expect(result == 0).toBe(true);
+					});
+
+					it("can take a higher start value for a decreasing iterator", function () {
+						var calc = 120;
+						xt( function (i, e, s) {
+							calc /= i;
+							expect(e).toBe(1);
+							expect(s).toBe(5);
+						}).loop(5, 1);
+						expect(calc).toBe(1);
+					});
 				});
 
-				it("memoize", function () {
+				describe("memoize", function () {
 					var testFn = λ('*2');
 					var memoized = xt(testFn).memoize().value;
-					expect( testFn(6) ).toBe( memoized(6) );
-					expect( memoized(6) ).toBe( memoized(6) );
-					expect( memoized(6) ).not.toBe( memoized(5) );
+					it("only makes a memoized version of a function, so the output for the same input should be the same for the original and the memoized functions", function () {
+						expect( testFn(6) ).toBe( memoized(6) );
+					});
+					it("produces a memoized function whose output should be the same each time it's called with the same input", function () {
+						expect( memoized(6) ).toBe( memoized(6) );
+					});
+					it("produces a memoized function whose output should differ for different inputs, if the original function has that property", function () {
+						expect( testFn(6) ).not.toBe( testFn(5) );
+						expect( memoized(6) ).not.toBe( memoized(5) );
+					});
 				});
 
-				it("returnThis", function () {
-					var obj = { test: xt(testFn).returnThis().value };
-					expect( obj.test(2, 2) ).toBe(obj);
+				describe("returnArg", function () {
+					it("takes the value 0 and a function, and returns a function that when called executes the original function, but returns the first argument passed to it", function () {
+						var arr = [];
+						var _ = xt(function () {
+							return arr[0] = 'hi';
+						}).returnArg(0).value;
+						expect( _(50, 100, 3) ).toBe( 50 );
+						expect( arr ).toEqual( ['hi'] );
+					});
+					it("takes the value 2 and a function, and returns a function that when called executes the original function, but returns the third argument passed to it", function () {
+						var arr = [];
+						var _ = xt(function () {
+							return arr[0] = 'hi';
+						}).returnArg(2).value;
+						expect( _(50, 100, 3) ).toBe( 3 );
+						expect( arr ).toEqual( ['hi'] );
+					});
+					it("takes optionally just a function, and returns a function that when called executes the original function, but returns the first argument passed to it", function () {
+						var arr = [];
+						var _ = xt(function () {
+							return arr[0] = 'hi';
+						}).returnArg().value;
+						expect( _(50, 100, 3) ).toBe( 50 );
+						expect( arr ).toEqual( ['hi'] );
+					});
+				});
+
+				describe("returnThis", function () {
+					it("takes a function and forces it to return the value of 'this'", function () {
+						var objA = { test: testFn };
+						var objB = { test: xt(testFn).returnThis().value };
+						expect( objA.test(2, 2) ).toBe(1);
+						expect( objB.test(2, 2) ).toBe(objB);
+					});
 				});
 
 				it("all functions tested", function () {
 					var size = require('agj/object/size');
-					expect( size(require('agj/function')) ).toBe( size(testing) + 3 );
+					expect( size(require('agj/function')) ).toBe( size(testing) + 4 );
 				});
 			});
 

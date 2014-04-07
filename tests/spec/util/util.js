@@ -22,41 +22,41 @@ define( function (require) {
 
 	function declarator(argsFactory) {
 		argsFactory = argsFactory || function () { return {}; };
+
+		var methods = {
+			taking: function taking(object) {
+				this.object = object;
+				return this;
+			},
+			pass: function pass() {
+				this.args = this.args || [];
+				this.args = this.args.concat(toArray(arguments));
+				return this;
+			},
+			checkWith: function checkWith(checker) {
+				this.checker = checker;
+				return this;
+			},
+			get: function get(result) {
+				this.result = result;
+				if (is.array(result) || is.objectLiteral(result)) this.loose = true;
+				return this;
+			},
+			becauseIt: function becauseIt(description) {
+				this.description = description;
+				return this;
+			},
+		};
+
 		return objMap(generateArgs(), function (fn) {
 			if (!is.fn(fn)) return fn;
 			return wrapFirst(fn);
 		});
 
-		function taking(object) {
-			this.object = object;
-			return this;
-		}
-		function pass() {
-			this.args = toArray(arguments);
-			return this;
-		}
-		function checkWith(checker) {
-			this.checker = checker;
-			return this;
-		}
-		function get(result) {
-			this.result = result;
-			if (is.array(result) || is.objectLiteral(result)) this.loose = true;
-			return this;
-		}
-		function becauseIt(description) {
-			this.description = description;
-			return this;
-		}
-
 		function generateArgs() {
 			var params = argsFactory();
-			mergeInto(params, {
-				taking: taking,
-				pass: pass,
-				checkWith: checkWith,
-				get: get,
-				becauseIt: becauseIt,
+			Object.keys(methods).forEach( function (name) {
+				if (!params[name]) params[name] = methods[name];
 			});
 			return params;
 		}

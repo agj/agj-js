@@ -14,7 +14,7 @@ define( function (require) {
 		fixArity:        fn.promoteArgSolid(1, fn.fixArity),
 		flip:            fn.promoteArgSolid(1, fn.flip),
 		loop:            fn.promoteArgSolid(2, fn.loop),
-		maybe:           fn.promoteArgSolid(1, fn.maybe),
+		maybe:           fn.promoteArgSolid(2, fn.maybe),
 		memoize:         fn.memoize,
 		not:             fn.not,
 		pipe:            fn.pipe,
