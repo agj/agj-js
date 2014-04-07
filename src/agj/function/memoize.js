@@ -5,8 +5,6 @@
 define( function (require) {
 	'use strict';
 
-	var toArray = require('../utils/to-array');
-
 	function memoize(fn) {
 		var memo = {};
 		return function memoized(v) {
