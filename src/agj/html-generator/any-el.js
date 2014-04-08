@@ -7,7 +7,7 @@ define( function (require) {
 	var toArray = require('../utils/to-array');
 
 	function iff(v, els, fn) {
-		if (is.set(v)) return fn(v);
+		if (v) return fn(v);
 		return els;
 	}
 

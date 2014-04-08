@@ -1,5 +1,5 @@
 /**
- * Generates a function that will generate elements for the specified tag.
+ * Returns a function that will generate elements for the specified tag.
  * It is memoized for improved performance.
  */
 define( function (require) {
