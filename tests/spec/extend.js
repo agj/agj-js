@@ -374,7 +374,8 @@ define( function (require) {
 
 				it("all functions tested", function () {
 					var size = require('agj/object/size');
-					expect( size(require('agj/number')) ).toBe( size(testing) );
+					var objFilter = require('agj/object/filter');
+					expect( size(objFilter(require('agj/number'), is.fn)) ).toBe( size(testing) );
 				});
 			});
 

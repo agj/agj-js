@@ -5,7 +5,7 @@ define( function (require) {
 	var is = require('../is');
 	var extend = require('../extend');
 	var extendUtils = require('./utils/utils');
-	var mergeInto = require('../object/merge-into');
+	var mergeInto = require('../object/mergeInto');
 
 	var proto = {};
 

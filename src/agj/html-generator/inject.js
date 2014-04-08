@@ -3,7 +3,7 @@ define( function (require) {
 	'use strict';
 
 	var parameters = require('../function/parameters');
-	var toEl = require('./to-el');
+	var toEl = require('./toEl');
 
 	function inject(fn) {
 		var tags = parameters(fn).map(toEl);

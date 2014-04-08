@@ -2,7 +2,7 @@
 define( function (require) {
 	'use strict';
 
-	var nextOrPrevIndex = require('./next-or-prev-index');
+	var nextOrPrevIndex = require('./nextOrPrevIndex');
 
 	function nextTo(arr, item, dontWrapAround) {
 		var index = nextOrPrevIndex(arr, arr.indexOf(item), true, dontWrapAround);

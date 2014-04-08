@@ -4,9 +4,9 @@ define( function (require) {
 
 	var isFn = require('../../is').fn;
 	var toArray = require('../../utils/to-array');
-	var mergeInto = require('../../object/merge-into');
+	var mergeInto = require('../../object/mergeInto');
 	var objectMap = require('../../object/map');
-	var returnThis = require('../../function/return-this');
+	var returnThis = require('../../function/returnThis');
 
 	var forbiddenMethods = ['constructor', 'prototype'];
 

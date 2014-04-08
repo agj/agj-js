@@ -2,7 +2,7 @@
 define( function (require) {
 	'use strict';
 
-	var autoCurry = require('./auto-curry');
+	var autoCurry = require('./autoCurry');
 	var toArray = require('../utils/to-array');
 
 	var fixArity = autoCurry( function (arity, fn) {

@@ -6,7 +6,7 @@ define( function (require) {
 	'use strict';
 
 	var is = require('../is');
-	var anyEl = require('./any-el');
+	var anyEl = require('./anyEl');
 	var toArray = require('../utils/to-array');
 	var memoize = require('../function/memoize');
 

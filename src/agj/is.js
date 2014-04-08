@@ -2,7 +2,7 @@
 define( function (require) {
 	'use strict';
 
-	var autoCurry = require('./function/auto-curry');
+	var autoCurry = require('./function/autoCurry');
 	var values = require('./object/values');
 
 	var isArray = require('./is/array');

@@ -3,7 +3,7 @@ define( function (require) {
 
 	var is = require('agj/is');
 	var toArray = require('agj/utils/to-array');
-	var mergeInto = require('agj/object/merge-into');
+	var mergeInto = require('agj/object/mergeInto');
 	var objMap = require('agj/object/map');
 
 	function checkMethods(methods, checkFn) {

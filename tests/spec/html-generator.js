@@ -3,8 +3,8 @@ define( function (require) {
 	'use strict';
 
 	var is = require('agj/is');
-	var anyEl = require('agj/html-generator/any-el');
-	var toEl = require('agj/html-generator/to-el');
+	var anyEl = require('agj/html-generator/anyEl');
+	var toEl = require('agj/html-generator/toEl');
 	var inject = require('agj/html-generator/inject');
 
 	describe("HTML generator", function () {

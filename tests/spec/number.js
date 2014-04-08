@@ -4,6 +4,7 @@ define( function (require) {
 	
 	var util = require('util/util');
 	var number = require('agj/number');
+	var is = require('agj/is');
 
 	describe("Number utility", function () {
 		var testing = require('reusable/number-functions');
@@ -18,7 +19,8 @@ define( function (require) {
 
 		it("all functions tested", function () {
 			var size = require('agj/object/size');
-			expect( size(number) ).toBe( size(testing) );
+			var objFilter = require('agj/object/filter');
+			expect( size(objFilter(number, is.fn)) ).toBe( size(testing) );
 		});
 	});
 
