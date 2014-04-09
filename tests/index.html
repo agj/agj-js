@@ -7,20 +7,23 @@
 	<link rel="shortcut icon" type="image/png" href="lib/jasmine-2.0.0/jasmine_favicon.png">
 	<link rel="stylesheet" type="text/css" href="lib/jasmine-2.0.0/jasmine.css">
 
-	<script>
+	<!--<script>
 		// The following is a hack to get Jasmine to play nicely with RequireJS scripts. :(
 		window.addEventListener('load', function onLoaded(e) {
 			e.stopImmediatePropagation();
 			window.removeEventListener('load', onLoaded);
 		});
-	</script>
+	</script>-->
 
-	<script type="text/javascript" src="lib/jasmine-2.0.0/jasmine.js"></script>
-	<script type="text/javascript" src="lib/jasmine-2.0.0/jasmine-html.js"></script>
-	<script type="text/javascript" src="lib/jasmine-2.0.0/boot.js"></script>
+	<!-- <script src="lib/jasmine-2.0.0/jasmine.js"></script>
+	<script src="lib/jasmine-2.0.0/jasmine-html.js"></script>
+	<script src="lib/jasmine-2.0.0/boot.js"></script> -->
+	<!-- <script src="lib/blanket.js" data-cover-only="../src/agj/" data-cover-adapter="lib/jasmine-blanket.js"></script> -->
 
 	<script data-main="spec/main" src="lib/require.js"></script>
 
+<!-- 	<script src="lib/blanket.js" data-cover-only="../src/agj/"></script>
+	<script src="lib/jasmine-blanket.js"></script> -->
 </head>
 
 <body>
