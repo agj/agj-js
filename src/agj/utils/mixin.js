@@ -1,6 +1,8 @@
 
-define(function (require) {
+define( function (require) {
 	'use strict';
+
+	var warn = require('./warn');
 
 	function mixin(objectTarget, dontWarn, objectProperties) {
 		if (!objectProperties) {
@@ -16,7 +18,7 @@ define(function (require) {
 			} else if (!dontWarn) {
 				var target = objectTarget.constructor || objectTarget;
 				target = target.name || typeof target;
-				agj.warn('agj: Could not mixin ' + prop + ' to ' + target + ' because it is already defined.');
+				warn('Could not mixin ' + prop + ' to ' + target + ' because it is already defined.');
 			}
 		}
 

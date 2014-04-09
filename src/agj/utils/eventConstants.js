@@ -20,17 +20,17 @@ define( function (require) {
 			leave: "mouseleave",
 			wheel: "wheel",
 			contextMenu: "contextmenu",
-			contextMenuShow: "show"
+			contextMenuShow: "show",
 		}),
 		key: defineModules({}, {
 			down: "keydown",
 			up: "keyup",
-			press: "keypress"
+			press: "keypress",
 		}),
 		composition: defineModules({}, {
 			start: "compositionstart",
 			update: "compositionupdate",
-			end: "compositionend"
+			end: "compositionend",
 		}),
 		ui: defineModules({}, {
 			input: "input",
@@ -45,19 +45,19 @@ define( function (require) {
 			select: "select",
 			viewResize: "resize",
 			scroll: "scroll",
-			hashChange: "hashchange"
+			hashChange: "hashchange",
 		}),
 		motion: defineModules({}, {
 			orientationChange: "orientationchange",
 			gyroscope: "deviceorientation",
-			accelerometer: "devicemotion"
+			accelerometer: "devicemotion",
 		}),
 		load: defineModules({}, {
 			readyStateChange: "readystatechange",
 			load: "load",
 			unload: "unload",
 			abort: "abort",
-			error: "error"
+			error: "error",
 		}),
 		touch: defineModules({}, {
 			start: "touchstart",
@@ -65,11 +65,11 @@ define( function (require) {
 			move: "touchmove",
 			cancel: "touchcancel",
 			enter: "touchenter",
-			leave: "touchleave"
+			leave: "touchleave",
 		}),
 		mootools: defineModules({}, {
-			domReady: "domready"
-		})
+			domReady: "domready",
+		}),
 	});
 
 	return module;
