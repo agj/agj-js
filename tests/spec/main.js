@@ -46,7 +46,7 @@ require(['agj/extensions/rsvp', 'jasmineBoot'], function (promiseUtil, jasmine) 
 
 		'extend',
 
-		'html-generator'
+		'domGenerator'
 
 	).then(window.onload);
 

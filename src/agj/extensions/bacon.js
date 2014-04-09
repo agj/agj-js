@@ -4,10 +4,10 @@ define(function(require) {
 
 	var $ = require('jquery');
 	var bacon = require('bacon');
-	var defineModules = require('../utils/define-modules');
+	var defineModules = require('../utils/defineModules');
 	var is = require('../is');
 	var to = require('../to');
-	var events = require('../utils/event-constants');
+	var events = require('../utils/eventConstants');
 
 	var module = defineModules({}, {
 		keyIsPressed: function (key) {

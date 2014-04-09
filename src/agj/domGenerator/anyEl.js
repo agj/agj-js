@@ -4,7 +4,7 @@ define( function (require) {
 
 	var to = require('../to');
 	var is = require('../is');
-	var toArray = require('../utils/to-array');
+	var toArray = require('../utils/toArray');
 
 	function iff(v, els, fn) {
 		if (v) return fn(v);

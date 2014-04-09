@@ -4,7 +4,7 @@ define(function (require) {
 
 	var is = require('../is');
 	var toID = require('../to').id;
-	var toArray = require('./to-array');
+	var toArray = require('./toArray');
 
 	var forbiddenMethods = ['constructor', 'prototype'];
 

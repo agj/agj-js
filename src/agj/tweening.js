@@ -5,7 +5,7 @@ define( function (require) {
 
 	var RSVP = require('rsvp');
 	var signals = require('signals');
-	var defineModules = require('./utils/define-modules');
+	var defineModules = require('./utils/defineModules');
 	var math = require('./math');
 
 	var module = defineModules({}, {

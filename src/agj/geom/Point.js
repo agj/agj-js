@@ -2,7 +2,7 @@
 define( function (require) {
 	'use strict';
 
-	var Class = require('class-super');
+	var Class = require('../class/Class');
 
 	var Point = Class.extend({
 		init: function (x, y) {

@@ -2,9 +2,9 @@
 define(function (require) {
 	'use strict';
 
-	var toArray = require('./utils/to-array');
+	var toArray = require('./utils/toArray');
 	var Dictionary = require('./datastructures/dictionary');
-	var Class = require('./classes/class-super');
+	var Class = require('./class/Class');
 	var isFn = require('./is').fn;
 	var to = require('./to');
 

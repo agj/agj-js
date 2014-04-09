@@ -2,7 +2,7 @@
 define(function (require) {
 	'use strict';
 
-	var defineModule = require('./define-module');
+	var defineModule = require('./defineModule');
 
 	function defineModules(obj, objectProperties) {
 		for (var prop in objectProperties) {

@@ -1,6 +1,8 @@
 
 
-define(["../classes/destroyable"], function (Destroyable) {
+define( function (require) {
+
+	var Destroyable = require('../class/Destroyable');
 
 	return Destroyable.extend({
 		init: function () {

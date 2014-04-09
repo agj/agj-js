@@ -3,7 +3,7 @@ define( function (require) {
 	'use strict';
 
 	var isFn = require('../../is').fn;
-	var toArray = require('../../utils/to-array');
+	var toArray = require('../../utils/toArray');
 	var mergeInto = require('../../object/mergeInto');
 	var objectMap = require('../../object/map');
 	var returnThis = require('../../function/returnThis');

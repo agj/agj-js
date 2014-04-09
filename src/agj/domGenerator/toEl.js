@@ -7,7 +7,7 @@ define( function (require) {
 
 	var is = require('../is');
 	var anyEl = require('./anyEl');
-	var toArray = require('../utils/to-array');
+	var toArray = require('../utils/toArray');
 	var memoize = require('../function/memoize');
 
 	var toEl = memoize( function toEl(tag) {

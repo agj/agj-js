@@ -2,7 +2,7 @@
 define( function (require) {
 
 	var is = require('agj/is');
-	var toArray = require('agj/utils/to-array');
+	var toArray = require('agj/utils/toArray');
 	var mergeInto = require('agj/object/mergeInto');
 	var objMap = require('agj/object/map');
 

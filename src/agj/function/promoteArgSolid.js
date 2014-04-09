@@ -6,7 +6,7 @@
 define( function (require) {
 	'use strict';
 
-	var toArray = require('../utils/to-array');
+	var toArray = require('../utils/toArray');
 
 	function promoteArgSolid(argIndex, fn) {
 		return function argPromoted() {

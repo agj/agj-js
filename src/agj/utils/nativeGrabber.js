@@ -3,7 +3,7 @@ define(function (require) {
 	'use strict';
 
 	var isFn = require('../is').fn;
-	var toArray = require('./to-array');
+	var toArray = require('./toArray');
 
 	function fromPrototype(obj) {
 		return fromAny(obj, true);

@@ -1,5 +1,5 @@
 
-define(['rsvp', 'agj/utils/to-array'], function (rsvp, toArray) {
+define(['rsvp', 'agj/utils/toArray'], function (rsvp, toArray) {
 	'use strict';
 
 	function requireSequentially() {

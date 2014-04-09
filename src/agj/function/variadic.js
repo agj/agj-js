@@ -3,7 +3,7 @@ define( function (require) {
 	'use strict';
 
 	var autoCurryArityFn = require('./autoCurryArityFn');
-	var toArray = require('../utils/to-array');
+	var toArray = require('../utils/toArray');
 
 	var variadic = autoCurryArityFn( function (arity, fn) {
 		return function variadicized() {

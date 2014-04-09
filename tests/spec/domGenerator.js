@@ -3,12 +3,12 @@ define( function (require) {
 	'use strict';
 
 	var is = require('agj/is');
-	var anyEl = require('agj/html-generator/anyEl');
-	var toEl = require('agj/html-generator/toEl');
-	var inject = require('agj/html-generator/inject');
+	var anyEl = require('agj/domGenerator/anyEl');
+	var toEl = require('agj/domGenerator/toEl');
+	var inject = require('agj/domGenerator/inject');
 
-	describe("HTML generator", function () {
-		it("generates HTML elements via anyEl() function call", function () {
+	describe("DOM generator", function () {
+		it("generates DOM elements via anyEl() function call", function () {
 			expect( anyEl('span').tagName ).toBe( 'SPAN' );
 			expect( anyEl('div').tagName ).toBe( 'DIV' );
 		});

@@ -2,7 +2,7 @@
 define( function (require) {
 	'use strict';
 
-	var defineModules = require('./utils/define-modules');
+	var defineModules = require('./utils/defineModules');
 
 	return defineModules({}, {
 		TAU: Math.PI * 2,

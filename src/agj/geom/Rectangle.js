@@ -2,7 +2,7 @@
 define( function (require) {
 	'use strict';
 
-	var Class = require('class-super');
+	var Class = require('../class/Class');
 
 	var Rectangle = Class.extend({
 		init: function (x, y, width, height) {

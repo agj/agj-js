@@ -2,7 +2,7 @@
 define( function (require) {
 	'use strict';
 
-	var toArray = require('../utils/to-array');
+	var toArray = require('../utils/toArray');
 
 	function remove(arr) {
 		var items = toArray(arguments, 1);

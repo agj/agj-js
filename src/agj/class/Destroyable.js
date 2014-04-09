@@ -2,7 +2,10 @@
  * 'Abstract' class meant for extending. Override 'destroy()' to clean up.
  * Remember to call 'this._super("destroy")()'.
  */
-define(["./class-super"], function (Class) {
+define( function (require) {
+
+	var Class = require('./Class');
+
 	return Class.extend({
 		init: function () {
 			this._isDestroyed = false;
@@ -16,5 +19,6 @@ define(["./class-super"], function (Class) {
 			return this._isDestroyed;
 		}
 	});
+
 });
 

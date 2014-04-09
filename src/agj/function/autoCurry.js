@@ -3,7 +3,7 @@ define( function (require) {
 	'use strict';
 
 	var autoCurryArityFn = require('./autoCurryArityFn');
-	var toArray = require('../utils/to-array');
+	var toArray = require('../utils/toArray');
 
 	function autoCurryTo(arity, fn) {
 		if (arity > 0) {
