@@ -5,6 +5,7 @@ requirejs.config({
 		'lib': '../lib',
 		'agj': '../../src/agj',
 		'rsvp': '../lib/rsvp',
+		signals: '../lib/signals',
 		jasmine: '../lib/jasmine-2.0.0/jasmine',
 		jasmineHtml: '../lib/jasmine-2.0.0/jasmine-html',
 		jasmineBoot: '../lib/jasmine-2.0.0/boot',
@@ -46,7 +47,8 @@ require(['agj/extensions/rsvp', 'jasmineBoot'], function (promiseUtil, jasmine) 
 
 		'extend',
 
-		'domGenerator'
+		'domGenerator',
+		'tween'
 
 	).then(window.onload);
 
