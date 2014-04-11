@@ -17,6 +17,10 @@ define( function (require) {
 		get2D:           pass(2, 0, 1).get('100'),
 		getDifference:   pass(['10', '100']).get(['1']),
 		// getRandom
+		has: [
+		                 pass('100').get(true),
+		                 pass('x').get(false),
+		],
 		intersect:       pass(['10', '100']).get(['10', '100']),
 		last:            get('100'),
 		mapToObject:     pass(λ('*10')).get({ '10': 100, '1': 10, '100': 1000 }),

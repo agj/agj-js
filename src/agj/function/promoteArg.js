@@ -3,7 +3,7 @@
  *
  * promoteArg(2, function (arg0, arg1, arg2) { });
  *
- * returns the equivalent to:
+ * becomes the equivalent to:
  *
  * function (arg2, arg0, arg1) { }
  */

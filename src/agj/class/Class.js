@@ -8,8 +8,12 @@ define( function (require) {
 	var is = require('../is');
 	var to = require('../to');
 	var not = require('../function/not');
+	var mixin = require('../utils/mixin');
+	var objMap = require('../object/map');
+	var objFilter = require('../object/filter');
+	var promoteArg = require('../function/promoteArg');
 
-	var module = function () {};
+	var module = function Class() {};
 
 	var classInitializing = false;
 	var classUsesSuperTest = /xyz/.test(function(){ 'xyz'; }) ? /\b_super\b/ : null;
@@ -22,23 +26,27 @@ define( function (require) {
 		var _super = this.prototype;
 
 		properties.init = properties.init || function() {};
-		properties.cast = properties.cast || function(v) {
+		var _cast = properties.cast || function(v) {
 			if (v instanceof Class) return v;
 			throw new TypeError("Invalid type casting.");
 		};
+		delete properties.cast;
 
-		Object.keys(properties).filter(not(is.eq('statics'))).forEach( function (name) {
-			var method = properties[name];
-			if (is.fn(method) && (!classUsesSuperTest || classUsesSuperTest.test(method))) {
-				prototype[name] = superify(method, superFn);
-			} else {
-				prototype[name] = method;
+		mixin(prototype, objMap(
+			objFilter(properties, promoteArg(1, not(is.in(['statics', 'mixins'])))),
+			function (value) {
+				if (is.fn(value) && (!classUsesSuperTest || classUsesSuperTest.test(value)))
+					return superify(value, superFn);
+				return value;
 			}
-		});
+		));
+		if (properties.mixins) properties.mixins.forEach(mixin(prototype));
+		if (properties.statics) mixin(Class, properties.statics);
+		properties = null;
 
 		function superFn(name) {
 			var scope = this;
-			return function () {
+			return function fromSuper() {
 				_super[name].apply(scope, arguments);
 			};
 		}
@@ -47,30 +55,25 @@ define( function (require) {
 			if (this instanceof Class) {
 				// Instance construction.
 				if (!classInitializing)
-					this.init.apply(this, arguments);
+					prototype.init.apply(this, arguments);
 			} else {
 				// Type casting.
 				if (arguments.length === 1)
-					return this.cast(arguments[0]);
+					return _cast(arguments[0]);
 				throw new Error("Invalid type casting.");
 			}
 		}
-
-		if (properties.statics) Object.keys(properties.statics).forEach( function (name) {
-			Class[name] = properties.statics[name];
-		});
-
-		properties = null;
 
 		Class.prototype = prototype;
 		Class.prototype.constructor = Class;
 
 		Class.extend = module.extend;
+
 		return Class;
 	};
 
 	function superify(fn, superFn) {
-		return function () {
+		return function superified() {
 			var originalSuper = this._super;
 			this._super = superFn;
 			var result = fn.apply(this, arguments);

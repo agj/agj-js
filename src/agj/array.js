@@ -10,6 +10,7 @@ define( function (require) {
 		getRandom:     require('./array/getRandom'),
 		find:          require('./array/find'),
 		findIndex:     require('./array/findIndex'),
+		has:           require('./array/has'),
 		intersect:     require('./array/intersect'),
 		last:          require('./array/last'),
 		mapToObject:   require('./array/mapToObject'),

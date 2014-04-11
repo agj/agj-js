@@ -2,28 +2,20 @@
 define( function (require) {
 	'use strict';
 
-	var warn = require('./warn');
+	var autoCurry = require('../function/autoCurry');
 
-	function mixin(objectTarget, dontWarn, objectProperties) {
-		if (!objectProperties) {
-			objectProperties = dontWarn;
-			dontWarn = false;
-		}
-		for (var prop in objectProperties) {
-			if (!(prop in objectTarget) || objectTarget[prop] === undef) {
-				Object.defineProperty(objectTarget, prop, {
-					writable: true, enumerable: false, configurable: true,
-					value: objectProperties[prop]
-				});
-			} else if (!dontWarn) {
-				var target = objectTarget.constructor || objectTarget;
-				target = target.name || typeof target;
-				warn('Could not mixin ' + prop + ' to ' + target + ' because it is already defined.');
-			}
+	var mixin = autoCurry( function mixin(target, properties) {
+		for (var prop in properties) {
+			if (!properties.hasOwnProperty(prop)) continue;
+			if (target.hasOwnProperty(prop) && target[prop] !== void 0) continue;
+			Object.defineProperty(target, prop, {
+				writable: true, enumerable: false, configurable: true,
+				value: properties[prop]
+			});
 		}
 
-		return objectTarget;
-	}
+		return target;
+	});
 
 	return mixin;
 
