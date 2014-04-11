@@ -30,13 +30,13 @@ requirejs.config({
 	},
 });
 
-require(['agj/extensions/rsvp', 'jasmineBoot'], function (promiseUtil, jasmine) {
+require(['agj/utils/requireSequentially', 'jasmineBoot'], function (requireSequentially, jasmine) {
 	'use strict';
 
 	// console.log(blanket);
 	// blanket.setFilter(['../src/agj/']);
 
-	promiseUtil.requireSequentially(
+	requireSequentially(
 		'array',
 		'function',
 		'number',

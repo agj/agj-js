@@ -54,7 +54,7 @@ define( function (require) {
 				t.finished.then( function (result) {
 					var total = Date.now() - startTime;
 					expect( total ).toBeGreaterThan( 50 );
-					expect( total ).toBeLessThan( 70 );
+					expect( total ).toBeLessThan( 80 );
 					done();
 				});
 			});
