@@ -1,4 +1,4 @@
-
+﻿
 define( function (require) {
 
 	var util = require('util/util');
@@ -11,6 +11,8 @@ define( function (require) {
 
 	return {
 		clone:           get(['10', '1', '100']),
+		find:            pass(λ('_==1')).get('1'),
+		findIndex:       pass(λ('_==1')).get(1),
 		first:           get('10'),
 		get2D:           pass(2, 0, 1).get('100'),
 		getDifference:   pass(['10', '100']).get(['1']),
