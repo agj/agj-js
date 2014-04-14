@@ -12,7 +12,8 @@ define( function (require) {
 
 	/**
 	 * Creates an array of numbers that tweens to the desired state. Both the startState and endState are
-	 * arrays whose values may change even as the tween progresses.
+	 * arrays whose values may change even as the tween progresses. This means that you can use liveArrays
+	 * for these values, in order to compose tweens.
 	 *
 	 * @param {Array}    startState An array of numbers, indicating a start state for the tween.
 	 * @param {Array}    endState   An array of numbers, indicating the target state for the tween.

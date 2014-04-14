@@ -6,7 +6,7 @@ define( function (require) {
 	var tween = require('agj/tween');
 
 	describe("Tween functions:", function () {
-		describe("live array", function () {
+		describe("liveArray", function () {
 			beforeEach( function () {
 				this.start = [0, 1, 10, 100];
 				this.end = [100, 10, 1, 0];
@@ -75,6 +75,25 @@ define( function (require) {
 					}
 				}.bind(this));
 				t.finished.then(done);
+			});
+
+			it("updates every mspf milliseconds at the most frequent", function (done) {
+				var t = tween.liveArray(this.start, this.end, 50, 10);
+				var previousTime = Date.now();
+				t.updated.add( function (result, progress) {
+					var now = Date.now();
+					expect( now - previousTime ).not.toBeLessThan( 10 );
+					previousTime = now;
+				});
+				t.finished.then(done);
+			});
+
+			xit("using custom easing function", function () {
+				
+			});
+
+			xit("modifying startValue and endValue during tweening", function () {
+				
 			});
 		});
 	});
