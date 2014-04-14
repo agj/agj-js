@@ -2,7 +2,6 @@
 define(function (require) {
 	'use strict';
 
-	var toArray = require('./utils/toArray');
 	var Dictionary = require('./datastructures/Dictionary');
 	var Class = require('./class/Class');
 	var isFn = require('./is').fn;
@@ -37,7 +36,6 @@ define(function (require) {
 		return extend;
 	}
 
-
 	var Scope = Class.extend({
 		init: function Scope() {
 			this.modules = [];
@@ -66,10 +64,10 @@ define(function (require) {
 				Object.defineProperty(proto, name, desc);
 			}.bind(this));
 			proto.toString = function () {
-				return p.toString.apply(this.value, toArray(arguments));
+				return p.toString.apply(this.value, arguments);
 			};
 			proto.valueOf = function () {
-				return p.valueOf.apply(this.value, toArray(arguments));
+				return p.valueOf.apply(this.value, arguments);
 			};
 			result.proto = proto;
 
@@ -80,22 +78,10 @@ define(function (require) {
 			if (!isFn(fn)) return fn;
 			var scope = this;
 			return function () {
-				return scope.extend(fn.apply(this.value, toArray(arguments)), true);
+				return scope.extend(fn.apply(this.value, arguments), true);
 			};
 		}
 	});
-
-	// function proxify(obj) {
-	// 	if (!Proxy) return obj;
-	// 	return new Proxy(obj, {
-	// 		get: function (target, prop, receiver) {
-	// 			return prop in target ? target[prop] : target.value[prop];
-	// 		},
-	// 		set: function (target, prop, value) {
-	// 			target.value[prop] = value;
-	// 		}
-	// 	});
-	// }
 
 	return extend;
 
