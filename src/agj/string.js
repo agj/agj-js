@@ -2,26 +2,14 @@
 define( function (require) {
 	'use strict';
 
-	function first(str, amount) {
-		if (isNaN(amount)) amount = 1;
-		return str.slice(0, amount);
-	}
-	function last(str, amount) {
-		if (isNaN(amount)) amount = 1;
-		return str.slice(-amount);
-	}
-	function startsWith(str, start) {
-		return first(str, start.length) === start;
-	}
-	function endsWith(str, end) {
-		return last(str, end.length) === end;
-	}
-
 	return {
-		first: first,
-		last: last,
-		startsWith: startsWith,
-		endsWith: endsWith
+		contains:   require('./string/contains'),
+		endsWith:   require('./string/endsWith'),
+		first:      require('./string/first'),
+		last:       require('./string/last'),
+		padLeft:    require('./string/padLeft'),
+		padRight:   require('./string/padRight'),
+		startsWith: require('./string/startsWith'),
 	};
 
 });
