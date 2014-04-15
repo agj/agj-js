@@ -4,16 +4,26 @@ define( function (require) {
 	var util = require('util/util');
 	var λ = require('lib/lambda-functional.js');
 
-	var pass = util.pass( function () {
+	var declarator = util.declarator(function () {
 		return { args: [['10', '1', '100']] };
 	});
-	var get = function (result) { return pass().get(result); };
+	var pass = declarator.pass;
+	var get = declarator.get;
+	var passOnly = util.declarator().pass;
 
 	return {
 		clone:           get(['10', '1', '100']),
 		find:            pass(λ('_==1')).get('1'),
 		findIndex:       pass(λ('_==1')).get(1),
 		first:           get('10'),
+		flatten: [
+			passOnly(['a', ['b', ['c', 'd']], 'e'])
+				.get(['a', 'b', ['c', 'd'], 'e'])
+				.becauseIt("will flatten the array one level (shallow) by default"),
+			passOnly(['a', ['b', ['c', 'd']], 'e'], true)
+				.get(['a', 'b', 'c', 'd', 'e'])
+				.becauseIt("will deep flatten the array if true is passed for the deep parameter"),
+		],
 		get2D:           pass(2, 0, 1).get('100'),
 		getDifference:   pass(['10', '100']).get(['1']),
 		// getRandom
