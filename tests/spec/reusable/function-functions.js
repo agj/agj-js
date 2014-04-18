@@ -52,11 +52,11 @@ define( function (require) {
 			pass( λ('_-1'), λ('*2') )
 				.checkWith( λ('_(100)') )
 				.get( 199 )
-				.becauseIt("returns a function which will return the result of passing its supplied argument to the second, then that result to the first function passed to it"),
+				.becauseIt("returns a function which will return the result of passing from left to right the return arguments of each of the passed two functions"),
 			pass( λ('_-1'), λ('*2'), λ('/10') )
 				.checkWith( λ('_(100)') )
 				.get( 19 )
-				.becauseIt("returns a function which will return the result of passing "),
+				.becauseIt("returns a function which will return the result of passing from left to right the return arguments of each of the passed three functions"),
 		],
 		// fixArity
 		flip: [

@@ -4,12 +4,15 @@ define( function (require) {
 
 	var toArray = require('../utils/toArray');
 
-	var pipeContainer = {
-		pipe: require('./pipe')
-	};
-
 	function compose() {
-		return toArray(arguments).reduceRight( function (fa, fb) { return fa.pipe(fb); }, pipeContainer);
+		var fns = toArray(arguments);
+		return function () {
+			return fns.reduceRight(process, fns.pop().apply(this, arguments));
+		};
+	}
+
+	function process(r, fn) {
+		return fn(r);
 	}
 
 	return compose;
