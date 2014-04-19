@@ -123,10 +123,22 @@ define( function (require) {
 				.becauseIt(""),
 		],
 		variadic: [
-			pass( λ('a + b.join("")') )
+			pass( λ('a + b.join(",")') )
 				.checkWith( λ('_("hi", "fu", "mi")') )
-				.get( 'hifumi' )
-				.becauseIt(""),
+				.get( 'hifu,mi' )
+				.becauseIt("decorates the function so that the last parameter receives all trailing arguments, as an array"),
+			pass( λ('a + b.join(",")') )
+				.checkWith( λ('_(undefined, "fu", "mi")') )
+				.get( 'undefinedfu,mi' )
+				.becauseIt("still passes undefined arguments"),
+			pass( λ('a, b -> b') )
+				.checkWith( λ('_("hi")') )
+				.get( [] )
+				.becauseIt("makes an empty array if no trailing arguments are passed"),
+			pass( λ('a, b -> b') )
+				.checkWith( λ('_()') )
+				.get( [] )
+				.becauseIt("still makes an empty array if no arguments are passed at all"),
 		],
 	};
 
