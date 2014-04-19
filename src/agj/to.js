@@ -4,14 +4,14 @@ define(function (require) {
 
 	function call(methodName, args) {
 		args = args || [];
-		return function (v) { return v[methodName].apply(v, args); };
+		return function call(v) { return v[methodName].apply(v, args); };
 	}
 
 	function id(v) { return v; }
 
-	function prop(name) { return function (v) { return v[name]; }; }
+	function prop(name) { return function prop(v) { return v[name]; }; }
 
-	function value(v) { return function () { return v; }; }
+	function value(v) { return function value() { return v; }; }
 
 	return {
 		call: call,

@@ -6,8 +6,9 @@ define( function (require) {
 
 	function compose() {
 		var fns = toArray(arguments);
-		return function () {
-			return fns.reduceRight(process, fns.pop().apply(this, arguments));
+		return function composed() {
+			var fnsCopy = fns.slice();
+			return fnsCopy.reduceRight(process, fnsCopy.pop().apply(this, arguments));
 		};
 	}
 

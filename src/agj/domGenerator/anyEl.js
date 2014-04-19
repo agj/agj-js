@@ -5,16 +5,24 @@ define( function (require) {
 	var to = require('../to');
 	var is = require('../is');
 	var toArray = require('../utils/toArray');
+	var sequence = require('../function/sequence');
 
-	function iff(v, els, fn) {
+	var get = to.prop;
+	var call = to.call;
+
+	function setElseDo(v, els, fn) {
 		if (v) return fn(v);
 		return els;
 	}
 
+	var splitAndTrim     = sequence(get(1), call('split', ['.']), call('map', [call('trim')]));
+	var trim             = sequence(get(1), call('trim'));
+	var trimAndLowerCase = sequence(get(1), call('trim'), call('toLowerCase'));
+
 	function anyEl(tag, attrs) {
-		var classes = iff(tag.match(/^[^\.]*\.(.+)$/), [], function (m) { return m[1].split('.').map(to.call('trim')); });
-		var id = iff(tag.match(/#([^\.]+)(\.|$)/), '', function (m) { return m[1].trim(); });
-		tag = iff(tag.match(/^([^\.#]+)(\.|#|$)/), '', function (m) { return m[1].trim().toLowerCase(); });
+		var classes = setElseDo(tag.match(/^[^\.]*\.(.+)$/),     [], splitAndTrim);
+		var id      = setElseDo(tag.match(/#([^\.]+)(\.|$)/),    '', trim);
+		tag         = setElseDo(tag.match(/^([^\.#]+)(\.|#|$)/), '', trimAndLowerCase);
 
 		var contents = toArray(arguments, is.objectLiteral(attrs) ? 2 : 1);
 

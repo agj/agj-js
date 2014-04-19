@@ -57,6 +57,12 @@ define( function (require) {
 				.checkWith( λ('_(100)') )
 				.get( 19 )
 				.becauseIt("returns a function which will return the result of passing from left to right the return arguments of each of the passed three functions"),
+			pass( λ('_-1'), λ('*2'), λ('/10') )
+				.checkWith( λ('_(100)') )
+				.get( 19 )
+				.checkWith( λ('_(100)') )
+				.get( 19 )
+				.becauseIt("should work the same when used multiple times"),
 		],
 		// fixArity
 		flip: [
@@ -117,10 +123,20 @@ define( function (require) {
 		// ],
 		// returnThis
 		sequence: [
-			pass( testFn, λ('*2'), λ('_-1') )
-				.checkWith( λ('_(100, 50)') )
-				.get( 3 )
-				.becauseIt(""),
+			pass( λ('*2'), λ('_-1') )
+				.checkWith( λ('_(100)') )
+				.get( 199 )
+				.becauseIt("returns a function which will return the result of passing from right to left the return arguments of each of the passed two functions"),
+			pass( λ('/10'), λ('*2'), λ('_-1') )
+				.checkWith( λ('_(100)') )
+				.get( 19 )
+				.becauseIt("returns a function which will return the result of passing from right to left the return arguments of each of the passed three functions"),
+			pass( λ('/10'), λ('*2'), λ('_-1') )
+				.checkWith( λ('_(100)') )
+				.get( 19 )
+				.checkWith( λ('_(100)') )
+				.get( 19 )
+				.becauseIt("should work the same when used multiple times"),
 		],
 		variadic: [
 			pass( λ('a + b.join(",")') )

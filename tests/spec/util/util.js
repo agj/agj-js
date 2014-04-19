@@ -13,6 +13,10 @@ define( function (require) {
 				if (!is.array(args)) args = [args];
 				args.forEach( function (theseArgs) {
 					it(theseArgs.description || '(no description)', function () {
+						while (true) {
+							if (!theseArgs.parent) break;
+							theseArgs = theseArgs.parent;
+						}
 						checkFn(methodName, theseArgs);
 					});
 				});
@@ -34,13 +38,15 @@ define( function (require) {
 				return this;
 			},
 			checkWith: function checkWith(checker) {
-				this.checker = checker;
-				return this;
+				var ret = !this.checker ? this : this.next = generateArgs(this);
+				ret.checker = checker;
+				return ret;
 			},
 			get: function get(result) {
-				this.result = result;
-				if (is.array(result) || is.objectLiteral(result)) this.loose = true;
-				return this;
+				var ret = !this.result ? this : this.next = generateArgs(this);
+				ret.result = result;
+				if (is.array(result) || is.objectLiteral(result)) ret.loose = true;
+				return ret;
 			},
 			becauseIt: function becauseIt(description) {
 				this.description = description;
@@ -53,11 +59,12 @@ define( function (require) {
 			return wrapFirst(fn);
 		});
 
-		function generateArgs() {
+		function generateArgs(parent) {
 			var params = argsFactory();
 			Object.keys(methods).forEach( function (name) {
 				if (!params[name]) params[name] = methods[name];
 			});
+			if (parent) params.parent = parent;
 			return params;
 		}
 		function wrapFirst(fn) {

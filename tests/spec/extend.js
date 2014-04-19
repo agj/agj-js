@@ -238,10 +238,14 @@ define( function (require) {
 					function (method, o) {
 						var that = xt(o.args.shift());
 						var result = that[method].apply(that, o.args);
-						if (o.checker) result = o.checker(result && is.set(result.value) ? result.value : result)
-						var exp = expect( result && is.set(result.value) ? result.value : result );
-						if (o.loose) exp.toEqual( o.result );
-						else         exp.toBe( o.result );
+						while (o) {
+							var res = result;
+							if (o.checker) res = o.checker(res && is.set(res.value) ? res.value : res);
+							var exp = expect( res && is.set(res.value) ? res.value : res );
+							if (o.loose) exp.toEqual( o.result );
+							else         exp.toBe( o.result );
+							o = o.next;
+						}
 					}
 				);
 

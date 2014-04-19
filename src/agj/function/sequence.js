@@ -6,8 +6,9 @@ define( function (require) {
 
 	function sequence() {
 		var fns = toArray(arguments);
-		return function () {
-			return fns.reduce(process, fns.shift().apply(this, arguments));
+		return function sequenced() {
+			var fnsCopy = fns.slice();
+			return fnsCopy.reduce(process, fnsCopy.shift().apply(this, arguments));
 		};
 	}
 
