@@ -79,7 +79,7 @@ define( function (require) {
 				.get( 10 )
 				.becauseIt("does nothing to a unary function"),
 		],
-		// loop
+		// iterate
 		// maybe
 		// memoize
 		not: [
@@ -96,6 +96,20 @@ define( function (require) {
 				.get( false )
 				.becauseIt("if the returned value is truthy but not boolean, it is coherced into a false value"),
 		],
+		partial: [
+			pass( λ('a / b'), [10] )
+				.checkWith( λ('_(5)') )
+				.get(2)
+				.becauseIt("can take a binary function and one argument and returns a unary function that takes the remaining argument"),
+			pass( λ('a / b'), [10, 5] )
+				.checkWith( λ('_()') )
+				.get(2)
+				.becauseIt("can take a binary function and two arguments and returns a nullary function"),
+			pass( λ('a / b'), [] )
+				.checkWith( λ('_(10, 5)') )
+				.get(2)
+				.becauseIt("returns an equivalent function if no arguments are passed"),
+		],
 		pipe: [
 			pass( λ('a / b') )
 				.checkWith( function (_) {
@@ -107,20 +121,7 @@ define( function (require) {
 		],
 		// promoteArg
 		// promoteArgSolid
-		// returnArg: [
-		// 	pass( 0, λ('a / b / c') )
-		// 		.checkWith( λ('_(50, 100, 2)') )
-		// 		.get( 50 )
-		// 		.becauseIt("creates a function that calls the passed function in its second parameter, but instead returns the first passed argument, if 0 is specified as an index"),
-		// 	pass( 2, λ('a / b / c') )
-		// 		.checkWith( λ('_(50, 100, 3)') )
-		// 		.get( 3 )
-		// 		.becauseIt("takes the value 3 and a function, and returns a function that when called executes "),
-		// 	pass( λ('a / b / c') )
-		// 		.checkWith( λ('_(50, 100, 2)') )
-		// 		.get( 50 )
-		// 		.becauseIt(""),
-		// ],
+		// returnArg
 		// returnThis
 		sequence: [
 			pass( λ('*2'), λ('_-1') )

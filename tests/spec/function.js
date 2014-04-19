@@ -118,9 +118,9 @@ define( function (require) {
 			}
 		);
 
-		describe("loop", function () {
+		describe("iterate", function () {
 			it("passes index, endIndex, and startIndex values to the supplied function", function () {
-				fn.loop( function (i, e, s) {
+				fn.iterate( function (i, e, s) {
 					expect(i).toBe(0);
 					expect(e).toBe(Infinity);
 					expect(s).toBe(0);
@@ -130,7 +130,7 @@ define( function (require) {
 
 			it("calls the passed function until it returns a non-undefined value, and returns that", function () {
 				var iter;
-				var result = fn.loop( function (i, e, s) {
+				var result = fn.iterate( function (i, e, s) {
 					iter = i;
 					return 'hi';
 				});
@@ -140,7 +140,7 @@ define( function (require) {
 
 			it("optionally accepts an endIndex argument, up to which (but not including) it will iterate", function () {
 				var sum = 0;
-				var result = fn.loop(5, function (i, e, s) {
+				var result = fn.iterate(5, function (i, e, s) {
 					sum += i;
 					expect(e).toBe(5);
 					expect(s).toBe(0);
@@ -151,7 +151,7 @@ define( function (require) {
 
 			it("optionally accepts a set of startIndex and endIndex values, between which it will iterate", function () {
 				var sum = 0;
-				var result = fn.loop(5, 100, function (i, e, s) {
+				var result = fn.iterate(5, 100, function (i, e, s) {
 					sum += i;
 					expect(e).toBe(100);
 					expect(s).toBe(5);
@@ -163,7 +163,7 @@ define( function (require) {
 
 			it("can take a higher start value for a decreasing iterator", function () {
 				var calc = 120;
-				fn.loop(5, 1, function (i, e, s) {
+				fn.iterate(5, 1, function (i, e, s) {
 					calc /= i;
 					expect(e).toBe(1);
 					expect(s).toBe(5);

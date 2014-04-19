@@ -8,15 +8,16 @@ define( function (require) {
 	var fn = require('../function');
 
 	var fixedFn = {
-		parameters:      fn.parameters,
 		autoCurry:       fn.promoteArgSolid(1, fn.autoCurry),
 		compose:         fn.compose,
 		fixArity:        fn.promoteArgSolid(1, fn.fixArity),
 		flip:            fn.promoteArgSolid(1, fn.flip),
-		loop:            fn.promoteArgSolid(2, fn.loop),
+		iterate:         fn.promoteArgSolid(2, fn.iterate),
 		maybe:           fn.promoteArgSolid(2, fn.maybe),
 		memoize:         fn.memoize,
 		not:             fn.not,
+		parameters:      fn.parameters,
+		partial:         fn.partial,
 		pipe:            fn.pipe,
 		promoteArg:      fn.promoteArgSolid(1, fn.promoteArg),
 		promoteArgSolid: fn.promoteArgSolid(1, fn.promoteArgSolid),

@@ -9,9 +9,15 @@ define( function (require) {
 		var testing = require('reusable/object-functions');
 		util.checkMethods(testing,
 			function (method, o) {
-				var exp = expect( object[method].apply(null, o.args) );
-				if (o.loose) exp.toEqual( o.result );
-				else         exp.toBe( o.result );
+				var result = object[method].apply(null, o.args);
+				while (o) {
+					var res = result;
+					if (o.checker) res = o.checker(res);
+					var exp = expect( res );
+					if (o.loose) exp.toEqual( o.result );
+					else         exp.toBe( o.result );
+					o = o.next;
+				}
 			}
 		);
 

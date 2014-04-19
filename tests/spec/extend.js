@@ -18,10 +18,15 @@ define( function (require) {
 
 		var standardChecker = function (method, o) {
 			var that = xt(o.args.shift());
-			that = that[method].apply(that, o.args);
-			var exp = expect( that && is.set(that.value) ? that.value : that );
-			if (o.loose) exp.toEqual( o.result );
-			else         exp.toBe( o.result );
+			var result = that[method].apply(that, o.args);
+			while (o) {
+				var res = result;
+				if (o.checker) res = o.checker(res && is.set(res.value) ? res.value : res);
+				var exp = expect( res && is.set(res.value) ? res.value : res );
+				if (o.loose) exp.toEqual( o.result );
+				else         exp.toBe( o.result );
+				o = o.next;
+			}
 		};
 
 		describe("allows wrapping a primitive", function () {
@@ -249,14 +254,14 @@ define( function (require) {
 					}
 				);
 
-				describe("loop", function () {
+				describe("iterate", function () {
 					it("passes index, endIndex, and startIndex values to the supplied function", function () {
 						xt( function (i, e, s) {
 							expect(i).toBe(0);
 							expect(e).toBe(Infinity);
 							expect(s).toBe(0);
 							return true;
-						}).loop();
+						}).iterate();
 					});
 
 					it("calls the passed function until it returns a non-undefined value, and returns that", function () {
@@ -264,7 +269,7 @@ define( function (require) {
 						var result = xt( function (i, e, s) {
 							iter = i;
 							return 'hi';
-						}).loop();
+						}).iterate();
 						expect(iter).toBe(0);
 						expect(result == 'hi').toBe(true);
 					});
@@ -275,7 +280,7 @@ define( function (require) {
 							sum += i;
 							expect(e).toBe(5);
 							expect(s).toBe(0);
-						}).loop(5);
+						}).iterate(5);
 						expect(sum).toBe(10);
 						expect(result).toBe(undefined);
 					});
@@ -287,7 +292,7 @@ define( function (require) {
 							expect(e).toBe(100);
 							expect(s).toBe(5);
 							if (i === 7) return 0;
-						}).loop(5, 100);
+						}).iterate(5, 100);
 						expect(sum).toBe(18);
 						expect(result == 0).toBe(true);
 					});
@@ -298,7 +303,7 @@ define( function (require) {
 							calc /= i;
 							expect(e).toBe(1);
 							expect(s).toBe(5);
-						}).loop(5, 1);
+						}).iterate(5, 1);
 						expect(calc).toBe(1);
 					});
 				});

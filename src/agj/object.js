@@ -3,6 +3,7 @@ define( function (require) {
 	'use strict';
 
 	return {
+		bindMethod:      require('./object/bindMethod'),
 		every:           require('./object/every'),
 		filter:          require('./object/filter'),
 		forEach:         require('./object/forEach'),
