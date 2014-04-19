@@ -4,16 +4,20 @@ define( function (require) {
 
 	var to = require('../to');
 	var is = require('../is');
+	var sequence = require('../function/sequence');
+
+	var get = to.prop;
+	var call = to.call;
 
 	function setElseDo(v, els, fn) {
 		if (is.set(v)) return fn(v);
 		return els;
 	}
 
+	var splitTrimAndFilter = sequence(get(1), call('split', [',']), call('map', [call('trim')]), call('filter', [to.id]));
+
 	function parameters(fn) {
-		return setElseDo(fn.toString().match(/^function \w*\s?\(([^\)\/]*)/), [], function (m) {
-			return m[1].split(',').map(to.call('trim'));
-		}).filter( function(p) { return is.set(p) && p.length; });
+		return setElseDo(fn.toString().match(/^function \w*\s?\(([^\)\/]*)/), [], splitTrimAndFilter);
 	}
 
 	return parameters;
