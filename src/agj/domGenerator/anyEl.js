@@ -17,7 +17,7 @@ define( function (require) {
 
 	var splitAndTrim     = sequence(get(1), call('split', ['.']), call('map', [call('trim')]));
 	var trim             = sequence(get(1), call('trim'));
-	var trimAndLowerCase = sequence(get(1), call('trim'), call('toLowerCase'));
+	var trimAndLowerCase = sequence(trim, call('toLowerCase'));
 
 	function anyEl(tag, attrs) {
 		var classes = setElseDo(tag.match(/^[^\.]*\.(.+)$/),     [], splitAndTrim);
