@@ -7,10 +7,10 @@ define( function () {
 			if (typeof arity === 'function') {
 				fn = arity;
 				return target(fn.length, fn);
-			} else if (!fn) {
-				return function (fn) { return target(arity, fn); };
+			} else if (fn) {
+				return target(arity, fn);
 			}
-			return target(arity, fn);
+			return function (fn) { return target(arity, fn); };
 		};
 	}
 
