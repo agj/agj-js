@@ -254,6 +254,48 @@ define( function (require) {
 					}
 				);
 
+				describe("after", function () {
+					it("takes a decoration and a function, and calls the decoration after the function, passing it the result of the function", function () {
+						var extR;
+						var lastCalled;
+						var target = function (a, b) {
+							lastCalled = 'target';
+							return a + b;
+						};
+						var decoration = function (r) {
+							lastCalled = 'decoration';
+							extR = r;
+						};
+
+						var result = xt(target).after(decoration).value;
+
+						expect( result(10, 5) ).toBe( 15 );
+						expect( extR ).toBe( 15 );
+						expect( lastCalled ).toBe( 'decoration' );
+					});
+				});
+
+				describe("before", function () {
+					it("takes a decoration and a function, and calls the decoration before the function, passing it the same arguments as the function", function () {
+						var extB;
+						var lastCalled;
+						var target = function (a, b) {
+							lastCalled = 'target';
+							return a + b;
+						};
+						var decoration = function (a, b) {
+							lastCalled = 'decoration';
+							extB = b;
+						};
+
+						var result = xt(target).before(decoration).value;
+
+						expect( result(10, 5) ).toBe( 15 );
+						expect( extB ).toBe( 5 );
+						expect( lastCalled ).toBe( 'target' );
+					});
+				});
+
 				describe("iterate", function () {
 					it("passes index, endIndex, and startIndex values to the supplied function", function () {
 						xt( function (i, e, s) {
@@ -361,7 +403,7 @@ define( function (require) {
 
 				it("all functions tested", function () {
 					var size = require('agj/object/size');
-					expect( size(require('agj/function')) ).toBe( size(testing) + 4 );
+					expect( size(require('agj/function')) ).toBe( size(testing) + 6 );
 				});
 			});
 

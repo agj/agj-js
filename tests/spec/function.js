@@ -118,6 +118,86 @@ define( function (require) {
 			}
 		);
 
+		describe("after", function () {
+			it("takes a decoration and a function, and calls the decoration after the function, passing it the result of the function", function () {
+				var extR;
+				var lastCalled;
+				var target = function (a, b) {
+					lastCalled = 'target';
+					return a + b;
+				};
+				var decoration = function (r) {
+					lastCalled = 'decoration';
+					extR = r;
+				};
+
+				var result = fn.after(decoration, target);
+
+				expect( result(10, 5) ).toBe( 15 );
+				expect( extR ).toBe( 15 );
+				expect( lastCalled ).toBe( 'decoration' );
+			});
+
+			it("can be also used in curried form", function () {
+				var extR;
+				var lastCalled;
+				var target = function (a, b) {
+					lastCalled = 'target';
+					return a + b;
+				};
+				var decoration = function (r) {
+					lastCalled = 'decoration';
+					extR = r;
+				};
+
+				var result = fn.after(decoration)(target);
+
+				expect( result(10, 5) ).toBe( 15 );
+				expect( extR ).toBe( 15 );
+				expect( lastCalled ).toBe( 'decoration' );
+			});
+		});
+
+		describe("before", function () {
+			it("takes a decoration and a function, and calls the decoration before the function, passing it the same arguments as the function", function () {
+				var extB;
+				var lastCalled;
+				var target = function (a, b) {
+					lastCalled = 'target';
+					return a + b;
+				};
+				var decoration = function (a, b) {
+					lastCalled = 'decoration';
+					extB = b;
+				};
+
+				var result = fn.before(decoration, target);
+
+				expect( result(10, 5) ).toBe( 15 );
+				expect( extB ).toBe( 5 );
+				expect( lastCalled ).toBe( 'target' );
+			});
+
+			it("can be also used in curried form", function () {
+				var extB;
+				var lastCalled;
+				var target = function (a, b) {
+					lastCalled = 'target';
+					return a + b;
+				};
+				var decoration = function (a, b) {
+					lastCalled = 'decoration';
+					extB = b;
+				};
+
+				var result = fn.before(decoration)(target);
+
+				expect( result(10, 5) ).toBe( 15 );
+				expect( extB ).toBe( 5 );
+				expect( lastCalled ).toBe( 'target' );
+			});
+		});
+
 		describe("iterate", function () {
 			it("passes index, endIndex, and startIndex values to the supplied function", function () {
 				fn.iterate( function (i, e, s) {
@@ -225,7 +305,7 @@ define( function (require) {
 
 		it("all functions tested", function () {
 			var size = require('agj/object/size');
-			expect( size(fn) ).toBe( size(testing) + 4 );
+			expect( size(fn) ).toBe( size(testing) + 6 );
 		});
 	});
 

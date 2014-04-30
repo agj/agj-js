@@ -3,8 +3,10 @@ define( function (require) {
 	'use strict';
 
 	return {
+		after:           require('./function/after'),
 		autoCurry:       require('./function/autoCurry'),
 		// autoCurryArityFn
+		before:          require('./function/before'),
 		compose:         require('./function/compose'),
 		fixArity:        require('./function/fixArity'),
 		flip:            require('./function/flip'),

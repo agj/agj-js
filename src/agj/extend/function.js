@@ -8,7 +8,9 @@ define( function (require) {
 	var fn = require('../function');
 
 	var fixedFn = {
+		after:           fn.promoteArgSolid(1, fn.after),
 		autoCurry:       fn.promoteArgSolid(1, fn.autoCurry),
+		before:          fn.promoteArgSolid(1, fn.before),
 		compose:         fn.compose,
 		fixArity:        fn.promoteArgSolid(1, fn.fixArity),
 		flip:            fn.promoteArgSolid(1, fn.flip),

@@ -18,14 +18,6 @@ define( function (require) {
 	var get = declaratorWithDefault.get;
 
 	return {
-		parameters: [
-			pass( λ('a / b') )
-				.get( ['a', 'b'] )
-				.becauseIt("returns an array of names of parameters of the passed function"),
-			pass( λ('6') )
-				.get( [] )
-				.becauseIt("returns an empty array if the passed function has no parameters"),
-		],
 		autoCurry: [
 			pass( λ('a / b / c') )
 				.checkWith( λ('_(10)(2)(5)') )
@@ -95,6 +87,14 @@ define( function (require) {
 				.checkWith( λ('_("ay")') )
 				.get( false )
 				.becauseIt("if the returned value is truthy but not boolean, it is coherced into a false value"),
+		],
+		parameters: [
+			pass( λ('a / b') )
+				.get( ['a', 'b'] )
+				.becauseIt("returns an array of names of parameters of the passed function"),
+			pass( λ('6') )
+				.get( [] )
+				.becauseIt("returns an empty array if the passed function has no parameters"),
 		],
 		partial: [
 			pass( λ('a / b'), [10] )
