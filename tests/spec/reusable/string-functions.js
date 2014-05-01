@@ -8,6 +8,7 @@ define( function (require) {
 	var pass = util.declarator().pass;
 
 	return {
+		//concat
 		contains: [
 			pass('cucumber', 'umb')
 				.get(true)

@@ -481,7 +481,19 @@ define( function (require) {
 
 		describe("String module", function () {
 			describe("allows using library defined extension", function () {
-				var testing = require('reusable/string-functions');
+				var testing = merge(require('reusable/string-functions', {
+					concat: [
+						pass('a', 'b', 'c', 'd')
+							.get('abcd')
+							.becauseIt("returns all the passed strings concatenated"),
+						pass('a', null, 'b', undefined, 'c')
+							.get('abc')
+							.becauseIt("turns null and undefined values into empty strings"),
+						pass('', true, false, 10)
+							.get('truefalse10')
+							.becauseIt("coerces passed values into strings"),
+					]
+				});
 				util.checkMethods(testing, standardChecker);
 
 				it("all functions tested", function () {

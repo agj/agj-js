@@ -3,6 +3,7 @@ define( function (require) {
 	'use strict';
 
 	return {
+		concat:     require('./string/concat'),
 		contains:   require('./string/contains'),
 		endsWith:   require('./string/endsWith'),
 		first:      require('./string/first'),
