@@ -480,8 +480,11 @@ define( function (require) {
 		});
 
 		describe("String module", function () {
+			var declarator = util.declarator();
+			var pass = declarator.pass;
+
 			describe("allows using library defined extension", function () {
-				var testing = merge(require('reusable/string-functions', {
+				var testing = merge(require('reusable/string-functions'), {
 					concat: [
 						pass('a', 'b', 'c', 'd')
 							.get('abcd')
