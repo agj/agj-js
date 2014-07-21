@@ -7,10 +7,6 @@ define( function (require) {
 	return defineModules({}, {
 		TAU: Math.PI * 2,
 
-		randomInt: function (numberMaxValue) {
-			return Math.floor(Math.random() * numberMaxValue);
-		},
-
 		cartesianToRadians: function (x, y) {
 			return Math.atan2(y, x);
 		},
@@ -22,12 +18,6 @@ define( function (require) {
 				numberGentleness = 1;
 			return numberPeak / ((numberValue / numberGentleness) + 1);
 		},
-
-		tossCoin: function (probability) {
-			if (isNaN(probability))
-				probability = 0.5;
-			return Math.random() < probability;
-		}
 	});
 
 });

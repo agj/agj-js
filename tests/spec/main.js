@@ -44,6 +44,7 @@ require(['agj/utils/requireSequentially', 'jasmineBoot'], function (requireSeque
 		'string',
 
 		'is',
+		'random',
 
 		'extend',
 

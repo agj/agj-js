@@ -33,8 +33,7 @@ define( function (require) {
 				return this;
 			},
 			pass: function pass() {
-				this.args = this.args || [];
-				this.args = this.args.concat(toArray(arguments));
+				this.args = (this.args || []).concat(toArray(arguments));
 				return this;
 			},
 			checkWith: function checkWith(checker) {
@@ -45,7 +44,7 @@ define( function (require) {
 			get: function get(result) {
 				var ret = !this.result ? this : this.next = generateArgs(this);
 				ret.result = result;
-				if (is.array(result) || is.objectLiteral(result)) ret.loose = true;
+				if (is.array(result) || is.objectLiteral(result) || isNaN(result)) ret.loose = true;
 				return ret;
 			},
 			becauseIt: function becauseIt(description) {
