@@ -6,10 +6,6 @@ define( function (require) {
 	
 	describe("object/mergeInto", function () {
 
-		it("test assertion", function () {
-			expect(true).toBe(false);
-		});
-
 		it("merges the right argument object's own properties into the first argument object, returning the latter", function () {
 			var obj1 = { a: 1, b: 2};
 			var obj2 = { b: 3, c: 4};

@@ -6,10 +6,6 @@ define( function (require) {
 	
 	describe("object/lateProp", function () {
 
-		it("test assertion", function () {
-			expect(true).toBe(false);
-		});
-
 		it("returns a function that, when called, returns the current value of the passed object's property defined in the second argument", function () {
 			expect( lateProp({ a: 10}, 'a')() ).toBe( 10 );
 

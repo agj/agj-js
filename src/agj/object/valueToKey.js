@@ -10,7 +10,7 @@ define( function (require) {
 				return key;
 			}
 		}
-		return null;
+		return void 0;
 	}
 
 	return keyToValue;

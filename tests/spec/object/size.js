@@ -6,10 +6,6 @@ define( function (require) {
 	
 	describe("object/size", function () {
 
-		it("test assertion", function () {
-			expect(true).toBe(false);
-		});
-
 		it("returns the number of own properties of the object", function () {
 			var proto = { keyInProto: 'a' };
 

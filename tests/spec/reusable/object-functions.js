@@ -45,7 +45,7 @@ define( function (require) {
 			pass( λ('_ === "four"') )
 				.get(false),
 		],
-		getKeyFromValue: [
+		valueToKey: [
 			pass('2')
 				.get('two'),
 		],

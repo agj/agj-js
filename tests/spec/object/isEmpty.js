@@ -6,10 +6,6 @@ define( function (require) {
 	
 	describe("object/isEmpty", function () {
 
-		it("test assertion", function () {
-			expect(true).toBe(false);
-		});
-
 		it("returns true only if the passed object has no own assigned keys", function () {
 			var proto = { keyInProto: 'a' };
 

@@ -6,10 +6,6 @@ define( function (require) {
 	
 	describe("object/some", function () {
 
-		it("test assertion", function () {
-			expect(true).toBe(false);
-		});
-
 		it("returns true only if at least one value in object satisfies the passed predicate function", function () {
 			var predicate = function (v) {
 				return v < 10;
@@ -22,7 +18,7 @@ define( function (require) {
 		it("passes current value, current key, and object to the predicate function", function () {
 			var object = { a: 1, b: 5, c: 7 };
 			some(object, function (value, key, obj) {
-				expect( ['1', '5', '7'] ).toContain( value );
+				expect( [1, 5, 7] ).toContain( value );
 				expect( ['a', 'b', 'c'] ).toContain( key );
 				expect( object ).toBe( obj );
 			});

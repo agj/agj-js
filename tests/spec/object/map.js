@@ -6,10 +6,6 @@ define( function (require) {
 	
 	describe("object/map", function () {
 
-		it("test assertion", function () {
-			expect(true).toBe(false);
-		});
-
 		it("runs a callback function for the each key/value of the passed object, and returns a new object consisting of the the return values for each key", function () {
 			var callback = function (v) {
 				return v * 10;
@@ -20,7 +16,7 @@ define( function (require) {
 		it("passes current value, current key, and object to the callback function", function () {
 			var object = { a: 1, b: 5, c: 7 };
 			map(object, function (value, key, obj) {
-				expect( ['1', '5', '7'] ).toContain( value );
+				expect( [1, 5, 7] ).toContain( value );
 				expect( ['a', 'b', 'c'] ).toContain( key );
 				expect( object ).toBe( obj );
 			});

@@ -6,10 +6,6 @@ define( function (require) {
 	
 	describe("object/bindMethod", function () {
 
-		it("test assertion", function () {
-			expect(true).toBe(false);
-		});
-
 		it("binds the object's method name to that object and returns a portable function", function () {
 			var methodOwner = {
 				action: function (a) { return this.something + a; },

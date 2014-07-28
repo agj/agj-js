@@ -6,15 +6,11 @@ define( function (require) {
 	
 	describe("object/forEach", function () {
 
-		it("test assertion", function () {
-			expect(true).toBe(false);
-		});
-
 		it("executes the passed callback function for each value in object, passing it current value, current key, and object", function () {
 			var sum = 0;
 			var object = { a: 1, b: 5, c: 7 };
 			forEach(object, function (value, key, obj) {
-				expect( ['1', '5', '7'] ).toContain( value );
+				expect( [1, 5, 7] ).toContain( value );
 				expect( ['a', 'b', 'c'] ).toContain( key );
 				expect( object ).toBe( obj );
 				sum += value;
