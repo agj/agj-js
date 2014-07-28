@@ -20,15 +20,17 @@ define( function (require) {
 	var processClasses   = sequence(call('map', [call('substr', [1])] ));
 
 	function anyEl(tag, attrs) {
-		var id      = setElseDo(tag.match(/#([^\.\s]+)/),  '', processID);
-		var classes = setElseDo(tag.match(/\.[^\.\s#]+/g), [], processClasses);
-		tag         = setElseDo(tag.match(/^([^\.\s#]+)/), '', processTag);
+		var id      = setElseDo(tag.match(/#([^\.\s]+)/),  null, processID);
+		var classes = setElseDo(tag.match(/\.[^\.\s#]+/g), null, processClasses);
+		tag         = setElseDo(tag.match(/^([^\.\s#]+)/), null, processTag);
+
+		if (tag === null) throw "No tag specified.";
 
 		var contents = toArray(arguments, is.objectLiteral(attrs) ? 2 : 1);
 
 		var element = document.createElement(tag);
-		if (id) element.id = id;
-		if (classes.length) element.className = classes.join(' ');
+		if (id !== null) element.id = id;
+		if (classes !== null) element.className = classes.join(' ');
 
 		if (is.objectLiteral(attrs)) {
 			Object.keys(attrs).forEach( function (name) {

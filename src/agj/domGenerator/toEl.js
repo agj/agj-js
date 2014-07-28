@@ -12,14 +12,14 @@ define( function (require) {
 
 	var toEl = memoize( function toEl(tag) {
 		return function () {
-			var id = '';
-			var first = arguments[0];
-			var i = 0;
+			var args = toArray(arguments);
+			var first = args[0];
 			if (is.string(first) && (first[0] === '#' || first[0] === '.')) {
-				id = first;
-				i++;
+				args[0] = tag + args[0];
+			} else {
+				args = [tag].concat(args);
 			}
-			return anyEl.apply(null, [tag + id].concat(toArray(arguments, i)));
+			return anyEl.apply(null, args);
 		};
 	});
 
