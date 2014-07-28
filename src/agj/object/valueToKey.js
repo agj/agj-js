@@ -2,7 +2,7 @@
 define( function (require) {
 	'use strict';
 
-	function getKeyFromValue(obj, value) {
+	function keyToValue(obj, value) {
 		for (var key in obj) {
 			if (!obj.hasOwnProperty(key))
 				continue;
@@ -13,6 +13,6 @@ define( function (require) {
 		return null;
 	}
 
-	return getKeyFromValue;
+	return keyToValue;
 
 });

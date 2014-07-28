@@ -4,9 +4,13 @@ define( function (require) {
 
 	var isString = require('../is').string;
 
-	function padRight(str, length, char) {
-		if (!isString(char) || char.length !== 1) char = ' ';
-		return str + new Array(Math.max(0, length - str.length + 1)).join(char);
+	function padRight(str, length, padding) {
+		if (!isString(padding) || !padding) padding = ' ';
+		var remaining = length - str.length;
+		padding = new Array(Math.max(0, Math.ceil(remaining / padding.length) + 1))
+			.join(padding)
+			.substr(0, Math.max(0, remaining));
+		return str + padding;
 	}
 
 	return padRight;

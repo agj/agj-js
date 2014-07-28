@@ -15,20 +15,20 @@ define( function (require) {
 		return els;
 	}
 
-	var splitAndTrim     = sequence(get(1), call('split', ['.']), call('map', [call('trim')]));
-	var trim             = sequence(get(1), call('trim'));
-	var trimAndLowerCase = sequence(trim, call('toLowerCase'));
+	var processTag       = get(1);
+	var processID        = get(1);
+	var processClasses   = sequence(call('map', [call('substr', [1])] ));
 
 	function anyEl(tag, attrs) {
-		var classes = setElseDo(tag.match(/^[^\.]*\.(.+)$/),     [], splitAndTrim);
-		var id      = setElseDo(tag.match(/#([^\.]+)(\.|$)/),    '', trim);
-		tag         = setElseDo(tag.match(/^([^\.#]+)(\.|#|$)/), '', trimAndLowerCase);
+		var id      = setElseDo(tag.match(/#([^\.\s]+)/),  '', processID);
+		var classes = setElseDo(tag.match(/\.[^\.\s#]+/g), [], processClasses);
+		tag         = setElseDo(tag.match(/^([^\.\s#]+)/), '', processTag);
 
 		var contents = toArray(arguments, is.objectLiteral(attrs) ? 2 : 1);
 
 		var element = document.createElement(tag);
-		element.id = id;
-		element.className = classes.join(' ');
+		if (id) element.id = id;
+		if (classes.length) element.className = classes.join(' ');
 
 		if (is.objectLiteral(attrs)) {
 			Object.keys(attrs).forEach( function (name) {

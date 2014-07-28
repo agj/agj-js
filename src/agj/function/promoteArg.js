@@ -11,6 +11,7 @@ define( function (require) {
 	'use strict';
 
 	var toArray = require('../utils/toArray');
+	var autoCurry = require('./autoCurry');
 
 	function promoteArg(argIndex, fn) {
 		return function argPromoted() {
@@ -22,6 +23,6 @@ define( function (require) {
 		};
 	}
 
-	return promoteArg;
+	return autoCurry(promoteArg);
 
 });

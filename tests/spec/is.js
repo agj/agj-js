@@ -16,8 +16,8 @@ define( function (require) {
 
 		var functions = {
 			set: [
-				passAny({}, [], 'a', '', 10, 0, -0, Infinity).get(true),
-				passAny(void 0, null, 0/0).get(false)
+				passAny({}, [], 'a', 10, 0, -0, Infinity).get(true),
+				passAny(void 0, null, 0/0, '').get(false)
 			],
 			array: [
 				passAny([], new Array()).get(true),
