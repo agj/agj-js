@@ -2,9 +2,9 @@
 define( function (require) {
 	'use strict';
 	
-	var base = require('agj/domGenerator/base');
+	var base = require('agj/function/base');
 	
-	describe("domGenerator/base", function () {
+	describe("function/base", function () {
 
 		it("test assertion", function () {
 			expect(true).toBe(false);
