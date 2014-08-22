@@ -2,12 +2,13 @@
 define( function (require) {
 	'use strict';
 
+	var overload = require('../function/overload');
+	var is = require('../is');
 	var toArray = require('../utils/toArray');
 
-	function product(lists, callback) {
+	function productCallback(lists, callback) {
 		iterate([], lists, callback);
 	}
-
 	function iterate(selected, remaining, callback) {
 		var next = remaining.length > 1 ? remaining.slice(1) : null;
 		return remaining[0].some( function (item) {
@@ -16,6 +17,19 @@ define( function (require) {
 			return callback.apply(null, current);
 		});
 	}
+
+	function productArray(lists) {
+		var result = [];
+		productCallback(lists, function () {
+			result.push(toArray(arguments));
+		});
+		return result;
+	}
+
+	var product = overload(
+		[[is.array, is.fn], productCallback],
+		productArray
+	);
 
 	return product;
 

@@ -21,6 +21,21 @@ define( function (require) {
 
 			expect( find(array, predicate) ).toBe( 1 );
 			expect( called ).toBe( 3 );
+
+			called = 0;
+			expect( find(predicate, array) ).toBe( 1 );
+			expect( called ).toBe( 3 );
+		});
+
+		it("gets auto curried if only one parameter is passed", function () {
+			var array = [100, 10, 1];
+
+			function predicate(item, index, arr) {
+				return item < 5;
+			}
+			
+			expect( find(predicate)(array) ).toBe( 1 );
+			expect( find(array)(predicate) ).toBe( 1 );
 		});
 
 	});

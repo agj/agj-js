@@ -53,7 +53,7 @@ define( function (require) {
 			expect( called ).toBe( 1 );
 		});
 
-		xit("creates and returns array of the cartesian product if no callback function is passed", function () {
+		it("creates and returns array of the cartesian product if no callback function is passed", function () {
 			expect(
 				product([[1, 2, 3], ['a', 'b', 'c'], ['い', 'ろ', 'は']])
 			).toEqual(

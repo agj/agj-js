@@ -6,13 +6,17 @@ define( function (require) {
 	var isFn = require('../is').fn;
 	var last = require('../array/last');
 
-	function overload(target, rule, over) {
+	function overload(target, predicates, over) {
 		if (isFn(target)) {
+			var allowsRest = last(predicates) === rest;
 			return function overloaded() {
-				if (arguments.length !== rule.length) return target.apply(this, arguments);
-				var i = rule.length;
-				while (--i >= 0) {
-					if (!rule[i](arguments[i])) return target.apply(this, arguments);
+				if (!allowsRest && arguments.length !== predicates.length) return target.apply(this, arguments);
+				var i = -1;
+				var len = predicates.length;
+				while (++i < len) {
+					var predicate = predicates[i];
+					if (allowsRest && predicate === rest) break;
+					if (!predicate(arguments[i])) return target.apply(this, arguments);
 				}
 				return over.apply(this, arguments);
 			};
@@ -29,6 +33,9 @@ define( function (require) {
 
 		return current;
 	}
+
+	var rest = {};
+	Object.defineProperty(overload, 'rest', { value: rest });
 
 	return overload;
 
