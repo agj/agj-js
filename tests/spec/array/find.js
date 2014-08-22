@@ -38,6 +38,21 @@ define( function (require) {
 			expect( find(array)(predicate) ).toBe( 1 );
 		});
 
+		it("accepts a third 'this' argument, for the predicate, for compatibility with ES6", function () {
+			var array = [100, 10, 1];
+			var thisObj = {};
+
+			function predicate(item, index, arr) {
+				expect( this ).toBe( thisObj );
+				return item < 5;
+			}
+			
+			find(array, predicate, thisObj);
+			find(predicate, array, thisObj);
+			find(predicate)(array, thisObj);
+			find(array)(predicate, thisObj);
+		});
+
 	});
 
 });

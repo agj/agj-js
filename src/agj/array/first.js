@@ -2,10 +2,31 @@
 define( function (require) {
 	'use strict';
 
-	function first(arr, amount) {
-		if (isNaN(amount)) return arr[0];
+	var overload = require('../function/overload');
+	var is = require('../is');
+	var not = require('../function/not');
+
+	function getFirstSingle(arr) {
+		return arr[0];
+	}
+
+	function getFirstMultiple(arr, amount) {
 		return arr.slice(0, amount);
 	}
+
+	var first = overload(
+		[[not(is.number)], getFirstSingle],
+		[[is.set, is.number, overload.rest], getFirstMultiple],
+		[[is.number, is.set, overload.rest], function (amount, arr) {
+			return getFirstMultiple(arr, amount);
+		}],
+		[[is.number], function (amount) {
+			return function (arr) {
+				return getFirstMultiple(arr, amount);
+			};
+		}],
+		getFirstSingle
+	);
 
 	return first;
 	

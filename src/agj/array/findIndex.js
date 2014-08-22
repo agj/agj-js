@@ -2,7 +2,10 @@
 define( function (require) {
 	'use strict';
 
-	function findIndex(arr, predicate, thisArg) {
+	var overload = require('../function/overload');
+	var is = require('../is');
+	
+	function doFindIndex(arr, predicate, thisArg) {
 		var i = -1;
 		var len = arr.length;
 		while (i++, i < len) {
@@ -10,6 +13,24 @@ define( function (require) {
 		}
 		return -1;
 	}
+
+	var findIndex = overload(
+		[[is.set, is.fn, overload.rest], doFindIndex],
+		[[is.fn, is.set, overload.rest], function (predicate, arr, thisArg) {
+			return doFindIndex(arr, predicate, thisArg);
+		}],
+		[[is.fn], function (predicate) {
+			return function (arr, thisArg) {
+				return doFindIndex(arr, predicate, thisArg);
+			};
+		}],
+		[[is.set], function (arr) {
+			return function (predicate, thisArg) {
+				return doFindIndex(arr, predicate, thisArg);
+			};
+		}],
+		doFindIndex
+	);
 
 	return findIndex;
 	

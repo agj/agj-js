@@ -4,7 +4,10 @@ define( function (require) {
 
 	var toArray = require('../utils/toArray');
 	var isFn = require('../is').fn;
-	var last = require('../array/last');
+
+	function last(array) {
+		return array[array.length - 1];
+	}
 
 	function overload(target, predicates, over) {
 		if (isFn(target)) {
