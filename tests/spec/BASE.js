@@ -2,9 +2,9 @@
 define( function (require) {
 	'use strict';
 	
-	var base = require('agj/array/base');
+	var base = require('agj/number/base');
 	
-	describe("array/base", function () {
+	describe("number/base", function () {
 
 		it("test assertion", function () {
 			expect(true).toBe(false);

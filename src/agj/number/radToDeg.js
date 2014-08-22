@@ -2,7 +2,7 @@
 define( function (require) {
 	'use strict';
 
-	var TAU = require('./TAU');
+	var TAU = Math.PI * 2;
 
 	function radToDeg(num) {
 		return num * 360 / TAU;

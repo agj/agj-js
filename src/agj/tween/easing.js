@@ -2,7 +2,7 @@
 define( function (require) {
 	'use strict';
 
-	var TAU = require('../number/TAU');
+	var TAU = Math.PI * 2;
 
 	return {
 		linear: function (p) {
