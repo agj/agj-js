@@ -12,6 +12,7 @@ define( function (require) {
 	require('./function/memoize');
 	require('./function/maybe');
 	require('./function/not');
+	require('./function/overload');
 	require('./function/parameters');
 	require('./function/partial');
 	require('./function/pipe');
