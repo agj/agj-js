@@ -2,14 +2,19 @@
 define( function (require) {
 	'use strict';
 
+	var clone = require('./clone');
+	var randomInt = require('../random/integer');
+
 	function shuffle(arr) {
-		for (var i = arr.length - 1; i >= 0; i--) {
-			var r = Math.floor(Math.random() * (i + 1));
-			var temp = arr[i];
-			arr[i] = arr[r];
-			arr[r] = temp;
+		var result = [];
+		var remaining = clone(arr);
+		var i = arr.length + 1;
+		while (--i > 0) {
+			var current = randomInt(i);
+			result.push(remaining[current]);
+			remaining.splice(current, 1);
 		}
-		return arr;
+		return result;
 	}
 
 	return shuffle;

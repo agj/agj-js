@@ -3,17 +3,15 @@ define( function (require) {
 	'use strict';
 
 	var toArray = require('../utils/toArray');
+	var not = require('../function/not');
+	var equals = require('../is').equal;
+	// var value = require('../to').value;
 
-	function remove(arr) {
-		var items = toArray(arguments, 1);
-		items.forEach( function (item) {
-			var i;
-			while (i = arr.indexOf(item), i !== -1) {
-				arr.splice(i, 1);
-			}
-		});
-		return arr;
+	function remove(arr, item) {
+		return arr.filter(not(equals(item)));
 	}
+
+	//function remove()
 
 	return remove;
 	

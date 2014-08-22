@@ -4,15 +4,22 @@ define( function (require) {
 
 	var isArray = require('../is').array;
 
-	function flatten(arr, deep) {
-		return arr.reduce(deep ? processDeep : processShallow, []);
+	function flatten(levels, arr) {
+		if (isArray(levels)) {
+			arr = levels;
+			levels = -1;
+		} else if (!arr) {
+			return function (arr) {
+				return flatten(levels, arr);
+			};
+		}
+		return arr.reduce(process(levels), []);
 	}
 
-	function processShallow(a, b) {
-		return a.concat(b);
-	}
-	function processDeep(a, b) {
-		return a.concat(isArray(b) ? flatten(b, true) : b);
+	function process(levels) {
+		return function (arr, item) {
+			return arr.concat((levels > 0 || levels < 0) && isArray(item) ? flatten(levels - 1, item) : [item]);
+		};
 	}
 
 	return flatten;

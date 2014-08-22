@@ -2,12 +2,12 @@
 define( function (require) {
 	'use strict';
 
-	function getDifference(arr, array) {
+	function exclude(arr, array) {
 		return arr.filter(function (item) {
 			return array.indexOf(item) === -1;
 		});
 	}
 
-	return getDifference;
+	return exclude;
 	
 });

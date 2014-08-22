@@ -8,7 +8,7 @@ define( function (require) {
 		var index = nextOrPrevIndex(arr, arr.indexOf(item), false, dontWrapAround);
 		if (index >= 0)
 			return arr[index];
-		return agj.undefined;
+		return void 0;
 	}
 
 	return prevTo;
