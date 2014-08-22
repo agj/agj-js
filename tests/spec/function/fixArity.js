@@ -22,6 +22,12 @@ define( function (require) {
 			expect( fixArity(7, function () {}).length ).toBe( 7 );
 		});
 
+		it("it is curried if only the arity is passed", function () {
+			expect( fixArity(0)(concatenate)('left', 'right') ).toBe( 'undefinedundefined' );
+			expect( fixArity(1)(concatenate)('left', 'right') ).toBe( 'leftundefined' );
+			expect( fixArity(2)(concatenate)('left', 'right') ).toBe( 'leftright' );
+		});
+
 	});
 
 });

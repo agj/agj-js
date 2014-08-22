@@ -6,7 +6,7 @@ define( function (require) {
 	
 	describe("function/after", function () {
 
-		it("takes a decoration funciton and a target function, and creates a function that calls the decoration after the target function, passing it the result of calling the target", function () {
+		it("takes a decoration function and a target function, and creates a function that calls the decoration after the target function, passing it the result of calling the target", function () {
 			var lastCalled;
 			var targetResult;
 

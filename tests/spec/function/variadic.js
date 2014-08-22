@@ -36,6 +36,30 @@ define( function (require) {
 			expect( variadicized4(1, 2, 3) ).toBe( true );
 		});
 
+		it("can force a certain arity by passing it as an argument", function () {
+			var variadicized4 = variadic(3, function (a, b, c, rest) {
+				expect( a ).toBe( 1 );
+				expect( b ).toBe( 2 );
+				expect( c ).toEqual( [3] );
+				expect( rest ).toBe( undefined );
+				return true;
+			});
+
+			expect( variadicized4(1, 2, 3) ).toBe(true);
+		});
+
+		it("curries itself if only an arity value is passed", function () {
+			var variadicized4 = variadic(3)(function (a, b, c, rest) {
+				expect( a ).toBe( 1 );
+				expect( b ).toBe( 2 );
+				expect( c ).toEqual( [3] );
+				expect( rest ).toBe( undefined );
+				return true;
+			});
+
+			expect( variadicized4(1, 2, 3) ).toBe(true);
+		});
+
 	});
 
 });

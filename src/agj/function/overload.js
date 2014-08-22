@@ -3,7 +3,10 @@ define( function (require) {
 	'use strict';
 
 	var toArray = require('../utils/toArray');
-	var isFn = require('../is').fn;
+
+	function isFn(obj) {
+		return typeof obj === 'function';
+	}
 
 	function last(array) {
 		return array[array.length - 1];

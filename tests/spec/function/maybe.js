@@ -14,7 +14,7 @@ define( function (require) {
 		}
 		function functionReturnValue() {}
 
-		it("takes a predicate function, an optional default return value, and a function, and produces a function that only executes the latter function if the pased value satisfies the predicate", function () {
+		it("produces a function that tests against the passed value with a predicate first, which if positive calls the passed function, and if negative returns a default value", function () {
 			expect( maybe(lessThanTwenty, 'default', byTwo)(10) ).toBe( 5 );
 			expect( maybe(lessThanTwenty, 'default', byTwo)(20) ).toBe( 'default' );
 			expect( maybe(lessThanTwenty, byTwo)(20) ).toBe( undefined );
@@ -29,7 +29,7 @@ define( function (require) {
 			expect( maybe(lessThanTwenty)(byTwo)(20) ).toBe( undefined );
 		});
 
-		it("will terminate currying early after it takes two functions, so for a function as a return value, avoid currying", function () {
+		it("will terminate currying early after it takes two functions straight, so for a function as a return value, avoid currying", function () {
 			expect( maybe(lessThanTwenty, functionReturnValue, byTwo)(20) ).toBe( functionReturnValue );
 			expect( maybe(lessThanTwenty)(functionReturnValue, byTwo)(20) ).toBe( functionReturnValue );
 		});

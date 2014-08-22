@@ -1,17 +1,42 @@
 
-define( function () {
+define( function (require) {
 	'use strict';
 
+	var overload = require('./overload');
+
+	function isFn(obj) {
+		return typeof obj === 'function';
+	}
+	function isNumber(obj) {
+		return typeof obj === 'number';
+	}
+
 	function autoCurryArityFn(target) {
-		return function autoCurriedArityFn(arity, fn) {
-			if (typeof arity === 'function') {
-				fn = arity;
+		return overload(
+			[[isFn], function (fn) {
 				return target(fn.length, fn);
-			} else if (fn) {
+			}],
+			[[isNumber, isFn, overload.rest], target],
+			[[isFn, isNumber, overload.rest], function (fn, arity) {
 				return target(arity, fn);
-			}
-			return function (fn) { return target(arity, fn); };
-		};
+			}],
+			[[isNumber], function (arity) {
+				return function (fn) {
+					return target(arity, fn);
+				};
+			}],
+			target
+		);
+
+		// return function autoCurriedArityFn(arity, fn) {
+		// 	if (typeof arity === 'function') {
+		// 		fn = arity;
+		// 		return target(fn.length, fn);
+		// 	} else if (fn) {
+		// 		return target(arity, fn);
+		// 	}
+		// 	return function (fn) { return target(arity, fn); };
+		// };
 	}
 
 	return autoCurryArityFn;

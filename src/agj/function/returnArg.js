@@ -2,18 +2,28 @@
 define( function (require) {
 	'use strict';
 	
-	var isFunction = require('../is').fn;
+	var overload = require('./overload');
+	var is = require('../is');
 
-	function returnArg(argIndex, fn) {
-		if (isFunction(argIndex)) {
-			fn = argIndex;
-			argIndex = 0;
-		}
-		return function () {
+	function doReturnArg(argIndex, fn) {
+		return function returnArged() {
 			fn.apply(this, arguments);
 			return arguments[argIndex];
 		};
 	}
+
+	var returnArg = overload(
+		[[is.fn], function (fn) {
+			return doReturnArg(0, fn);
+		}],
+		[[is.number, is.fn, overload.rest], doReturnArg],
+		[[is.number], function (argIndex) {
+			return function (fn) {
+				return doReturnArg(argIndex, fn);
+			};
+		}],
+		doReturnArg
+	);
 
 	return returnArg;
 

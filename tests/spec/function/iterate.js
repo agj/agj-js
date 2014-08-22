@@ -6,7 +6,7 @@ define( function (require) {
 	
 	describe("function/iterate", function () {
 
-		it("passes index, endIndex, and startIndex values to the supplied function", function () {
+		it("calls a callback function repeatedly, passing it an iteration index, the value upon which it will end (by default Infinity), and the start value (by default 0)", function () {
 			iterate( function (i, e, s) {
 				expect(i).toBe(0);
 				expect(e).toBe(Infinity);
@@ -15,7 +15,7 @@ define( function (require) {
 			});
 		});
 
-		it("calls the passed function until it returns a non-undefined value, and returns that", function () {
+		it("calls it until it returns a non-undefined value, and returns that", function () {
 			var iter;
 			var result = iterate( function (i, e, s) {
 				iter = i;

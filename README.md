@@ -7,8 +7,9 @@ Personal, modular javascript library using AMD, which I use in my own projects. 
 
 # Acknowledgements
 
-I've been heavily inspired by these other projects:
+I've drawn heavy inspiration by these other libraries:
 
 * [mout](https://github.com/mout/mout)
 * [Lemonad](https://github.com/fogus/lemonad)
+* [allong.es](https://github.com/raganwald/allong.es)
 * Others I'm surely forgetting.

@@ -16,18 +16,10 @@
 define( function (require) {
 	'use strict';
 
+	var overload = require('./overload');
 	var is = require('../is');
 
-	function loop(startIndex, endIndex, fn) {
-		if (is.fn(startIndex)) {
-			fn = startIndex;
-			startIndex = 0;
-			endIndex = Infinity;
-		} else if (is.fn(endIndex)) {
-			fn = endIndex;
-			endIndex = startIndex;
-			startIndex = 0;
-		}
+	function doIterate(startIndex, endIndex, fn) {
 		var dir = startIndex > endIndex ? -1 : 1;
 		var i = 0;
 		var end = dir > 0 ? endIndex - startIndex : startIndex - endIndex;
@@ -38,6 +30,16 @@ define( function (require) {
 		}
 	}
 
-	return loop;
+	var iterate = overload(
+		[[is.fn, overload.rest], function (fn) {
+			return doIterate(0, Infinity, fn);
+		}],
+		[[is.number, is.fn, overload.rest], function (endIndex, fn) {
+			return doIterate(0, endIndex, fn);
+		}],
+		doIterate
+	);
+
+	return iterate;
 
 });
