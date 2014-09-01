@@ -5,7 +5,7 @@ define( function (require) {
 	var overload = require('../function/overload');
 	var is = require('../is');
 
-	function doToBase(num, base, pad) {
+	function doInBase(num, base, pad) {
 		var result = num.toString(base);
 		if (!isNaN(pad)) {
 			while (result.length < pad) {
@@ -15,15 +15,15 @@ define( function (require) {
 		return result;
 	}
 
-	var toBase = overload(
+	var inBase = overload(
 		[[is.number], function (base) {
 			return function (num, pad) {
-				return doToBase(num, base, pad);
+				return doInBase(num, base, pad);
 			};
 		}],
-		doToBase
+		doInBase
 	);
 
-	return toBase;
+	return inBase;
 
 });

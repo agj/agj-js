@@ -26,8 +26,7 @@ define( function (require) {
 			return function (predicate, thisArg) {
 				return doFind(arr, predicate, thisArg);
 			};
-		}],
-		doFind
+		}]
 	);
 
 	return find;

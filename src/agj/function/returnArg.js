@@ -21,8 +21,7 @@ define( function (require) {
 			return function (fn) {
 				return doReturnArg(argIndex, fn);
 			};
-		}],
-		doReturnArg
+		}]
 	);
 
 	return returnArg;

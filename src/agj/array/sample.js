@@ -35,8 +35,7 @@ define( function (require) {
 			return function (arr) {
 				return sampleMultiple(arr, amount);
 			};
-		}],
-		sampleSingle
+		}]
 	);
 
 	return sample;

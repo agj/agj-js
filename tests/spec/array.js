@@ -2,6 +2,7 @@
 define( function (require) {
 	'use strict';
 
+	require('./array/cartesianProduct');
 	require('./array/clone');
 	require('./array/exclude');
 	require('./array/find');
@@ -20,7 +21,7 @@ define( function (require) {
 	require('./array/prevIndex');
 	require('./array/prevIndexTo');
 	require('./array/prevTo');
-	require('./array/product');
+	require('./array/reduce');
 	require('./array/remove');
 	require('./array/sample');
 	require('./array/set2D');

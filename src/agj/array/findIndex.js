@@ -28,8 +28,7 @@ define( function (require) {
 			return function (predicate, thisArg) {
 				return doFindIndex(arr, predicate, thisArg);
 			};
-		}],
-		doFindIndex
+		}]
 	);
 
 	return findIndex;

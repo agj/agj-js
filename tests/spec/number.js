@@ -5,6 +5,6 @@ define( function (require) {
 	require('./number/degToRad');
 	require('./number/logBase');
 	require('./number/radToDeg');
-	require('./number/toBase');
+	require('./number/inBase');
 
 });

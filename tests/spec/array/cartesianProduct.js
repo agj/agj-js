@@ -2,20 +2,20 @@
 define( function (require) {
 	'use strict';
 	
-	var product = require('agj/array/product');
+	var cartesianProduct = require('agj/array/cartesianProduct');
 	
-	describe("array/product", function () {
+	describe("array/cartesianProduct", function () {
 
 		it("allows for iteration over the cartesian product of a number of arrays", function () {
 			var called = 0;
-			product([[1, 2, 3]], function (number) {
+			cartesianProduct([[1, 2, 3]], function (number) {
 				called++;
 				expect( [1, 2, 3] ).toContain( number );
 			});
 			expect( called ).toBe( 3 );
 
 			called = 0;
-			product([[1, 2, 3], ['a', 'b', 'c']], function (number, letter) {
+			cartesianProduct([[1, 2, 3], ['a', 'b', 'c']], function (number, letter) {
 				called++;
 				expect( [1, 2, 3] ).toContain( number );
 				expect( ['a', 'b', 'c'] ).toContain( letter );
@@ -23,7 +23,7 @@ define( function (require) {
 			expect( called ).toBe( 9 );
 
 			called = 0;
-			product([[1, 2, 3], ['a', 'b', 'c'], ['い', 'ろ', 'は']], function (number, letter, hiragana) {
+			cartesianProduct([[1, 2, 3], ['a', 'b', 'c'], ['い', 'ろ', 'は']], function (number, letter, hiragana) {
 				called++;
 				expect( [1, 2, 3] ).toContain( number );
 				expect( ['a', 'b', 'c'] ).toContain( letter );
@@ -32,7 +32,7 @@ define( function (require) {
 			expect( called ).toBe( 27 );
 
 			called = 0;
-			product([[1, 2], ['a', 'b'], ['い', 'ろ'], ['イ', 'ロ']], function (number, letter, hiragana, katakana) {
+			cartesianProduct([[1, 2], ['a', 'b'], ['い', 'ろ'], ['イ', 'ロ']], function (number, letter, hiragana, katakana) {
 				called++;
 				expect( [1, 2] ).toContain( number );
 				expect( ['a', 'b'] ).toContain( letter );
@@ -44,7 +44,7 @@ define( function (require) {
 
 		it("allows iteration breaking by returning a truthy value from the callback function", function () {
 			var called = 0;
-			product([[1, 2, 3], ['a', 'b', 'c']], function (number, letter) {
+			cartesianProduct([[1, 2, 3], ['a', 'b', 'c']], function (number, letter) {
 				called++;
 				expect( number ).toBe( 1 );
 				expect( letter ).toBe( 'a' );
@@ -55,7 +55,7 @@ define( function (require) {
 
 		it("creates and returns array of the cartesian product if no callback function is passed", function () {
 			expect(
-				product([[1, 2, 3], ['a', 'b', 'c'], ['い', 'ろ', 'は']])
+				cartesianProduct([[1, 2, 3], ['a', 'b', 'c'], ['い', 'ろ', 'は']])
 			).toEqual(
 				[
 					[1, 'a', 'い'],

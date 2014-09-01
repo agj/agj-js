@@ -25,8 +25,7 @@ define( function (require) {
 			return function (arr) {
 				return getLastMultiple(arr, amount);
 			};
-		}],
-		getLastSingle
+		}]
 	);
 
 	return last;

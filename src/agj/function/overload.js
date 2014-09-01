@@ -30,7 +30,7 @@ define( function (require) {
 
 		var current = last(arguments);
 		var list = isFn(current) ? toArray(arguments, 0, -1) : toArray(arguments);
-		if (!isFn(current)) current = function () {};
+		if (!isFn(current)) current = function () { throw new Error("Illegal arguments passed to function."); };
 
 		var i = list.length;
 		while (--i >= 0) {

@@ -26,11 +26,11 @@ define( function (require) {
 		return result;
 	}
 
-	var product = overload(
+	var cartesianProduct = overload(
 		[[is.array, is.fn], productCallback],
 		productArray
 	);
 
-	return product;
+	return cartesianProduct;
 
 });

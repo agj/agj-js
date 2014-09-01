@@ -42,20 +42,7 @@ define( function (require) {
 			expect( overloaded(timesTwo, 2) ).toBe( 4 );
 		});
 
-		it("also supports a 'case-like' syntax for setting several possibilities at once", function () {
-			var overloaded = overload(
-				[[isNum, isFn], execute],
-				[[isFn, isNum], executeWithFnNum],
-				[[isNum],       executeWithNum],
-				[[isFn],        executeWithFn]
-			);
-
-			expect( overloaded(2, timesTwo) ).toBe( 4 );
-			expect( overloaded(2)(timesTwo) ).toBe( 4 );
-			expect( overloaded(timesTwo)(2) ).toBe( 4 );
-			expect( overloaded(timesTwo, 2) ).toBe( 4 );
-			expect( overloaded('wrong') ).toBe( undefined );
-
+		it("also supports a 'case-like' syntax for setting several possibilities at once, which throws when there is no match", function () {
 			function def() {
 				return 'nope';
 			}
@@ -73,6 +60,19 @@ define( function (require) {
 			expect( overloaded(timesTwo)(2) ).toBe( 4 );
 			expect( overloaded(timesTwo, 2) ).toBe( 4 );
 			expect( overloaded('wrong') ).toBe( 'nope' );
+
+			var overloaded = overload(
+				[[isNum, isFn], execute],
+				[[isFn, isNum], executeWithFnNum],
+				[[isNum],       executeWithNum],
+				[[isFn],        executeWithFn]
+			);
+
+			expect( overloaded(2, timesTwo) ).toBe( 4 );
+			expect( overloaded(2)(timesTwo) ).toBe( 4 );
+			expect( overloaded(timesTwo)(2) ).toBe( 4 );
+			expect( overloaded(timesTwo, 2) ).toBe( 4 );
+			expect( function () { overloaded('wrong'); } ).toThrow();
 		});
 
 		it("also supports overload.rest as a pseudo-predicate to signify that more arguments could be passed and still match", function () {
@@ -85,8 +85,8 @@ define( function (require) {
 				[[isFn, isNum, overload.rest], executeWithFnNum]
 			);
 
-			expect( overloadedWithoutRest(2, timesTwo, 'extra', 'arguments') ).toBe( undefined );
-			expect( overloadedWithoutRest(timesTwo, 2, 'extra', 'arguments') ).toBe( undefined );
+			expect( function () { overloadedWithoutRest(2, timesTwo, 'extra', 'arguments'); } ).toThrow();
+			expect( function () { overloadedWithoutRest(timesTwo, 2, 'extra', 'arguments'); } ).toThrow();
 			expect( overloadedWithRest(2, timesTwo, 'extra', 'arguments') ).toBe( 4 );
 			expect( overloadedWithRest(timesTwo, 2, 'extra', 'arguments') ).toBe( 4 );
 		});

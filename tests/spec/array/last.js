@@ -23,11 +23,20 @@ define( function (require) {
 			expect( last(100, array) ).toEqual( ['a', 'b', 'c', 'd', 'e'] );
 		});
 
-		it("if only an amount is passed, it is auto-curried", function () {
+		it("will return all values except a certain number from the start, if a negative amount is passed", function () {
+			expect( last(array, -2) ).toEqual( ['c', 'd', 'e'] );
+			expect( last(array, -100) ).toEqual( [] );
+			expect( last(-2, array) ).toEqual( ['c', 'd', 'e'] );
+			expect( last(-100, array) ).toEqual( [] );
+		});
+
+		it("if only an amount is passed, it gets partially applied", function () {
 			expect( last(0)(array) ).toEqual( [] );
 			expect( last(1)(array) ).toEqual( ['e'] );
 			expect( last(2)(array) ).toEqual( ['d', 'e'] );
 			expect( last(100)(array) ).toEqual( ['a', 'b', 'c', 'd', 'e'] );
+			expect( last(-2)(array) ).toEqual( ['c', 'd', 'e'] );
+			expect( last(-100)(array) ).toEqual( [] );
 		});
 
 	});
