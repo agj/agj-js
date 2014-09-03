@@ -26,5 +26,6 @@ define( function (require) {
 	require('./array/sample');
 	require('./array/set2D');
 	require('./array/shuffle');
+	require('./array/within');
 
 });

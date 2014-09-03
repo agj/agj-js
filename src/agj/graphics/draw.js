@@ -59,15 +59,15 @@ define( function (require) {
 	};
 
 	function setLine(context2D, drawStyle) {
-		if (drawStyle.getDefinesLine()) {
-			context2D.lineWidth = drawStyle.lineWeight;
-			context2D.strokeStyle = '#' + toHex(drawStyle.lineColor, 6);
-			context2D.lineCap = drawStyle.lineCapsStyle;
+		if (drawStyle.definesLine()) {
+			context2D.lineWidth = drawStyle.lineWeight();
+			context2D.strokeStyle = '#' + toHex(drawStyle.lineColor(), 6);
+			context2D.lineCap = drawStyle.lineCapsStyle();
 		}
 	}
 	function setFill(context2D, drawStyle) {
-		if (drawStyle.getDefinesFill()) {
-			context2D.fillStyle = '#' + toHex(drawStyle.lineColor, 6);
+		if (drawStyle.definesFill()) {
+			context2D.fillStyle = '#' + toHex(drawStyle.lineColor(), 6);
 		}
 	}
 	function endLine(context2D) {
@@ -78,11 +78,11 @@ define( function (require) {
 	}
 
 	function drawPoint(context2D, drawStyle, from, to) {
-		if (drawStyle.lineCapsStyle === 'round') {
-			draw.circle(context2D, drawStyle, { x: from.x, y: from.y, radius: drawStyle.lineWeight * 0.5 });
+		if (drawStyle.lineCapsStyle() === 'round') {
+			draw.circle(context2D, drawStyle, { x: from.x, y: from.y, radius: drawStyle.lineWeight() * 0.5 });
 		} else {
-			var halfLT = drawStyle.lineWeight / 2;
-			draw.rectangle(context2D, drawStyle, { x: from.x - halfLT, y: from.y - halfLT, width: drawStyle.lineWeight, height: drawStyle.lineWeight });
+			var halfLT = drawStyle.lineWeight() / 2;
+			draw.rectangle(context2D, drawStyle, { x: from.x - halfLT, y: from.y - halfLT, width: drawStyle.lineWeight(), height: drawStyle.lineWeight() });
 		}
 	}
 

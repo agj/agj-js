@@ -6,9 +6,14 @@ define( function (require) {
 	
 	describe("array/has", function () {
 
-		it("returns a boolean value indicating whether an array has an item or not", function () {
-			expect( has(['a', 'b', 'c'], 'a') ).toBe( true );
-			expect( has(['a', 'b', 'c'], 100) ).toBe( false );
+		it("returns a boolean value indicating whether an array has an item or not, and is the flipped version of 'within'", function () {
+			expect( has('a', ['a', 'b', 'c']) ).toBe( true );
+			expect( has(100, ['a', 'b', 'c']) ).toBe( false );
+		});
+
+		it("is auto-partially applied", function () {
+			expect( has('a')(['a', 'b', 'c']) ).toBe( true );
+			expect( has(100)(['a', 'b', 'c']) ).toBe( false );
 		});
 
 	});

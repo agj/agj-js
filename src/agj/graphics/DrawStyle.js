@@ -3,95 +3,71 @@ define( function (require) {
 	'use strict';
 
 	var Class = require('../class/Class');
-	var fluent = require('../function/returnThis');
+	var returnThis = require('../function/returnThis');
+	var passThis = require('../function/passThis');
+	var overload = require('../function/overload');
+	var sequence = require('../function/sequence');
+	var maybe = require('../function/maybe');
+	var not = require('../function/not');
+	var partial = require('../function/partial');
+	var within = require('../array/within');
+	var to = require('../to');
+	var is = require('../is');
+	var toArray = require('../utils/toArray');
 
-	var _lineCapsStyles = ['butt', 'round', 'square'];
-	var _lineJointStyles = ['round', 'miter', 'bevel'];
+	var lineCapsStyles = ['butt', 'round', 'square'];
+	var lineJointStyles = ['round', 'miter', 'bevel'];
 
-	function checkColor(value) { // Number
+	function checkColor(value) {
 		return value & 0xffffff;
 	}
-
-	function checkFraction(number, defaultValue) { // Number
-		if (isNaN(number))
-			return defaultValue;
-		return Math.max(0, Math.min(1, number));
+	function checkNegative(elseValue) {
+		return maybe(not(isNaN), elseValue, partial(Math.max, [0]));
+	}
+	function checkFraction(defaultValue) {
+		return function (number) {
+			if (isNaN(number))
+				return defaultValue;
+			return Math.max(0, Math.min(1, number));
+		};
 	}
 
-	var DrawStyle = Class.extend({
-		init: function (fillColor, fillAlpha, lineColor, lineWeight, lineAlpha) {
-			this.setFillColor(fillColor)
-				.setFillAlpha(fillAlpha)
-				.setLineColor(lineColor)
-				.setLineWeight(lineWeight)
-				.setLineAlpha(lineAlpha)
-
-				.setLineCapsStyle(null)
-				.setLineJointStyle(null)
-				.setLineMiterLimit(null);
-		},
-
-		setFillColor: fluent( function (value) {
-			this.fillColor = checkColor(value);
-		}),
-
-		setFillAlpha: fluent( function (value) {
-			this.fillAlpha = checkFraction(value, 1);
-		}),
-
-		setLineColor: fluent( function (value) {
-			this.lineColor = checkColor(value);
-		}),
-
-		setLineAlpha: fluent( function (value) {
-			this.lineAlpha = checkFraction(value);
-		}),
-
-		setLineWeight: fluent( function (value) {
-			if (!isNaN(value))
-				this.lineWeight = Math.max(0, value);
-			else
-				this.lineWeight = 0;
-		}),
-
-		setLineCapsStyle: fluent( function (value) {
-			if (_lineCapsStyles.indexOf(value) >= 0)
-				this.lineCapsStyle = value;
-			else
-				this.lineCapsStyle = _lineCapsStyles[0];
-		}),
-
-		setLineJointStyle: fluent( function (value) {
-			if (_lineJointStyles.indexOf(value) >= 0)
-				this.lineJointStyle = value;
-			else
-				this.lineJointStyle = _lineJointStyles[0];
-		}),
-
-		setLineMiterLimit: fluent( function (value) {
-			if (!isNaN(value))
-				this.lineMiterLimit = Math.max(0, value);
-			else
-				this.lineMiterLimit = 3;
-		}),
-
-		getDefinesLine: function () { // Boolean
-			return (this.lineAlpha > 0 && this.lineWeight > 0);
-		},
-
-		getDefinesFill: function () { // Boolean
-			return (this.fillAlpha > 0);
-		},
-
-		statics: {
-			makeLineStyle: function (lineColor, lineWeight, lineAlpha, lineCapsStyle, lineJointStyle, lineMiterLimit) { // DrawStyle
-				var ds = new DrawStyle(null, null, lineColor, lineWeight, lineAlpha);
-				ds.setLineCapsStyle(lineCapsStyle).
-					setLineJointStyle(lineJointStyle).
-					setLineMiterLimit(lineMiterLimit);
-				return ds;
+	function doGetset(prop, getChecker, setChecker) {
+		return function (value) {
+			if (arguments.length) {
+				this[prop] = setChecker(value);
+				return this;
+			} else {
+				return getChecker(this[prop]);
 			}
-		}
+		};
+	}
+	var getset = overload(
+		[[is.string, is.fn], function (prop, setChecker) {
+			return doGetset(prop, to.id, setChecker);
+		}],
+		[[is.string, is.fn, is.fn], doGetset],
+		[[is.string], function (prop) {
+			return doGetset(prop, to.id, to.id);
+		}]
+	);
+	
+	var DrawStyle = Class.extend({
+		fillColor: getset('_fillColor', checkColor),
+		fillAlpha: getset('_fillAlpha', checkFraction(1)),
+		lineColor: getset('_lineColor', checkColor),
+		lineAlpha: getset('_lineAlpha', checkFraction(null)),
+		lineWeight: getset('_lineWeight', checkNegative(0)),
+		lineCapsStyle: getset('_lineCapsStyle', maybe(within(lineCapsStyles), lineCapsStyles[0], to.id)),
+		lineJointStyle: getset('_lineJointStyle', maybe(within(lineJointStyles), lineJointStyles[0], to.id)),
+		lineMiterLimit: getset('_lineMiterLimit', checkNegative(3)),
+
+		definesFill: function () { // Boolean
+			return (this._fillAlpha > 0);
+		},
+		definesLine: function () { // Boolean
+			return (this._lineAlpha > 0 && this._lineWeight > 0);
+		},
 	});
 
 	return DrawStyle;

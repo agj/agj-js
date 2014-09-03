@@ -5,7 +5,7 @@ define( function (require) {
 	var toArray = require('../utils/toArray');
 	var autoCurryArityFn = require('./autoCurryArityFn');
 
-	var flip = autoCurryArityFn(function flip(arity, fn) {
+	var flip = autoCurryArityFn( function flip(arity, fn) {
 		return function flipped() {
 			var args = toArray(arguments, 0, arity);
 			args.reverse();

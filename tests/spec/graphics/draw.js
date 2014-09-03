@@ -14,8 +14,8 @@ define( function (require) {
 			canvas.width = 100;
 			canvas.height = 100;
 			ctx = canvas.getContext('2d');
-			blackFill = new DrawStyle().setFillColor(0x000000).setFillAlpha(1);
-			blackLine = new DrawStyle().setLineColor(0x000000).setLineAlpha(1).setLineWeight(2);
+			blackFill = new DrawStyle().fillColor(0x000000).fillAlpha(1);
+			blackLine = new DrawStyle().lineColor(0x000000).lineAlpha(1).lineWeight(2);
 		});
 
 		function pixelAt(ctx, x, y) {
