@@ -8,7 +8,7 @@
 define( function (require) {
 	'use strict';
 
-	var toHex = require('../number/inBase')(6);
+	var toHex = require('../number/inBase')(16);
 
 	var draw = {
 		line: function (context2D, drawStyle, from, to) {
@@ -18,7 +18,7 @@ define( function (require) {
 				setLine(context2D, drawStyle);
 				context2D.moveTo(from.x, from.y);
 				context2D.lineTo(to.x, to.y);
-				endLine(context2D);
+				endLine(context2D, drawStyle);
 				context2D.restore();
 			} else {
 				drawPoint(context2D, drawStyle, from, to);
@@ -32,7 +32,7 @@ define( function (require) {
 				setLine(context2D, drawStyle);
 				context2D.moveTo(from.x, from.y);
 				context2D.quadraticCurveTo(mid.x, mid.y, to.x, to.y);
-				endLine(context2D);
+				endLine(context2D, drawStyle);
 				context2D.restore();
 			} else {
 				drawPoint(context2D, drawStyle, from, to);
@@ -42,9 +42,11 @@ define( function (require) {
 		circle: function (context2D, drawStyle, circ) {
 			context2D.save();
 			context2D.beginPath();
+			setLine(context2D, drawStyle);
 			setFill(context2D, drawStyle);
 			context2D.arc(circ.x, circ.y, circ.radius, 0, Math.PI * 2);
-			endFill(context2D);
+			endFill(context2D, drawStyle);
+			endLine(context2D, drawStyle);
 			context2D.restore();
 		},
 
@@ -53,7 +55,7 @@ define( function (require) {
 			context2D.beginPath();
 			setFill(context2D, drawStyle);
 			context2D.fillRect(rect.x, rect.y, rect.width, rect.height);
-			endFill(context2D);
+			endFill(context2D, drawStyle);
 			context2D.restore();
 		}
 	};
@@ -67,14 +69,18 @@ define( function (require) {
 	}
 	function setFill(context2D, drawStyle) {
 		if (drawStyle.definesFill()) {
-			context2D.fillStyle = '#' + toHex(drawStyle.lineColor(), 6);
+			context2D.fillStyle = '#' + toHex(drawStyle.fillColor(), 6);
 		}
 	}
-	function endLine(context2D) {
-		context2D.stroke();
+	function endLine(context2D, drawStyle) {
+		if (drawStyle.definesLine()) {
+			context2D.stroke();
+		}
 	}
-	function endFill(context2D) {
-		context2D.fill();
+	function endFill(context2D, drawStyle) {
+		if (drawStyle.definesFill()) {
+			context2D.fill();
+		}
 	}
 
 	function drawPoint(context2D, drawStyle, from, to) {
