@@ -17,7 +17,11 @@ define( function (require) {
 		var functions = {
 			set: [
 				passAny({}, [], 'a', 10, 0, -0, Infinity).get(true),
-				passAny(void 0, null, 0/0, '').get(false)
+				passAny(void 0, null, 0/0, '').get(false),
+			],
+			empty: [
+				passAny(void 0, null, 0/0, '', [], {}).get(true),
+				passAny('a', 10, 0, -0, Infinity, ['a'], { a: 'a' }).get(false),
 			],
 			array: [
 				passAny([], new Array()).get(true),
@@ -50,7 +54,7 @@ define( function (require) {
 			objectLiteral: [
 				passAny({}, new Object()).get(true),
 				passAny([], /.*/, new MyClass(), function(){}).get(false)
-			]
+			],
 		};
 		var comparisons = {
 			instanceOf: [

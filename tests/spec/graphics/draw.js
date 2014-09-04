@@ -26,7 +26,6 @@ define( function (require) {
 				return r;
 			}
 			var r = c(data[3]) + c(data[0]) + c(data[1]) + c(data[2]);
-			console.log(x, y, r);
 			return r;
 		}
 

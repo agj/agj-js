@@ -13,7 +13,7 @@ define( function (require) {
 			return '' + a + b + c;
 		}
 
-		it("takes an index number and a function, and returns an equivalent function for which the parameter at the index is promoted to the first parameter; will condense arguments if fewer than expected are passed", function () {
+		it("takes an index number and a function, and returns an equivalent function for which the parameter at the index is promoted to the first parameter; will condense arguments to the left if fewer than expected are passed", function () {
 			expect( promoteArgSolid(1, divide)(10, 2) ).toBe( 0.2 );
 			expect( promoteArgSolid(2, concatenate)('OK') ).toBe( 'OKundefinedundefined' );
 		});

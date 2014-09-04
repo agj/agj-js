@@ -15,6 +15,7 @@ define( function (require) {
 	require('./function/overload');
 	require('./function/parameters');
 	require('./function/partial');
+	require('./function/partialRight');
 	require('./function/passThis');
 	require('./function/pipe');
 	require('./function/promoteArg');

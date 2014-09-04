@@ -4,6 +4,7 @@ define( function (require) {
 
 	var autoCurry = require('./function/autoCurry');
 	var values = require('./object/values');
+	var objIsEmpty = require('./object/isEmpty');
 
 	var isArray = require('./is/array');
 
@@ -12,6 +13,15 @@ define( function (require) {
 
 	function set(object) {
 		return object !== void 0 && object !== null && object !== '' && (typeof object !== 'number' || !isNaN(object));
+	}
+
+	function empty(object) {
+		return object === void 0 ||
+			object === null ||
+			object === '' ||
+			(number(object) && isNaN(object)) ||
+			(isArray(object) && object.length === 0) ||
+			(objectLiteral(object) && objIsEmpty(object));
 	}
 
 	function undef(object) {
@@ -39,7 +49,7 @@ define( function (require) {
 	}
 
 	function objectLiteral(object) {
-		return object && typeof object === 'object' && Object.getPrototypeOf(object) === Object.prototype;
+		return !!object && typeof object === 'object' && Object.getPrototypeOf(object) === Object.prototype;
 	}
 
 	var instanceOf = autoCurry(function instanceOf(type, object) { return object instanceof type; });
@@ -65,6 +75,7 @@ define( function (require) {
 		boolean: boolean,
 		array: isArray,
 		date: date,
+		empty: empty,
 		eq: equal,
 		equal: equal,
 		fn: fn,

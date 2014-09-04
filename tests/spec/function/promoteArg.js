@@ -18,7 +18,7 @@ define( function (require) {
 			expect( promoteArg(2, concatenate)('OK') ).toBe( 'undefinedundefinedOK' );
 		});
 
-		it("curries itself if only an index number is passed", function () {
+		it("partially applies itself if only an index number is passed", function () {
 			expect( promoteArg(1)(divide)(10, 2) ).toBe( 0.2 );
 			expect( promoteArg(2)(concatenate)('OK') ).toBe( 'undefinedundefinedOK' );
 		});
