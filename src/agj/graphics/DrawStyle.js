@@ -31,6 +31,9 @@ define( function (require) {
 			return Math.max(0, Math.min(1, number));
 		};
 	}
+	function checkAmong(allowed) {
+		return maybe(within(allowed), allowed[0], to.id);
+	}
 
 	function doGetset(prop, getChecker, setChecker) {
 		return function (value) {
@@ -43,8 +46,8 @@ define( function (require) {
 		};
 	}
 	var getset = overload(
-		[[is.string, is.fn], function (prop, setChecker) {
-			return doGetset(prop, to.id, setChecker);
+		[[is.string, is.fn], function (prop, getChecker) {
+			return doGetset(prop, getChecker, to.id);
 		}],
 		[[is.string, is.fn, is.fn], doGetset],
 		[[is.string], function (prop) {
@@ -53,20 +56,20 @@ define( function (require) {
 	);
 	
 	var DrawStyle = Class.extend({
-		fillColor: getset('_fillColor', checkColor),
-		fillAlpha: getset('_fillAlpha', checkFraction(1)),
-		lineColor: getset('_lineColor', checkColor),
-		lineAlpha: getset('_lineAlpha', checkFraction(null)),
-		lineWeight: getset('_lineWeight', checkNegative(0)),
-		lineCapsStyle: getset('_lineCapsStyle', maybe(within(lineCapsStyles), lineCapsStyles[0], to.id)),
-		lineJointStyle: getset('_lineJointStyle', maybe(within(lineJointStyles), lineJointStyles[0], to.id)),
+		fillColor:      getset('_fillColor',      checkColor),
+		fillAlpha:      getset('_fillAlpha',      checkFraction(0)),
+		lineColor:      getset('_lineColor',      checkColor),
+		lineAlpha:      getset('_lineAlpha',      checkFraction(0)),
+		lineWeight:     getset('_lineWeight',     checkNegative(0)),
+		lineCapsStyle:  getset('_lineCapsStyle',  checkAmong(lineCapsStyles)),
+		lineJointStyle: getset('_lineJointStyle', checkAmong(lineJointStyles)),
 		lineMiterLimit: getset('_lineMiterLimit', checkNegative(3)),
 
 		definesFill: function () { // Boolean
-			return (this._fillAlpha > 0);
+			return (this.fillAlpha() > 0);
 		},
 		definesLine: function () { // Boolean
-			return (this._lineAlpha > 0 && this._lineWeight > 0);
+			return (this.lineAlpha() > 0 && this.lineWeight() > 0);
 		},
 	});
 

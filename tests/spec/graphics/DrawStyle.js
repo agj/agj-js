@@ -17,22 +17,6 @@ define( function (require) {
 				.lineJointStyle('bevel')
 				.lineMiterLimit(10);
 
-			expect( style.fillColor() ).toBe( 0xff0000 );
-			expect( style.fillAlpha() ).toBe( 0.5 );
-			expect( style.lineColor() ).toBe( 0x00ff00 );
-			expect( style.lineAlpha() ).toBe( 0.7 );
-			expect( style.lineWeight() ).toBe( 3 );
-			expect( style.lineCapsStyle() ).toBe( 'round' );
-			expect( style.lineJointStyle() ).toBe( 'bevel' );
-			expect( style.lineMiterLimit() ).toBe( 10 );
-
-			expect( style.definesFill() ).toBe( true );
-			expect( style.definesLine() ).toBe( true );
-		});
-
-		it("returns sensible defaults if unset", function () {
-			var style = new DrawStyle();
-
 			expect( style.fillColor()      ).toBe( 0xff0000 );
 			expect( style.fillAlpha()      ).toBe( 0.5 );
 			expect( style.lineColor()      ).toBe( 0x00ff00 );
@@ -44,6 +28,22 @@ define( function (require) {
 
 			expect( style.definesFill() ).toBe( true );
 			expect( style.definesLine() ).toBe( true );
+		});
+
+		it("returns usable defaults in case a value is unset", function () {
+			var style = new DrawStyle();
+
+			expect( style.fillColor()      ).toBe( 0 );
+			expect( style.fillAlpha()      ).toBe( 0 );
+			expect( style.lineColor()      ).toBe( 0 );
+			expect( style.lineAlpha()      ).toBe( 0 );
+			expect( style.lineWeight()     ).toBe( 0 );
+			expect( style.lineCapsStyle()  ).toBe( 'butt' );
+			expect( style.lineJointStyle() ).toBe( 'round' );
+			expect( style.lineMiterLimit() ).toBe( 3 );
+
+			expect( style.definesFill() ).toBe( false );
+			expect( style.definesLine() ).toBe( false );
 		});
 
 	});
