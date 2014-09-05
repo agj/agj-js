@@ -42,10 +42,11 @@ require(['agj/utils/requireSequentially', 'jasmineBoot'], function (requireSeque
 		'number',
 		'object',
 		'string',
-		'graphics',
 
 		'is',
 		'random',
+		'graphics',
+		'color',
 
 		// 'extend', // need to rethink how these are tested, or maybe just throw this away, as it's not proven very useful.
 
