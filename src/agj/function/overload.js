@@ -14,14 +14,14 @@ define( function (require) {
 
 	function overload(target, predicates, over) {
 		if (isFn(target)) {
-			var allowsRest = last(predicates) === rest;
+			var allowsRest = last(predicates) === REST;
 			return function overloaded() {
 				if (!allowsRest && arguments.length !== predicates.length) return target.apply(this, arguments);
 				var i = -1;
 				var len = predicates.length;
 				while (++i < len) {
 					var predicate = predicates[i];
-					if (allowsRest && predicate === rest) break;
+					if (allowsRest && predicate === REST) break;
 					if (!predicate(arguments[i])) return target.apply(this, arguments);
 				}
 				return over.apply(this, arguments);
@@ -40,8 +40,8 @@ define( function (require) {
 		return current;
 	}
 
-	var rest = {};
-	Object.defineProperty(overload, 'rest', { value: rest });
+	var REST = {};
+	Object.defineProperty(overload, 'REST', { value: REST });
 
 	return overload;
 

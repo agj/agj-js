@@ -29,8 +29,8 @@ define( function (require) {
 				return doReduce(array, fn, initial);
 			};
 		}],
-		[[is.set, is.fn, overload.rest], doReduce],
-		[[is.fn, is.set, overload.rest], function (fn, array, initial) {
+		[[is.set, is.fn, overload.REST], doReduce],
+		[[is.fn, is.set, overload.REST], function (fn, array, initial) {
 			return doReduce(array, fn, initial);
 		}],
 		[[is.set], function (array) {

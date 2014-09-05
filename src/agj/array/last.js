@@ -17,8 +17,8 @@ define( function (require) {
 
 	var last = overload(
 		[[not(is.number)], getLastSingle],
-		[[is.set, is.number, overload.rest], getLastMultiple],
-		[[is.number, is.set, overload.rest], function (amount, arr) {
+		[[is.set, is.number, overload.REST], getLastMultiple],
+		[[is.number, is.set, overload.REST], function (amount, arr) {
 			return getLastMultiple(arr, amount);
 		}],
 		[[is.number], function (amount) {

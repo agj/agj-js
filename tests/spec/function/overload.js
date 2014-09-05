@@ -75,14 +75,14 @@ define( function (require) {
 			expect( function () { overloaded('wrong'); } ).toThrow();
 		});
 
-		it("also supports overload.rest as a pseudo-predicate to signify that more arguments could be passed and still match", function () {
+		it("also supports overload.REST as a pseudo-predicate to signify that more arguments could be passed and still match", function () {
 			var overloadedWithoutRest = overload(
 				[[isNum, isFn], execute],
 				[[isFn, isNum], executeWithFnNum]
 			);
 			var overloadedWithRest = overload(
-				[[isNum, isFn, overload.rest], execute],
-				[[isFn, isNum, overload.rest], executeWithFnNum]
+				[[isNum, isFn, overload.REST], execute],
+				[[isFn, isNum, overload.REST], executeWithFnNum]
 			);
 
 			expect( function () { overloadedWithoutRest(2, timesTwo, 'extra', 'arguments'); } ).toThrow();

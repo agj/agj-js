@@ -16,8 +16,8 @@ define( function (require) {
 			[[isFn], function (fn) {
 				return target(fn.length, fn);
 			}],
-			[[isNumber, isFn, overload.rest], target],
-			[[isFn, isNumber, overload.rest], function (fn, arity) {
+			[[isNumber, isFn, overload.REST], target],
+			[[isFn, isNumber, overload.REST], function (fn, arity) {
 				return target(arity, fn);
 			}],
 			[[isNumber], function (arity) {

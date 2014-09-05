@@ -3,7 +3,7 @@ define( function (require) {
 	'use strict';
 
 	var overload = require('./overload');
-	var rest = overload.rest;
+	var rest = overload.REST;
 	var partial = require('./partial');
 	var promoteArg = require('./promoteArg');
 	var flip = require('./flip');

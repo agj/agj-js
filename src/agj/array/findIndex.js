@@ -15,8 +15,8 @@ define( function (require) {
 	}
 
 	var findIndex = overload(
-		[[is.set, is.fn, overload.rest], doFindIndex],
-		[[is.fn, is.set, overload.rest], function (predicate, arr, thisArg) {
+		[[is.set, is.fn, overload.REST], doFindIndex],
+		[[is.fn, is.set, overload.REST], function (predicate, arr, thisArg) {
 			return doFindIndex(arr, predicate, thisArg);
 		}],
 		[[is.fn], function (predicate) {

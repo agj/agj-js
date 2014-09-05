@@ -14,7 +14,7 @@ define( function (require) {
 	}
 
 	var partial = overload(
-		[[is.fn, is.set, overload.rest], doPartial],
+		[[is.fn, is.set, overload.REST], doPartial],
 		[[is.fn], function (fn) {
 			return doPartial(doPartial, [fn]);
 		}],
@@ -23,7 +23,7 @@ define( function (require) {
 				return doPartial(fn, args);
 			};
 		}],
-		[[is.set, is.fn, overload.rest], promoteArg(1, doPartial)]
+		[[is.set, is.fn, overload.REST], promoteArg(1, doPartial)]
 	);
 
 	return partial;

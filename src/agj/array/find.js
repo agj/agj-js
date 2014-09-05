@@ -13,8 +13,8 @@ define( function (require) {
 	}
 
 	var find = overload(
-		[[is.set, is.fn, overload.rest], doFind],
-		[[is.fn, is.set, overload.rest], function (predicate, arr, thisArg) {
+		[[is.set, is.fn, overload.REST], doFind],
+		[[is.fn, is.set, overload.REST], function (predicate, arr, thisArg) {
 			return doFind(arr, predicate, thisArg);
 		}],
 		[[is.fn], function (predicate) {

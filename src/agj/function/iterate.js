@@ -31,10 +31,10 @@ define( function (require) {
 	}
 
 	var iterate = overload(
-		[[is.fn, overload.rest], function (fn) {
+		[[is.fn, overload.REST], function (fn) {
 			return doIterate(0, Infinity, fn);
 		}],
-		[[is.number, is.fn, overload.rest], function (endIndex, fn) {
+		[[is.number, is.fn, overload.REST], function (endIndex, fn) {
 			return doIterate(0, endIndex, fn);
 		}],
 		doIterate

@@ -16,8 +16,8 @@ define( function (require) {
 
 	var first = overload(
 		[[not(is.number)], getFirstSingle],
-		[[is.set, is.number, overload.rest], getFirstMultiple],
-		[[is.number, is.set, overload.rest], function (amount, arr) {
+		[[is.set, is.number, overload.REST], getFirstMultiple],
+		[[is.number, is.set, overload.REST], function (amount, arr) {
 			return getFirstMultiple(arr, amount);
 		}],
 		[[is.number], function (amount) {

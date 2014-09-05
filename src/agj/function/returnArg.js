@@ -16,7 +16,7 @@ define( function (require) {
 		[[is.fn], function (fn) {
 			return doReturnArg(0, fn);
 		}],
-		[[is.number, is.fn, overload.rest], doReturnArg],
+		[[is.number, is.fn, overload.REST], doReturnArg],
 		[[is.number], function (argIndex) {
 			return function (fn) {
 				return doReturnArg(argIndex, fn);
