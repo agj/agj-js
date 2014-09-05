@@ -8,6 +8,7 @@
 define( function (require) {
 	'use strict';
 
+	var parseRGB = require('../color/parseRGB');
 	var toHex = require('../number/inBase')(16);
 
 	var draw = {
@@ -62,14 +63,16 @@ define( function (require) {
 
 	function setLine(context2D, drawStyle) {
 		if (drawStyle.definesLine()) {
+			var c = parseRGB(drawStyle.lineColor());
 			context2D.lineWidth = drawStyle.lineWeight();
-			context2D.strokeStyle = '#' + toHex(drawStyle.lineColor(), 6);
+			context2D.strokeStyle = 'rgba(' + c.red + ',' + c.green + ',' + c.blue + ',' + drawStyle.lineAlpha() + ')';
 			context2D.lineCap = drawStyle.lineCapsStyle();
 		}
 	}
 	function setFill(context2D, drawStyle) {
 		if (drawStyle.definesFill()) {
-			context2D.fillStyle = '#' + toHex(drawStyle.fillColor(), 6);
+			var c = parseRGB(drawStyle.lineColor());
+			context2D.fillStyle = 'rgba(' + c.red + ',' + c.green + ',' + c.blue + ',' + drawStyle.fillAlpha() + ')';
 		}
 	}
 	function endLine(context2D, drawStyle) {
