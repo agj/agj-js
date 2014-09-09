@@ -2,11 +2,19 @@
 define( function (require) {
 	'use strict';
 
-	return function merge(obj, obj2) {
+	var toArray = require('../utils/toArray');
+
+	function merge() {
+		var objs = toArray(arguments);
 		var r = {};
-		Object.keys(obj ).forEach( function (key) { r[key] = obj[key];  });
-		Object.keys(obj2).forEach( function (key) { r[key] = obj2[key]; });
+		objs.forEach( function (obj) {
+			Object.keys(obj).forEach( function (key) {
+				r[key] = obj[key];
+			});
+		});
 		return r;
-	};
+	}
+
+	return merge;
 
 });

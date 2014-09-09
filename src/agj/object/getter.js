@@ -4,12 +4,12 @@ define( function (require) {
 
 	var autoCurry = require('../function/autoCurry');
 
-	function lateProp(obj, prop) {
+	function getter(obj, prop) {
 		return function () {
 			return obj[prop];
 		};
 	}
 
-	return autoCurry(lateProp);
+	return autoCurry(getter);
 	
 });

@@ -6,7 +6,7 @@ define( function (require) {
 	
 	describe("array/has", function () {
 
-		it("returns a boolean value indicating whether an array has an item or not, and is the flipped version of 'within'", function () {
+		it("returns a boolean value indicating whether an array has an item or not; flipped version of 'within'", function () {
 			expect( has('a', ['a', 'b', 'c']) ).toBe( true );
 			expect( has(100, ['a', 'b', 'c']) ).toBe( false );
 		});
