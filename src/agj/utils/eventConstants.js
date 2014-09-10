@@ -2,13 +2,10 @@
 define( function (require) {
 	"use strict";
 
-	var defineModule  = require('./defineModule');
-	var defineModules = require('./defineModules');
+	var module = require('../object/module');
 
-	var module = {};
-
-	defineModules(module, {
-		mouse: defineModules({}, {
+	return module({}, {
+		mouse: module({}, {
 			click: "click",
 			doubleClick: "dblclick",
 			down: "mousedown",
@@ -22,17 +19,17 @@ define( function (require) {
 			contextMenu: "contextmenu",
 			contextMenuShow: "show",
 		}),
-		key: defineModules({}, {
+		key: module({}, {
 			down: "keydown",
 			up: "keyup",
 			press: "keypress",
 		}),
-		composition: defineModules({}, {
+		composition: module({}, {
 			start: "compositionstart",
 			update: "compositionupdate",
 			end: "compositionend",
 		}),
-		ui: defineModules({}, {
+		ui: module({}, {
 			input: "input",
 			change: "change",
 			focus: "focus",
@@ -47,19 +44,19 @@ define( function (require) {
 			scroll: "scroll",
 			hashChange: "hashchange",
 		}),
-		motion: defineModules({}, {
+		motion: module({}, {
 			orientationChange: "orientationchange",
 			gyroscope: "deviceorientation",
 			accelerometer: "devicemotion",
 		}),
-		load: defineModules({}, {
+		load: module({}, {
 			readyStateChange: "readystatechange",
 			load: "load",
 			unload: "unload",
 			abort: "abort",
 			error: "error",
 		}),
-		touch: defineModules({}, {
+		touch: module({}, {
 			start: "touchstart",
 			end: "touchend",
 			move: "touchmove",
@@ -67,11 +64,6 @@ define( function (require) {
 			enter: "touchenter",
 			leave: "touchleave",
 		}),
-		mootools: defineModules({}, {
-			domReady: "domready",
-		}),
 	});
-
-	return module;
 
 });
