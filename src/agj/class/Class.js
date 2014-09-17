@@ -9,8 +9,8 @@ define( function (require) {
 	var to = require('../to');
 	var not = require('../function/not');
 	var mixin = require('../utils/mixin');
-	var objMap = require('../object/map');
-	var objFilter = require('../object/filter');
+	var map = require('../collection/map');
+	var filter = require('../collection/filter');
 	var promoteArg = require('../function/promoteArg');
 
 	var module = function Class() {};
@@ -32,8 +32,8 @@ define( function (require) {
 		};
 		delete properties.cast;
 
-		mixin(prototype, objMap(
-			objFilter(properties, promoteArg(1, not(is.in(['statics', 'mixins'])))),
+		mixin(prototype, map(
+			filter(properties, promoteArg(1, not(is.in(['statics', 'mixins'])))),
 			function (value) {
 				if (is.fn(value) && (!classUsesSuperTest || classUsesSuperTest.test(value)))
 					return superify(value, superFn);

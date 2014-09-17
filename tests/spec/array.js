@@ -21,7 +21,6 @@ define( function (require) {
 	require('./array/prevIndex');
 	require('./array/prevIndexTo');
 	require('./array/prevTo');
-	require('./array/reduce');
 	require('./array/remove');
 	require('./array/sample');
 	require('./array/set2D');

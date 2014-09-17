@@ -3,7 +3,7 @@ define( function (require) {
 
 	var is = require('agj/is');
 	var toArray = require('agj/utils/toArray');
-	var objMap = require('agj/object/map');
+	var map = require('agj/collection/map');
 
 	function checkMethods(methods, checkFn) {
 		Object.keys(methods).forEach( function (methodName) {
@@ -52,7 +52,7 @@ define( function (require) {
 			},
 		};
 
-		return objMap(generateArgs(), function (fn) {
+		return map(generateArgs(), function (fn) {
 			if (!is.fn(fn)) return fn;
 			return wrapFirst(fn);
 		});

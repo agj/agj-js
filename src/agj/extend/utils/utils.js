@@ -5,7 +5,7 @@ define( function (require) {
 	var isFn = require('../../is').fn;
 	var toArray = require('../../utils/toArray');
 	var mergeInto = require('../../object/mergeInto');
-	var objectMap = require('../../object/map');
+	var map = require('../../collection/map');
 	var returnThis = require('../../function/returnThis');
 
 	var forbiddenMethods = ['constructor', 'prototype'];
@@ -22,7 +22,7 @@ define( function (require) {
 	}
 
 	function addUtils(target, utils) {
-		mergeInto(target, objectMap(utils, function (fn) {
+		mergeInto(target, map(utils, function (fn) {
 			return argToThis(fn);
 		}));
 	}
