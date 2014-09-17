@@ -11,15 +11,16 @@ define( function (require) {
 
 	var toString = Object.prototype.toString.call.bind(Object.prototype.toString);
 
+	function exists(object) {
+		return object !== void 0 && object !== null && (typeof object !== 'number' || !isNaN(object));
+	}
+
 	function set(object) {
-		return object !== void 0 && object !== null && object !== '' && (typeof object !== 'number' || !isNaN(object));
+		return exists(object) && object !== '';
 	}
 
 	function empty(object) {
-		return object === void 0 ||
-			object === null ||
-			object === '' ||
-			(number(object) && isNaN(object)) ||
+		return !set(object) ||
 			(isArray(object) && object.length === 0) ||
 			(objectLiteral(object) && objIsEmpty(object));
 	}
@@ -76,6 +77,7 @@ define( function (require) {
 		array: isArray,
 		date: date,
 		empty: empty,
+		exists: exists,
 		eq: equal,
 		equal: equal,
 		fn: fn,

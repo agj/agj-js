@@ -15,6 +15,10 @@ define( function (require) {
 		var myObj = {};
 
 		var functions = {
+			exists: [
+				passAny({}, [], 'a', '', 10, 0, -0, Infinity).get(true),
+				passAny(void 0, null, 0/0).get(false),
+			],
 			set: [
 				passAny({}, [], 'a', 10, 0, -0, Infinity).get(true),
 				passAny(void 0, null, 0/0, '').get(false),
