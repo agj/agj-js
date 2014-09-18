@@ -7,7 +7,7 @@ define( function (require) {
 	function isFn(obj) {
 		return typeof obj === 'function';
 	}
-	function isNumber(obj) {
+	function isArity(obj) {
 		return typeof obj === 'number';
 	}
 
@@ -16,27 +16,17 @@ define( function (require) {
 			[[isFn], function (fn) {
 				return target(fn.length, fn);
 			}],
-			[[isNumber, isFn, overload.REST], target],
-			[[isFn, isNumber, overload.REST], function (fn, arity) {
+			[[isArity, isFn, overload.REST], target],
+			[[isFn, isArity, overload.REST], function (fn, arity) {
 				return target(arity, fn);
 			}],
-			[[isNumber], function (arity) {
+			[[isArity], function (arity) {
 				return function (fn) {
 					return target(arity, fn);
 				};
 			}],
 			target
 		);
-
-		// return function autoCurriedArityFn(arity, fn) {
-		// 	if (typeof arity === 'function') {
-		// 		fn = arity;
-		// 		return target(fn.length, fn);
-		// 	} else if (fn) {
-		// 		return target(arity, fn);
-		// 	}
-		// 	return function (fn) { return target(arity, fn); };
-		// };
 	}
 
 	return autoCurryArityFn;
