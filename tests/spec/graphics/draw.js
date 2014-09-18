@@ -7,7 +7,7 @@ define( function (require) {
 	
 	describe("graphics/draw", function () {
 
-		var canvas, ctx, blackFill, blackLine;
+		var canvas, ctx, blackFill, blackLine, clear;
 
 		beforeEach( function () {
 			canvas = document.createElement('canvas');
@@ -16,6 +16,9 @@ define( function (require) {
 			ctx = canvas.getContext('2d');
 			blackFill = new DrawStyle().fillColor(0x000000).fillAlpha(1);
 			blackLine = new DrawStyle().lineColor(0x000000).lineAlpha(1).lineWeight(2);
+			clear = function () {
+				ctx.clearRect(0, 0, canvas.width, canvas.height);
+			};
 		});
 
 		function pixelAt(ctx, x, y) {
@@ -82,6 +85,27 @@ define( function (require) {
 			expect( pixelAt(ctx, 75, 25) ).toBe( 'ff000000' );
 
 			// Outside.
+			expect( pixelAt(ctx, 73, 27) ).toBe( '00000000' );
+		});
+
+		it("has all auto-currying functions", function () {
+			draw.rectangle(ctx)(blackFill)({ x: 0, y: 0, width: 50, height: 50 });
+			expect( pixelAt(ctx, 25, 25) ).toBe( 'ff000000' );
+			expect( pixelAt(ctx, 51, 25) ).toBe( '00000000' );
+
+			clear();
+			draw.circle(ctx)(blackFill)({ x: 50, y: 50, radius: 25 });
+			expect( pixelAt(ctx, 50, 50) ).toBe( 'ff000000' );
+			expect( pixelAt(ctx, 50, 50) ).toBe( 'ff000000' );
+
+			clear();
+			draw.line(ctx)(blackLine)({ x: 0, y: 0 }, { x: 100, y: 100 });
+			expect( pixelAt(ctx, 1, 1) ).toBe( 'ff000000' );
+			expect( pixelAt(ctx, 4, 1) ).toBe( '00000000' );
+
+			clear();
+			draw.curve(ctx)(blackLine)({ x: 0, y: 0 }, { x: 100, y: 0 }, { x: 100, y: 100 });
+			expect( pixelAt(ctx, 3, 0) ).toBe( 'ff000000' );
 			expect( pixelAt(ctx, 73, 27) ).toBe( '00000000' );
 		});
 

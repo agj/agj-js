@@ -11,11 +11,12 @@ define( function (require) {
 	var parseRGB = require('../color/parseRGB');
 	var toHex = require('../number/inBase')(16);
 	var variadic = require('../function/variadic');
+	var autoCurry = require('../function/autoCurry');
 	var first = require('../array/first');
 	var last = require('../array/last');
 
 	var draw = {
-		line: function (context2D, drawStyle, from, to) {
+		line: autoCurry(function (context2D, drawStyle, from, to) {
 			if ((from.x !== to.x) || (from.y !== to.y)) {
 				context2D.save();
 				context2D.beginPath();
@@ -27,9 +28,9 @@ define( function (require) {
 			} else {
 				drawPoint(context2D, drawStyle, from, to);
 			}
-		},
+		}),
 
-		curve: variadic(function (context2D, drawStyle, points) {
+		curve: autoCurry(3, variadic(function (context2D, drawStyle, points) {
 			var from = first(points);
 			var to = last(points);
 			if ((from.x !== to.x) || (from.y !== to.y)) {
@@ -45,9 +46,9 @@ define( function (require) {
 			} else {
 				drawPoint(context2D, drawStyle, from, to);
 			}
-		}),
+		})),
 
-		circle: function (context2D, drawStyle, circ) {
+		circle: autoCurry(function (context2D, drawStyle, circ) {
 			context2D.save();
 			context2D.beginPath();
 			setLine(context2D, drawStyle);
@@ -56,16 +57,16 @@ define( function (require) {
 			endFill(context2D, drawStyle);
 			endLine(context2D, drawStyle);
 			context2D.restore();
-		},
+		}),
 
-		rectangle: function (context2D, drawStyle, rect) {
+		rectangle: autoCurry(function (context2D, drawStyle, rect) {
 			context2D.save();
 			context2D.beginPath();
 			setFill(context2D, drawStyle);
 			context2D.fillRect(rect.x, rect.y, rect.width, rect.height);
 			endFill(context2D, drawStyle);
 			context2D.restore();
-		}
+		})
 	};
 
 	function setLine(context2D, drawStyle) {
